@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "@uiw/react-md-editor/markdown-editor.css";
+import "katex/dist/katex.min.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

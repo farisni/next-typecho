@@ -2186,6 +2186,13 @@ a {
 .typecho-markdown-icon-unordered-list { background-position: 0 -260px; }
 .typecho-markdown-icon-heading { background-position: 0 -80px; }
 .typecho-markdown-icon-thematic-break { background-position: 0 -100px; }
+.typecho-markdown-icon-undo { background-position: 0 -280px; }
+.typecho-markdown-icon-redo { background-position: 0 -240px; }
+.typecho-markdown-icon-fullscreen { background-position: 0 -60px; }
+
+.typecho-uiw-editor .w-md-editor-fullscreen .typecho-markdown-icon-fullscreen {
+  background-position: 0 -40px;
+}
 
 
 .typecho-uiw-editor {
@@ -2199,6 +2206,56 @@ a {
   box-shadow: none;
   color: #444;
   font-family: inherit;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen {
+  top: 36px;
+  z-index: 1000;
+  height: calc(100vh - 36px) !important;
+  padding: 0;
+  background: #f6f6f3;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-toolbar {
+  min-height: 42px;
+  padding-right: 0;
+  background: #f6f6f3;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-content {
+  border: 0 !important;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-input {
+  background: #fff;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-text {
+  padding: 16px 20px;
+}
+
+.typecho-admin .typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-text-input {
+  padding: 16px 20px !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview {
+  padding: 16px 20px;
+  border: 0;
+  background: #f6f6f3;
+  box-shadow: none;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen.w-md-editor-show-live .w-md-editor-input,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen.w-md-editor-show-live .w-md-editor-preview {
+  width: 50%;
+  box-sizing: border-box;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown {
+  background: transparent !important;
 }
 
 .typecho-uiw-editor .w-md-editor-bar {
@@ -2376,6 +2433,70 @@ a {
   padding: 1px 15px;
   background: #fff;
   box-shadow: none;
+}
+
+.katex-display {
+  display: block;
+  max-width: 100%;
+  margin: 1.2em 0;
+  font-size: 1em;
+  text-align: center !important;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 6px 0;
+}
+
+.katex-display > .katex {
+  display: inline-block;
+  min-width: max-content;
+  text-align: initial;
+}
+
+.katex .msupsub .mord.mtight {
+  font-size: 0.72em !important;
+}
+
+.mermaid-diagram {
+  display: flex;
+  max-width: 100%;
+  margin: 1em 0;
+  padding: 16px;
+  overflow: auto;
+  border-radius: 2px;
+  background: rgb(255 255 255 / 70%);
+  justify-content: center;
+}
+
+.mermaid-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.mermaid-loading,
+.mermaid-error {
+  margin: 1em 0;
+  padding: 12px 16px;
+  border: 1px solid #d9d9d6;
+  border-radius: 2px;
+  background: #fff;
+  color: #999;
+}
+
+.mermaid-error {
+  border-color: #e0b4b4;
+  color: #b94a48;
+}
+
+.mermaid-error pre {
+  margin-bottom: 0;
+  white-space: pre-wrap;
+}
+
+.wmde-markdown mark,
+.markdown-body mark {
+  padding: 0 0.15em;
+  background: #fff6bf;
+  color: inherit;
 }
 
 .wmd-preview {
