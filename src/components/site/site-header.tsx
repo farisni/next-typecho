@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Search } from "lucide-react";
+import { Rss, Search } from "lucide-react";
 import { SiteNav } from "@/components/site/site-nav";
 
 type SiteHeaderProps = {
@@ -14,9 +14,12 @@ export function SiteHeader({ name, description, logoUrl }: SiteHeaderProps) {
       <div className="theme-container">
         <div className="header-row">
           <div className="site-name">
-            <Link id="logo" href="/">
-              {logoUrl ? <img src={logoUrl} alt={name} /> : name}
-            </Link>
+            <span className="site-logo-row">
+              <Link id="logo" href="/">
+                {logoUrl ? <img src={logoUrl} alt={name} /> : name}
+              </Link>
+              <Rss className="site-rss-icon" aria-hidden="true" strokeWidth={2.4} />
+            </span>
             {!logoUrl && <p className="description">{description}</p>}
           </div>
           <div className="site-search">

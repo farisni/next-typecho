@@ -137,6 +137,21 @@ a {
   font-size: 2.5em;
 }
 
+.site-logo-row {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.site-rss-icon {
+  position: relative;
+  top: -6px;
+  width: 18px;
+  height: 18px;
+  color: var(--site-primary);
+  cursor: pointer;
+}
+
 .description {
   margin: 0.5em 0 0;
   color: #999;
