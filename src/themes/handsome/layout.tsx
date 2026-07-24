@@ -2,6 +2,7 @@ import "lxgw-wenkai-webfont/lxgwwenkai-regular.css";
 import "lxgw-wenkai-webfont/lxgwwenkai-bold.css";
 import type { HandsomeThemeConfig } from "@/themes/handsome/definition";
 import { BlogHeader } from "@/themes/handsome/blog-header";
+import { Footer } from "@/themes/handsome/footer";
 import { Header } from "@/themes/handsome/header";
 import { MainContent } from "@/themes/handsome/main-content";
 import { RightSidebar } from "@/themes/handsome/right-sidebar";
@@ -29,6 +30,7 @@ export function HandsomeThemeLayout({
           <MainContent>{children}</MainContent>
           <RightSidebar description={description} config={config} />
         </div>
+        <Footer />
       </div>
     </div>
   );

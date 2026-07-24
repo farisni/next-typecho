@@ -35,6 +35,10 @@ export function Sidebar({
         ) : (
           <img src="/images/avatar.png" alt={name} />
         )}
+        <span className="handsome-identity-copy">
+          <strong>{user?.displayName || "Faris"}</strong>
+          <span>Developer &amp; Blogger</span>
+        </span>
       </Link>
 
       <nav className="handsome-nav">
