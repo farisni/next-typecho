@@ -82,6 +82,15 @@ a {
   -moz-osx-font-smoothing: auto;
 }
 
+.theme-default {
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-default #body {
+  flex: 1;
+}
+
 .theme-site a {
   color: var(--site-primary);
   text-decoration: none;
