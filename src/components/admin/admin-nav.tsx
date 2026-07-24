@@ -2,7 +2,18 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { LogOut, UserRound } from "lucide-react";
 import { logout } from "@/actions/auth";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import type { AuthUser } from "@/lib/auth/session";
 
 const items = [
@@ -45,15 +56,38 @@ export function AdminNav({ user }: { user: AuthUser }) {
             </li>
           ))}
           <li className="operate">
-            <Link
-              href="/admin/profile"
-              className="admin-author"
-              title={user.lastLoginAt ? `最后登录: ${user.lastLoginAt.toLocaleString("zh-CN")}` : undefined}
-            >
-              {user.displayName}
-            </Link>
-            <form action={logout}><button className="admin-nav-action" type="submit">登出</button></form>
             <Link href="/">网站</Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger
+                className="admin-avatar-trigger"
+                aria-label={`${user.displayName} 的账户菜单`}
+                title={user.lastLoginAt ? `最后登录: ${user.lastLoginAt.toLocaleString("zh-CN")}` : undefined}
+              >
+                <Avatar size="sm">
+                  <AvatarFallback>{user.displayName.trim().slice(0, 1).toUpperCase()}</AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" sideOffset={8} className="admin-avatar-menu rounded-none">
+                <DropdownMenuGroup>
+                  <DropdownMenuLabel>{user.displayName}</DropdownMenuLabel>
+                  <DropdownMenuItem render={<Link href="/admin/profile" />} className="rounded-none cursor-pointer">
+                    <UserRound />
+                    个人设置
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuGroup>
+                  <DropdownMenuItem
+                    variant="destructive"
+                    className="rounded-none cursor-pointer"
+                    onClick={() => { void logout(); }}
+                  >
+                    <LogOut />
+                    退出登录
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+              </DropdownMenuContent>
+            </DropdownMenu>
           </li>
         </menu>
       </nav>

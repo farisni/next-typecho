@@ -7,7 +7,7 @@ import type {
   PointerEvent as ReactPointerEvent,
 } from "react";
 import { commands } from "@uiw/react-md-editor";
-import { ExternalLink, Maximize2, Minimize2, Redo2, Save, Send, Undo2 } from "lucide-react";
+import { Eye, ExternalLink, Maximize2, Minimize2, PenLine, Redo2, Save, Send, Undo2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
@@ -350,8 +350,14 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
     <div className="editor">
       <div className="wmd-button-bar">
         <div className="wmd-edittab">
-          <button type="button" className={mode === "write" ? "active" : undefined} onClick={() => setMode("write")}>撰写</button>
-          <button type="button" className={mode === "preview" ? "active" : undefined} onClick={() => setMode("preview")}>预览</button>
+          <button type="button" className={mode === "write" ? "active" : undefined} onClick={() => setMode("write")}>
+            <PenLine aria-hidden="true" size={14} />
+            撰写
+          </button>
+          <button type="button" className={mode === "preview" ? "active" : undefined} onClick={() => setMode("preview")}>
+            <Eye aria-hidden="true" size={14} />
+            预览
+          </button>
         </div>
       </div>
       <input type="hidden" name="content" value={content} />

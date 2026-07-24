@@ -1182,7 +1182,7 @@ a {
 }
 
 .typecho-head-nav nav > menu > li:first-child {
-  border-left: 1px solid #383d45;
+  border-left: 0;
 }
 
 .typecho-head-nav a,
@@ -1190,7 +1190,7 @@ a {
 .typecho-head-nav .admin-nav-action {
   display: block;
   height: 36px;
-  padding: 0 20px;
+  padding: 0 18px;
   border: 0;
   background: transparent;
   color: #bbb;
@@ -1201,25 +1201,62 @@ a {
   cursor: pointer;
 }
 
+.typecho-head-nav .admin-avatar-trigger {
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  padding: 2px 8px;
+  height: 36px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.typecho-head-nav .admin-avatar-trigger:hover,
+.typecho-head-nav .admin-avatar-trigger:focus-visible {
+  background: rgb(255 255 255 / 6%);
+}
+
+.typecho-head-nav .admin-avatar-trigger [data-slot="avatar-fallback"] {
+  background: #496e89;
+  color: #fff;
+  font-weight: 600;
+}
+
 .typecho-head-nav .admin-nav-action:hover,
 .typecho-head-nav .admin-nav-action:focus {
-  background: #202328;
+  background: rgb(255 255 255 / 6%);
   color: #fff;
 }
 
 .typecho-head-nav nav > menu > li > a {
-  border-right: 1px solid #383d45;
+  border-right: 0;
 }
 
-.typecho-head-nav nav > menu > li.focus > a,
-.typecho-head-nav nav > menu > li:not(.operate):hover > a {
-  background: #202328;
-  color: #fff;
-  text-decoration: none;
+.typecho-head-nav nav > menu > li,
+.typecho-head-nav nav > menu > li > a,
+.typecho-head-nav nav > menu > li > form,
+.typecho-head-nav nav > menu > li > form > .admin-nav-action {
+  border-right: 0;
+  border-left: 0;
+}
+
+.typecho-head-nav {
+  border-radius: 0;
 }
 
 .typecho-head-nav nav > menu > li.focus > a {
-  font-weight: 700;
+  background: #202328;
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.typecho-head-nav nav > menu > li:not(.operate):not(.focus):hover > a,
+.typecho-head-nav nav > menu > li:not(.operate):not(.focus) > a:focus {
+  background: rgb(255 255 255 / 6%);
+  color: #fff;
+  text-decoration: none;
 }
 
 .typecho-head-nav nav > menu > li menu {
@@ -1231,8 +1268,7 @@ a {
   background: #202328;
 }
 
-.typecho-head-nav nav > menu > li:hover menu,
-.typecho-head-nav nav > menu > li:focus-within menu {
+.typecho-head-nav nav > menu > li:hover menu {
   display: block;
 }
 
@@ -1254,12 +1290,12 @@ a {
 }
 
 .typecho-head-nav .operate > :first-child {
-  border-left: 1px solid #383d45;
+  border-left: 0;
 }
 
 .typecho-head-nav .operate > a:hover,
 .typecho-head-nav .operate > a:focus {
-  background: #202328;
+  background: rgb(255 255 255 / 6%);
   color: #fff;
   text-decoration: none;
 }
@@ -1323,6 +1359,15 @@ a {
 .typecho-admin textarea {
   line-height: 1.5;
   resize: vertical;
+}
+
+.typecho-admin input.text:focus,
+.typecho-admin input.num:focus,
+.typecho-admin select:focus,
+.typecho-admin textarea:focus {
+  border-color: #222;
+  box-shadow: 0 0 0 1px #222;
+  outline: 0;
 }
 
 .typecho-admin select {
@@ -2028,12 +2073,16 @@ a {
 }
 
 .wmd-edittab button {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
   height: 20px;
   margin-left: 5px;
   padding: 0 8px;
   border: 0;
   background: transparent;
   color: #467b96;
+  line-height: 1;
   cursor: pointer;
 }
 
@@ -3846,6 +3895,18 @@ a {
 .profile-inline-option input {
   margin-right: 3px;
   vertical-align: middle;
+}
+
+.typecho-admin .profile-inline-option input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+}
+
+.typecho-admin .profile-inline-option input[type="checkbox"]:checked::after {
+  top: 1px;
+  left: 4px;
+  width: 4px;
+  height: 8px;
 }
 
 .profile-options code {
