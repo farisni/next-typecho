@@ -2435,6 +2435,49 @@ a {
   box-shadow: none;
 }
 
+.typecho-uiw-editor .w-md-editor-area,
+.typecho-uiw-editor .w-md-editor-content,
+.typecho-uiw-editor .w-md-editor-preview {
+  scrollbar-color: #bbb transparent;
+  scrollbar-width: thin;
+}
+
+.typecho-uiw-editor .w-md-editor-area::-webkit-scrollbar,
+.typecho-uiw-editor .w-md-editor-content::-webkit-scrollbar,
+.typecho-uiw-editor .w-md-editor-preview::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+.typecho-uiw-editor .w-md-editor-area::-webkit-scrollbar-track,
+.typecho-uiw-editor .w-md-editor-content::-webkit-scrollbar-track,
+.typecho-uiw-editor .w-md-editor-preview::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.typecho-uiw-editor .w-md-editor-area::-webkit-scrollbar-thumb,
+.typecho-uiw-editor .w-md-editor-content::-webkit-scrollbar-thumb,
+.typecho-uiw-editor .w-md-editor-preview::-webkit-scrollbar-thumb {
+  min-height: 32px;
+  border: 2px solid transparent;
+  border-radius: 999px;
+  background: #bbb;
+  background-clip: padding-box;
+}
+
+.typecho-uiw-editor .w-md-editor-area::-webkit-scrollbar-thumb:hover,
+.typecho-uiw-editor .w-md-editor-content::-webkit-scrollbar-thumb:hover,
+.typecho-uiw-editor .w-md-editor-preview::-webkit-scrollbar-thumb:hover {
+  background: #999;
+  background-clip: padding-box;
+}
+
+.typecho-uiw-editor .w-md-editor-area::-webkit-scrollbar-corner,
+.typecho-uiw-editor .w-md-editor-content::-webkit-scrollbar-corner,
+.typecho-uiw-editor .w-md-editor-preview::-webkit-scrollbar-corner {
+  background: transparent;
+}
+
 .katex-display {
   display: block;
   max-width: 100%;
