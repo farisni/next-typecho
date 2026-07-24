@@ -2,15 +2,18 @@ import Link from "next/link";
 import {
   Bot,
   Clock3,
+  Gift,
   Eye,
   FolderOpen,
   Home,
   MessageCircle,
+  ThumbsUp,
   Share2,
   Star,
   UserRound,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
+import { Separator } from "@/components/ui/separator";
 import { formatPostDate } from "@/lib/format-date";
 import { getAdjacentPosts, getPublishedPostBySlug } from "@/lib/repositories/posts";
 
@@ -87,11 +90,57 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           )}
           <MarkdownContent content={post.content} />
           <p className="tags">标签: {post.tags.length ? post.tags.map((tag, index) => <span key={tag.id}>{index > 0 && ", "}<Link href={`/tags/${tag.slug}`}>{tag.name}</Link></span>) : "none"}</p>
+          <div className="post-ending">
+            <p className="post-reference">代码参考了 <Link href="/">小刘同学</Link> 的文章。</p>
+            <div className="post-ending-rule" aria-hidden="true" />
+            <section className="post-download" aria-labelledby="post-download-title">
+              <h2 id="post-download-title">爱心下载</h2>
+              <p>我找了四个爱心svg，有需要的话可以下载使用：</p>
+              <div className="post-download-gate">此处内容需要评论回复后（审核通过）方可阅读。</div>
+            </section>
+            <div className="post-ending-meta">
+              <span><Clock3 aria-hidden="true" />最后修改：{formatPostDate(post.updatedAt)}</span>
+              <span>© 允许规范转载</span>
+            </div>
+            <div className="post-support">
+              <div className="post-support-actions">
+                <button className="post-support-donate" type="button"><Gift aria-hidden="true" />打赏</button>
+                <button className="post-support-like" type="button"><ThumbsUp aria-hidden="true" />赞</button>
+              </div>
+              <p>如果觉得我的文章对你有用，请随意赞赏</p>
+            </div>
+            <div className="post-end-marker">
+              <Separator className="post-end-separator" aria-hidden="true" />
+              <span>END</span>
+            </div>
+            <dl className="post-attribution">
+              <div><dt>本文作者：</dt><dd><Link href="/">管理员</Link></dd></div>
+              <div><dt>文章标题：</dt><dd><Link href={`/posts/${post.slug}`}>{post.title}</Link></dd></div>
+              <div><dt>本文地址：</dt><dd><Link href={`https://farisni.top/posts/${post.slug}`}>https://farisni.top/posts/{post.slug}</Link></dd></div>
+              <div><dt>版权说明：</dt><dd>若无注明，本文皆为 Dust In The Wind 原创，转载请保留文章出处。</dd></div>
+            </dl>
+          </div>
         </div>
       </article>
       <ul className="post-near">
-        <li>上一篇: {nearby.previous ? <Link href={`/posts/${nearby.previous.slug}`}>{nearby.previous.title}</Link> : "没有了"}</li>
-        <li>下一篇: {nearby.next ? <Link href={`/posts/${nearby.next.slug}`}>{nearby.next.title}</Link> : "没有了"}</li>
+        <li className="post-near-previous">
+          {nearby.previous ? (
+            <Link href={`/posts/${nearby.previous.slug}`} aria-label={`上一篇：${nearby.previous.title}`}>
+              上一篇
+            </Link>
+          ) : (
+            <span aria-disabled="true">上一篇</span>
+          )}
+        </li>
+        <li className="post-near-next">
+          {nearby.next ? (
+            <Link href={`/posts/${nearby.next.slug}`} aria-label={`下一篇：${nearby.next.title}`}>
+              下一篇
+            </Link>
+          ) : (
+            <span aria-disabled="true">下一篇</span>
+          )}
+        </li>
       </ul>
     </>
   );
