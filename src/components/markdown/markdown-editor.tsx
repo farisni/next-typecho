@@ -2,8 +2,9 @@
 
 import { useRef, useState } from "react";
 import type { ComponentProps, PointerEvent as ReactPointerEvent } from "react";
-import MDEditor, { commands } from "@uiw/react-md-editor";
+import { commands } from "@uiw/react-md-editor";
 import { Maximize2, Minimize2, Redo2, Undo2 } from "lucide-react";
+import dynamic from "next/dynamic";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import { markdownCodeText } from "@/components/markdown/code-text";
@@ -13,6 +14,15 @@ import { remarkHighlight } from "@/components/markdown/remark-highlight";
 type MarkdownEditorProps = {
   defaultValue?: string;
 };
+
+const MIN_EDITOR_HEIGHT = 480;
+const MDEditor = dynamic(
+  () => import("@uiw/react-md-editor").then((module) => module.default),
+  {
+    ssr: false,
+    loading: () => <div className="typecho-editor-loading" />,
+  },
+);
 
 type MarkdownCodeProps = ComponentProps<"code"> & {
   node?: unknown;
@@ -46,8 +56,9 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
   const [content, setContent] = useState(defaultValue);
   const [mode, setMode] = useState<"write" | "preview">("write");
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [editorHeight, setEditorHeight] = useState(452);
+  const [editorHeight, setEditorHeight] = useState(MIN_EDITOR_HEIGHT);
   const editorHeightRef = useRef(editorHeight);
+  const editorShellRef = useRef<HTMLDivElement>(null);
   const contentHistoryRef = useRef([defaultValue]);
   const contentHistoryIndexRef = useRef(0);
 
@@ -167,7 +178,7 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
     const startHeight = editorHeightRef.current;
 
     function handlePointerMove(pointerEvent: PointerEvent) {
-      const nextHeight = Math.max(452, startHeight + pointerEvent.clientY - startY);
+      const nextHeight = Math.max(MIN_EDITOR_HEIGHT, startHeight + pointerEvent.clientY - startY);
       editorHeightRef.current = nextHeight;
       setEditorHeight(nextHeight);
     }
@@ -190,7 +201,7 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
         </div>
       </div>
       <input type="hidden" name="content" value={content} />
-      <div className="typecho-uiw-editor" data-color-mode="light">
+      <div ref={editorShellRef} className="typecho-uiw-editor" data-color-mode="light">
         <MDEditor
           value={content}
           onChange={(value) => changeContent(value ?? "")}

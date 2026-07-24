@@ -2447,6 +2447,8 @@ a {
 }
 
 .typecho-uiw-editor .w-md-editor-content {
+  flex: 1 1 auto;
+  height: auto;
   min-height: 0;
   border: 1px solid #d9d9d6;
   border-radius: 2px;
@@ -2455,16 +2457,34 @@ a {
 
 .typecho-uiw-editor .w-md-editor-content:hover,
 .typecho-uiw-editor .w-md-editor:focus-within .w-md-editor-content {
-  border-color: #999 !important;
-  box-shadow: 0 0 0 1px #999 !important;
+  border-color: #222 !important;
+  box-shadow: 0 0 0 1px #222 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-input,
+.typecho-uiw-editor .w-md-editor-area,
+.typecho-uiw-editor .w-md-editor-text {
+  height: 100%;
+  min-height: 0;
+}
+
+.typecho-uiw-editor .w-md-editor-input {
+  align-self: stretch;
 }
 
 .typecho-uiw-editor .w-md-editor-text {
-  min-height: 100%;
   padding: 7px;
+  box-sizing: border-box;
   font-family: Menlo, Monaco, Consolas, "Courier New", monospace !important;
   font-size: inherit !important;
   line-height: 1.5 !important;
+}
+
+.typecho-editor-loading {
+  height: 480px;
+  border: 1px solid #d9d9d6;
+  border-radius: 2px;
+  background: #fff;
 }
 
 .typecho-uiw-editor .w-md-editor-text-pre > code,
@@ -2493,6 +2513,12 @@ a {
   opacity: 1 !important;
   visibility: visible !important;
   -webkit-text-fill-color: transparent !important;
+}
+
+.typecho-admin .typecho-uiw-editor #markdown-editor-source {
+  inset: 0;
+  display: block;
+  min-height: 100%;
 }
 
 .typecho-admin .typecho-uiw-editor .w-md-editor-text-input:focus {
