@@ -80,6 +80,25 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
     focusEditor();
   }
 
+  function submitPost(status: "draft" | "published") {
+    const form = document.querySelector<HTMLFormElement>("form.typecho-post-area");
+    const submitButton = form?.querySelector<HTMLButtonElement>(
+      `button[name="status"][value="${status}"]`,
+    );
+    if (form && submitButton) form.requestSubmit(submitButton);
+  }
+
+  function previewPost() {
+    const slugInput = document.getElementById("slug") as HTMLInputElement | null;
+    const slug = slugInput?.value.trim();
+    if (!slug) {
+      slugInput?.focus();
+      return;
+    }
+
+    window.open(`/posts/${encodeURIComponent(slug)}`, "_blank", "noopener,noreferrer");
+  }
+
   const typechoActionCommands = [
     commands.divider,
     {
@@ -109,6 +128,34 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
       },
     },
   ];
+
+  const fullscreenActionsCommand = {
+    name: "fullscreen-actions",
+    keyCommand: "fullscreen-actions",
+    render: () => (
+      <div className="fullscreen-toolbar-actions">
+        <span className="fullscreen-toolbar-cloud" aria-hidden="true">
+          <svg viewBox="0 0 24 24">
+            <path d="M7 18a4 4 0 0 1-.7-7.94A6 6 0 0 1 17.7 8.2 5 5 0 0 1 18 18h-3" />
+            <path d="m9 15 3-3 3 3M12 12v8" />
+          </svg>
+        </span>
+        <button type="button" className="btn fullscreen-toolbar-button" onClick={previewPost}>
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M14 5h5v5M19 5l-8 8" />
+            <path d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
+          </svg>
+          预览文章
+        </button>
+        <button type="button" className="btn fullscreen-toolbar-button" onClick={() => submitPost("draft")}>
+          保存草稿
+        </button>
+        <button type="button" className="btn primary fullscreen-toolbar-button" onClick={() => submitPost("published")}>
+          发布文章
+        </button>
+      </div>
+    ),
+  };
 
   function resizeEditor(event: ReactPointerEvent<HTMLDivElement>) {
     event.preventDefault();
@@ -149,7 +196,7 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
           height={editorHeight}
           visibleDragbar={false}
           commands={[...typechoEditorCommands, ...typechoActionCommands]}
-          extraCommands={[]}
+          extraCommands={isFullscreen ? [fullscreenActionsCommand] : []}
           previewOptions={{
             remarkPlugins: [remarkMath, remarkHighlight],
             rehypePlugins: [rehypeKatex],
