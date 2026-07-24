@@ -22,9 +22,12 @@ export function HandsomeThemeLayout({
     <div className="theme-handsome">
       {customStyle}
       {previewBar}
+      <div className="handsome-topbar">
+        <div className="handsome-topbar-sidebar" aria-hidden="true" />
+        <Header />
+      </div>
       <Sidebar name={name} logoUrl={config.logoUrl} user={user} />
       <div className="handsome-workspace">
-        <Header />
         <BlogHeader name={name} description={description} />
         <div className="handsome-content-grid">
           <MainContent>{children}</MainContent>
