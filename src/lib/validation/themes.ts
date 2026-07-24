@@ -1,37 +1,22 @@
 import { z } from "zod";
 import {
-  defaultSidebarBlocks,
-  themeSlugs,
+  getThemeDefinition,
+  isThemeSlug,
   type ClassicThemeConfig,
   type DefaultThemeConfig,
   type ThemeConfig,
   type ThemeSlug,
 } from "@/lib/themes/registry";
 
-export const themeSlugSchema = z.enum(themeSlugs);
+export {
+  classicThemeConfigSchema,
+  defaultThemeConfigSchema,
+} from "@/lib/themes/registry";
 
-const logoUrlSchema = z
-  .string()
-  .trim()
-  .max(500, "LOGO 地址长度超过限制")
-  .refine((value) => {
-    if (!value) return true;
-    try {
-      return ["http:", "https:"].includes(new URL(value).protocol);
-    } catch {
-      return false;
-    }
-  }, "请填写一个合法的 HTTP 或 HTTPS 图片地址");
-
-export const defaultThemeConfigSchema = z.object({
-  logoUrl: logoUrlSchema,
-  sidebarBlocks: z.array(z.enum(defaultSidebarBlocks)),
-});
-
-export const classicThemeConfigSchema = z.object({
-  logoUrl: logoUrlSchema,
-  colorSchema: z.enum(["auto", "light", "dark", "customize"]),
-});
+export const themeSlugSchema = z.custom<ThemeSlug>(
+  isThemeSlug,
+  "外观名称无效",
+);
 
 export const themeCustomCssSchema = z
   .string()
@@ -42,7 +27,5 @@ export function parseThemeConfig(slug: "default", value: unknown): DefaultThemeC
 export function parseThemeConfig(slug: "classic-22", value: unknown): ClassicThemeConfig;
 export function parseThemeConfig(slug: ThemeSlug, value: unknown): ThemeConfig;
 export function parseThemeConfig(slug: ThemeSlug, value: unknown): ThemeConfig {
-  return slug === "default"
-    ? defaultThemeConfigSchema.parse(value)
-    : classicThemeConfigSchema.parse(value);
+  return getThemeDefinition(slug).configSchema.parse(value) as ThemeConfig;
 }

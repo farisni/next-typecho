@@ -6,14 +6,13 @@ import { redirect } from "next/navigation";
 import { requireAdministrator } from "@/lib/auth/session";
 import { getActiveThemeSlug } from "@/lib/repositories/themes";
 import { THEME_PREVIEW_COOKIE_NAME } from "@/lib/themes/request";
+import { getThemeDefinition } from "@/lib/themes/registry";
 import {
   activateTheme as activateThemeInDatabase,
   saveThemeConfig as saveThemeConfigInDatabase,
   saveThemeCustomCss as saveThemeCustomCssInDatabase,
 } from "@/lib/themes/service";
 import {
-  classicThemeConfigSchema,
-  defaultThemeConfigSchema,
   themeCustomCssSchema,
   themeSlugSchema,
 } from "@/lib/validation/themes";
@@ -68,21 +67,22 @@ export async function saveThemeSettings(
     return { status: "error", message: "只能设置当前启用的外观。" };
   }
 
-  const result = themeResult.data === "default"
-    ? defaultThemeConfigSchema.safeParse({
-        logoUrl: formData.get("logoUrl")?.toString() ?? "",
-        sidebarBlocks: formData.getAll("sidebarBlocks").map(String),
-      })
-    : classicThemeConfigSchema.safeParse({
-        logoUrl: formData.get("logoUrl")?.toString() ?? "",
-        colorSchema: formData.get("colorSchema"),
-      });
+  const definition = getThemeDefinition(themeResult.data);
+  const rawConfig = Object.fromEntries(
+    definition.settings.map((field) => [
+      field.name,
+      field.kind === "checkbox-group"
+        ? formData.getAll(field.name).map(String)
+        : formData.get(field.name)?.toString() ?? "",
+    ]),
+  );
+  const result = definition.configSchema.safeParse(rawConfig);
 
   if (!result.success) {
     return {
       status: "error",
       message: "请检查外观设置。",
-      fieldErrors: result.error.flatten().fieldErrors,
+      fieldErrors: result.error.flatten().fieldErrors as Record<string, string[] | undefined>,
     };
   }
 
