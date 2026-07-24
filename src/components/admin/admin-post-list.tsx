@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { Check, Clock, EyeOff, Globe, ListFilter, Lock, Search, SquareX, Trash2 } from "lucide-react";
+import { CalendarClock, Check, Clock, ExternalLink, EyeOff, Globe, ListFilter, Lock, MoreHorizontal, PenLine, Search, SquareX, Trash2 } from "lucide-react";
 import { bulkManagePosts } from "@/actions/posts";
 import { AdminBulkMenu } from "@/components/admin/admin-bulk-menu";
 import { Button } from "@/components/ui/button";
@@ -216,7 +216,15 @@ export function AdminPostList({
       >
         <input type="hidden" name="returnTo" value={returnTo} />
         <table className="typecho-list-table post-list-table">
-          <colgroup><col className="admin-check-column" /><col className="admin-comment-column" /><col /><col className="admin-author-column" /><col className="admin-category-column" /><col className="admin-date-column" /></colgroup>
+          <colgroup>
+            <col className="admin-check-column" />
+            <col />
+            <col className="post-comments-col" />
+            <col className="admin-author-column" />
+            <col className="admin-category-column" />
+            <col className="post-date-col" />
+            <col className="post-actions-col" />
+          </colgroup>
           <thead>
             <tr>
               <th className="kit-hidden-mb">
@@ -231,15 +239,16 @@ export function AdminPostList({
                   />
                 </label>
               </th>
-              <th className="kit-hidden-mb" />
               <th>标题</th>
+              <th className="kit-hidden-mb post-comments-column">评论</th>
               <th className="kit-hidden-mb">作者</th>
               <th className="kit-hidden-mb">分类</th>
               <th>日期</th>
+              <th className="post-actions-column">操作</th>
             </tr>
           </thead>
           <tbody>
-            {posts.length === 0 && <tr><td colSpan={6} className="none">没有任何文章</td></tr>}
+            {posts.length === 0 && <tr><td colSpan={7} className="none">没有任何文章</td></tr>}
             {posts.map((post) => {
               const checked = selected.has(post.id);
               return (
@@ -252,18 +261,59 @@ export function AdminPostList({
                   }}
                 >
                   <td className="kit-hidden-mb"><input type="checkbox" value={post.id} name="postIds" checked={checked} onChange={(event) => selectPost(post.id, event.target.checked)} aria-label={`选择 ${post.title}`} /></td>
-                  <td className="kit-hidden-mb"><span className="balloon-button" title="0 评论">0</span></td>
                   <td>
                     <Link href={`/admin/posts/${post.id}/edit`}>{post.title}</Link>
                     {statusLabels[post.status] && <em className="status">{statusLabels[post.status]}</em>}
-                    <Link className="row-action" href={`/admin/posts/${post.id}/edit`} title={`编辑 ${post.title}`}><i className="i-edit">编辑</i></Link>
-                    {post.status !== "draft" && post.status !== "waiting" && <Link className="row-action" href={`/posts/${post.slug}`} title={`浏览 ${post.title}`}><i className="i-exlink">浏览</i></Link>}
                   </td>
-                  <td className="kit-hidden-mb"><Link href={buildQuery(currentQuery, { scope: null, page: null })}>{authorName}</Link></td>
+                  <td className="kit-hidden-mb post-comments-column"><span className="post-comment-count" title="0 评论">0</span></td>
+                  <td className="kit-hidden-mb">
+                    <Link
+                      className="post-author-avatar"
+                      href={buildQuery(currentQuery, { scope: null, page: null })}
+                      title={authorName}
+                      aria-label={`查看作者 ${authorName} 的文章`}
+                    >
+                      {authorName.trim().charAt(0).toUpperCase()}
+                    </Link>
+                  </td>
                   <td className="kit-hidden-mb">
                     {post.category ? <Link href={buildQuery(currentQuery, { category: post.category.id, page: null })}>{post.category.name}</Link> : "未分类"}
                   </td>
-                  <td><span className="description-text">{post.dateLabel}</span></td>
+                  <td>
+                    <span className="post-date-badge">
+                      <CalendarClock aria-hidden="true" />
+                      <span>{post.dateLabel}</span>
+                    </span>
+                  </td>
+                  <td className="post-actions-cell">
+                    <DropdownMenu>
+                      <DropdownMenuTrigger
+                        render={(
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="icon"
+                            className="post-actions-trigger"
+                            aria-label={`打开 ${post.title} 的操作菜单`}
+                          >
+                            <MoreHorizontal aria-hidden="true" />
+                          </Button>
+                        )}
+                      />
+                      <DropdownMenuContent align="end" className="post-actions-menu rounded-none">
+                        <DropdownMenuItem render={<Link href={`/admin/posts/${post.id}/edit`} />}>
+                          <PenLine aria-hidden="true" />
+                          编辑文章
+                        </DropdownMenuItem>
+                        {post.status !== "draft" && post.status !== "waiting" && (
+                          <DropdownMenuItem render={<Link href={`/posts/${post.slug}`} />}>
+                            <ExternalLink aria-hidden="true" />
+                            浏览文章
+                          </DropdownMenuItem>
+                        )}
+                      </DropdownMenuContent>
+                    </DropdownMenu>
+                  </td>
                 </tr>
               );
             })}
