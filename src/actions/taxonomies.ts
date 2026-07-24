@@ -8,13 +8,23 @@ import { run, transaction } from "@/lib/db";
 
 const taxonomySchema = z.object({
   name: z.string().trim().min(1).max(50),
-  slug: z.string().trim().min(1).max(80).regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+  slug: z.string().trim().min(1).max(80).regex(/^[\p{L}\p{N}]+(?:-[\p{L}\p{N}]+)*$/u),
 });
 
 const taxonomyIdsSchema = z.array(z.string().min(1).max(200)).min(1).max(100);
 
 function parseTaxonomy(formData: FormData) {
-  return taxonomySchema.parse({ name: formData.get("name"), slug: formData.get("slug") });
+  const name = String(formData.get("name") ?? "").trim();
+  const normalizeSlug = (value: string) => value
+    .trim()
+    .toLocaleLowerCase()
+    .replace(/[\s_]+/gu, "-")
+    .replace(/[^\p{L}\p{N}-]+/gu, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+  const slug = normalizeSlug(String(formData.get("slug") ?? "")) || normalizeSlug(name);
+
+  return taxonomySchema.parse({ name, slug });
 }
 
 export async function createCategory(formData: FormData) {

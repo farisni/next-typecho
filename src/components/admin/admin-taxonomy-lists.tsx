@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FolderPlus, MoreHorizontal, Plus, Tag as TagIcon, Trash2 } from "lucide-react";
+import { Check, FolderPlus, MoreHorizontal, Plus, Trash2 } from "lucide-react";
 import {
   bulkDeleteCategories,
   bulkDeleteTags,
@@ -264,11 +264,17 @@ export function AdminTagList({ tags }: { tags: TaxonomyItem[] }) {
             const checked = selected.has(item.id);
             return (
               <li key={item.id} className={checked ? "current" : undefined}>
-                <input type="checkbox" name="ids" value={item.id} checked={checked} onChange={(event) => selectItem(item.id, event.target.checked)} aria-label={`选择 ${item.name}`} />
-                <Badge variant={checked ? "default" : "outline"} className="admin-tag-badge">
-                  <TagIcon aria-hidden="true" />
-                  {item.name}
-                </Badge>
+                <label className="admin-tag-option">
+                  <input className="sr-only admin-tag-checkbox" type="checkbox" name="ids" value={item.id} checked={checked} onChange={(event) => selectItem(item.id, event.target.checked)} />
+                  <Badge variant="secondary" className="admin-tag-badge">
+                    {checked && (
+                      <span className="admin-tag-check" aria-hidden="true">
+                        <Check />
+                      </span>
+                    )}
+                    {item.name}
+                  </Badge>
+                </label>
                 <Button
                   form={`delete-tag-${item.id}`}
                   title={`删除 ${item.name}`}

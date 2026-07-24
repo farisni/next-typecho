@@ -3471,49 +3471,125 @@ a {
 }
 
 .tag-list li {
+  position: relative;
   display: inline-flex;
   min-height: 36px;
   margin: 0;
   padding: 3px;
-  border: 1px solid #e2e2df;
-  background: #fff;
+  border: 0;
+  background: transparent;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
 }
 
 .tag-list li:hover {
-  border-color: #d2d2ce;
-  background: #f6f6f3;
+  background: transparent;
 }
 
 .tag-list li.current {
-  border-color: #b9cbd7;
-  background: #edf3f6;
+  background: transparent;
 }
 
-.tag-list li input {
-  margin: 0 2px 0 3px;
+.typecho-admin input[type="checkbox"]:not(.admin-tag-checkbox) {
+  position: relative;
+  width: 17px;
+  height: 17px;
+  border: 1px solid #aaa;
+  border-radius: 3px;
+  background: #fff;
+  appearance: none;
+  vertical-align: middle;
+  cursor: pointer;
+}
+
+.typecho-admin input[type="checkbox"]:not(.admin-tag-checkbox):checked {
+  border-color: #0788d1;
+  background: #0788d1;
+}
+
+.typecho-admin input[type="checkbox"]:not(.admin-tag-checkbox):checked::after {
+  position: absolute;
+  top: 1px;
+  left: 5px;
+  width: 5px;
+  height: 10px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  content: "";
+  transform: rotate(45deg);
+}
+
+.typecho-admin input[type="checkbox"]:not(.admin-tag-checkbox):focus-visible {
+  outline: 2px solid rgb(7 136 209 / 25%);
+  outline-offset: 2px;
+}
+
+.admin-tag-option {
+  display: inline-flex;
+  cursor: pointer;
 }
 
 .admin-tag-badge {
-  min-height: 26px;
-  border-radius: 4px;
-  font-size: 13px;
+  min-height: 34px;
+  padding: 0 12px;
+  border: 0;
+  border-radius: 10px;
+  background: #f2f2f2;
+  color: #222;
+  gap: 8px;
+  font-size: 14px;
   font-weight: 500;
 }
 
+.tag-list li.current .admin-tag-badge {
+  background: #f2f2f2;
+  color: #222;
+}
+
+.admin-tag-check {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 17px;
+  height: 17px;
+  margin-left: -2px;
+  border-radius: 4px;
+  background: #0788d1;
+  color: #fff;
+}
+
+.admin-tag-check > svg {
+  width: 12px;
+  height: 12px;
+  stroke-width: 2.5;
+}
+
 .typecho-admin .tag-list .admin-tag-delete {
-  width: 26px;
-  height: 26px;
+  position: absolute;
+  top: -6px;
+  right: -6px;
+  z-index: 1;
+  width: 22px;
+  height: 22px;
   min-height: 0;
   margin: 0;
   padding: 0;
-  color: #999;
+  border: 1px solid #e2e2df;
+  border-radius: 50%;
+  background: #fff;
+  color: #c65353;
 }
 
 .typecho-admin .tag-list .admin-tag-delete:hover {
-  background: #fff0f0;
-  color: #b94a48;
+  border-color: #e4bcbc;
+  background: #fff2f2;
+  color: #a83d3d;
+}
+
+.typecho-admin .tag-list .admin-tag-delete > svg {
+  width: 10px;
+  height: 10px;
+  stroke-width: 2;
 }
 
 .tag-list .none { width: 100%; color: #999; text-align: center; }
