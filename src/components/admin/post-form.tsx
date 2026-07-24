@@ -46,19 +46,20 @@ export function PostForm({ action, categories, tags, value, preferences }: PostF
       </div>
       <aside id="edit-secondary">
         <ul className="typecho-option-tabs post-option-tabs"><li className="active"><span>选项</span></li><li><span>附件</span></li></ul>
+        <section className="typecho-post-option">
+          <label htmlFor="date" className="typecho-label">发布日期</label>
+          <p><input id="date" name="date" className="typecho-date w-100" type="text" autoComplete="off" /></p>
+        </section>
         <section className="typecho-post-option category-option">
           <label className="typecho-label">分类</label>
           <ul>
-            <li><input id="category-none" type="radio" name="categoryId" value="" defaultChecked={!value?.categoryId} /><label htmlFor="category-none">未分类</label></li>
-            {categories.map((category) => <li key={category.id}><input id={`category-${category.id}`} type="radio" name="categoryId" value={category.id} defaultChecked={value?.categoryId === category.id} /><label htmlFor={`category-${category.id}`}>{category.name}</label></li>)}
+            {categories.length > 0 ? categories.map((category, index) => <li key={category.id}><input id={`category-${category.id}`} type="checkbox" name="categoryId" value={category.id} defaultChecked={value?.categoryId === category.id || (!value?.categoryId && index === 0)} /><label htmlFor={`category-${category.id}`}>{category.name}</label></li>) : <li><input id="category-none" type="checkbox" name="categoryId" value="" defaultChecked={!value?.categoryId} /><label htmlFor="category-none">默认分类</label></li>}
           </ul>
         </section>
         <section className="typecho-post-option">
           <label className="typecho-label">标签</label>
-          <div className="post-tag-options">
-            {tags.map((tag) => <label key={tag.id}><input type="checkbox" name="tagIds" value={tag.id} defaultChecked={selectedTags.has(tag.id)} />{tag.name}</label>)}
-            {tags.length === 0 && <span className="description-text">暂无标签</span>}
-          </div>
+          <p><input id="tags" name="tags" type="text" className="w-100" defaultValue={value?.tags.map((tag) => tag.name).join(", ")} autoComplete="off" /></p>
+          {tags.filter((tag) => selectedTags.has(tag.id)).map((tag) => <input key={tag.id} type="hidden" name="tagIds" value={tag.id} />)}
         </section>
         <PostAdvancedOptions preferences={preferences} status={value?.status} />
       </aside>
