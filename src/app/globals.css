@@ -157,6 +157,10 @@ a {
   background: #f6f6f6;
 }
 
+#nav-menu .current {
+  font-weight: 500;
+}
+
 #search {
   position: relative;
   margin-top: 15px;
@@ -231,12 +235,19 @@ a {
   margin: 0 8px 0 0;
   padding-left: 12px;
   border-left: 1px solid #eee;
+  vertical-align: middle;
+  line-height: 1.5;
 }
 
 .post-meta li:first-child {
   margin-left: 0;
   padding-left: 0;
   border: 0;
+}
+
+.post-meta time {
+  position: relative;
+  top: -1px;
 }
 
 .post-content a {
@@ -1212,9 +1223,9 @@ a {
   cursor: pointer;
 }
 
-.typecho-head-nav .admin-avatar-trigger:hover,
 .typecho-head-nav .admin-avatar-trigger:focus-visible {
-  background: rgb(255 255 255 / 6%);
+  outline: 2px solid #496e89;
+  outline-offset: -2px;
 }
 
 .typecho-head-nav .admin-avatar-trigger [data-slot="avatar-fallback"] {
@@ -1361,8 +1372,16 @@ a {
   resize: vertical;
 }
 
-.typecho-admin input.text:focus,
-.typecho-admin input.num:focus,
+.typecho-admin input[type="text"]:focus,
+.typecho-admin input[type="url"]:focus,
+.typecho-admin input[type="password"]:focus,
+.typecho-admin input[type="email"]:focus,
+.typecho-admin input[type="number"]:focus,
+.typecho-admin input[type="search"]:focus,
+.typecho-admin input[type="date"]:focus,
+.typecho-admin input[type="datetime-local"]:focus,
+.typecho-admin input[type="time"]:focus,
+.typecho-admin input:not([type]):focus,
 .typecho-admin select:focus,
 .typecho-admin textarea:focus {
   border-color: #222;
