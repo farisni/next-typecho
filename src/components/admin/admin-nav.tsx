@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { LogOut, UserRound } from "lucide-react";
 import { logout } from "@/actions/auth";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -64,6 +64,7 @@ export function AdminNav({ user }: { user: AuthUser }) {
                 title={user.lastLoginAt ? `最后登录: ${user.lastLoginAt.toLocaleString("zh-CN")}` : undefined}
               >
                 <Avatar size="sm">
+                  <AvatarImage src="/images/avatar.png" alt={user.displayName} />
                   <AvatarFallback>{user.displayName.trim().slice(0, 1).toUpperCase()}</AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>

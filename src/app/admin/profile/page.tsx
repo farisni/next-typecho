@@ -1,4 +1,3 @@
-import { createHash } from "node:crypto";
 import { AdminPageTitle } from "@/components/admin/admin-page-title";
 import {
   ProfileDetailsForm,
@@ -10,11 +9,6 @@ import { getProfilePageData } from "@/lib/repositories/profile";
 
 export const dynamic = "force-dynamic";
 
-function getGravatarUrl(email: string) {
-  const hash = createHash("md5").update(email.trim().toLowerCase()).digest("hex");
-  return `https://secure.gravatar.com/avatar/${hash}?s=220&r=x&d=mm`;
-}
-
 export default async function ProfilePage() {
   const currentUser = await requireAdministrator("/admin/profile");
   const { user, preferences, stats } = getProfilePageData(currentUser.id);
@@ -24,11 +18,8 @@ export default async function ProfilePage() {
       <div className="profile-page-grid">
         <aside className="profile-summary">
           <p className="profile-avatar-wrap">
-            <a href="https://gravatar.com/" title="在 Gravatar 上修改头像">
-              {/* Gravatar 地址由邮箱动态生成，使用原生图片以避免开放任意远程图片域名。 */}
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img className="profile-avatar" src={getGravatarUrl(user.email)} alt={user.displayName} />
-            </a>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img className="profile-avatar" src="/images/avatar.png" alt={user.displayName} />
           </p>
           <h2>{user.displayName}</h2>
           <p className="profile-email">{user.email}</p>

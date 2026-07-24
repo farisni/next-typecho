@@ -1,10 +1,12 @@
 import Link from "next/link";
 import {
   FileText,
+  GitFork,
   Home,
   Info,
-  LayoutDashboard,
-  LogIn,
+  Radio,
+  Rss,
+  Settings,
 } from "lucide-react";
 import type { AuthUser } from "@/lib/auth/session";
 
@@ -23,11 +25,8 @@ export function Sidebar({
         {logoUrl ? (
           <img src={logoUrl} alt={name} />
         ) : (
-          <span className="handsome-avatar" aria-hidden="true">
-            {name.slice(0, 1).toUpperCase()}
-          </span>
+          <img src="/images/avatar.png" alt={name} />
         )}
-        <strong>{name}</strong>
       </Link>
 
       <nav className="handsome-nav">
@@ -45,18 +44,19 @@ export function Sidebar({
         </Link>
       </nav>
 
-      <div className="handsome-sidebar-footer">
-        {user ? (
-          <Link href="/admin">
-            <LayoutDashboard aria-hidden="true" />
-            <span>进入后台</span>
-          </Link>
-        ) : (
-          <Link href="/login">
-            <LogIn aria-hidden="true" />
-            <span>登录</span>
-          </Link>
-        )}
+      <div className="handsome-sidebar-footer handsome-sidebar-dock">
+        <Link href="/feed.xml" aria-label="RSS 订阅">
+          <Rss aria-hidden="true" />
+        </Link>
+        <Link href="/" aria-label="博客动态">
+          <Radio aria-hidden="true" />
+        </Link>
+        <Link href={user ? "/admin" : "/login"} aria-label={user ? "进入后台" : "登录"}>
+          <Settings aria-hidden="true" />
+        </Link>
+        <a href="https://github.com/farisni/next-typecho" aria-label="GitHub">
+          <GitFork aria-hidden="true" />
+        </a>
       </div>
     </aside>
   );
