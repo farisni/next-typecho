@@ -3633,6 +3633,7 @@ a {
 .profile-page-shell {
   width: 988px;
   max-width: 100%;
+  margin-top: 25px;
   margin-inline: auto;
 }
 
@@ -3655,8 +3656,8 @@ a {
 .profile-summary {
   box-sizing: border-box;
   padding: 20px;
-  border: 1px solid #e5e5e2;
-  background: #fff;
+  border: 0;
+  background: transparent;
   text-align: center;
 }
 
@@ -3704,6 +3705,15 @@ a {
   text-align: center;
 }
 
+.profile-email {
+  margin: 7px 0 0 !important;
+  color: #777;
+  font-size: 0.85714em;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+  text-align: center;
+}
+
 .profile-summary .profile-stats {
   margin: 20px 0 0;
   padding-top: 16px;
@@ -3725,6 +3735,11 @@ a {
 .profile-form-panel {
   width: 100%;
   max-width: 720px;
+}
+
+.profile-form-panel > .typecho-page-title {
+  margin-top: 0;
+  margin-bottom: 18px;
 }
 
 .profile-form-panel > section:first-child .typecho-option {

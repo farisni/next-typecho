@@ -21,7 +21,6 @@ export default async function ProfilePage() {
 
   return (
     <div className="profile-page-shell">
-      <AdminPageTitle title="个人设置" />
       <div className="profile-page-grid">
         <aside className="profile-summary">
           <p className="profile-avatar-wrap">
@@ -32,6 +31,7 @@ export default async function ProfilePage() {
             </a>
           </p>
           <h2>{user.displayName}</h2>
+          <p className="profile-email">{user.email}</p>
           {user.username !== user.displayName && <p className="profile-username">@{user.username}</p>}
           <p className="profile-stats">
             目前有 <em>{stats.publishedPosts}</em> 篇日志，并有 <em>{stats.comments}</em> 条关于你的评论，分布在 <em>{stats.categories}</em> 个分类中。
@@ -40,6 +40,7 @@ export default async function ProfilePage() {
         </aside>
 
         <div className="typecho-content-panel profile-form-panel" role="form">
+          <AdminPageTitle title="个人设置" />
           <section>
             <ProfileDetailsForm displayName={user.displayName} url={user.url} email={user.email} />
           </section>
