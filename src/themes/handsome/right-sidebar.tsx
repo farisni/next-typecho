@@ -2,11 +2,12 @@ import Link from "next/link";
 import {
   CalendarDays,
   FolderOpen,
-  Newspaper,
   UserRound,
 } from "lucide-react";
 import { getSidebarContent } from "@/lib/repositories/posts";
 import type { HandsomeThemeConfig } from "@/themes/handsome/definition";
+import { PopularPostsWidget } from "@/themes/handsome/widgets/popular-posts-widget";
+import { RealtimeQpsWidget } from "@/themes/handsome/widgets/realtime-qps-widget";
 
 export function RightSidebar({
   description,
@@ -20,24 +21,15 @@ export function RightSidebar({
 
   return (
     <aside className="handsome-right-sidebar" aria-label="博客信息">
+      {blocks.has("RecentPosts") && <PopularPostsWidget posts={recentPosts} />}
+
+      <RealtimeQpsWidget />
+
       {blocks.has("Profile") && (
         <section className="handsome-panel handsome-profile-panel">
           <span className="handsome-panel-icon"><UserRound aria-hidden="true" /></span>
           <h2>关于博客</h2>
           <p>{description}</p>
-        </section>
-      )}
-
-      {blocks.has("RecentPosts") && (
-        <section className="handsome-panel">
-          <h2><Newspaper aria-hidden="true" />最新文章</h2>
-          <ul>
-            {recentPosts.map((post) => (
-              <li key={post.slug}>
-                <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-              </li>
-            ))}
-          </ul>
         </section>
       )}
 
