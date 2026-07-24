@@ -10,7 +10,7 @@ function ensureDefaultSettings(now: number) {
   run(
     `INSERT OR IGNORE INTO site_settings
      (id, site_name, site_description, site_url, posts_per_page, created_at, updated_at)
-     VALUES (1, 'Hello World', 'Your description here.', 'http://localhost:3000', 5, ?, ?)`,
+     VALUES (1, 'Dust In The Wind', 'Your description here.', 'http://localhost:3000', 5, ?, ?)`,
     now,
     now,
   );
@@ -99,7 +99,7 @@ export async function installSite(input: InstallAdministratorInput) {
     run(
       `INSERT INTO site_settings
        (id, site_name, site_description, site_url, posts_per_page, created_at, updated_at)
-       VALUES (1, 'Hello World', 'Your description here.', ?, 5, ?, ?)
+       VALUES (1, 'Dust In The Wind', 'Your description here.', ?, 5, ?, ?)
        ON CONFLICT(id) DO UPDATE SET site_url = excluded.site_url, updated_at = excluded.updated_at`,
       siteUrl,
       now,
