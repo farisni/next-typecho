@@ -2,7 +2,6 @@ import Link from "next/link";
 import {
   Bot,
   Clock3,
-  Gift,
   Eye,
   FolderOpen,
   Home,
@@ -13,6 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
+import { DonationDialog } from "@/components/site/donation-dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatPostDate } from "@/lib/format-date";
 import { getAdjacentPosts, getPublishedPostBySlug } from "@/lib/repositories/posts";
@@ -83,7 +83,10 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
         <div className="post-detail-body">
           {post.excerpt && (
             <aside className="post-ai-summary">
-              <h2><Bot aria-hidden="true" />AI摘要</h2>
+              <div className="post-ai-summary-heading">
+                <span className="post-ai-summary-icon"><Bot aria-hidden="true" /></span>
+                <strong>AI 摘要</strong>
+              </div>
               <p>{post.excerpt}</p>
               <small>此内容根据文章生成，仅用于文章内容的解释与总结。</small>
             </aside>
@@ -104,8 +107,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             </div>
             <div className="post-support">
               <div className="post-support-actions">
-                <button className="post-support-donate" type="button"><Gift aria-hidden="true" />打赏</button>
-                <button className="post-support-like" type="button"><ThumbsUp aria-hidden="true" />赞</button>
+                <DonationDialog />
+                <button className="post-support-like" type="button"><ThumbsUp aria-hidden="true" />赞&nbsp;3</button>
               </div>
               <p>如果觉得我的文章对你有用，请随意赞赏</p>
             </div>
