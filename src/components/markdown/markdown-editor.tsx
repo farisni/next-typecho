@@ -1,12 +1,17 @@
 "use client";
 
-import { useRef, useState } from "react";
-import type { ComponentProps, PointerEvent as ReactPointerEvent } from "react";
+import { useEffect, useRef, useState } from "react";
+import type {
+  ClipboardEvent as ReactClipboardEvent,
+  ComponentProps,
+  PointerEvent as ReactPointerEvent,
+} from "react";
 import { commands } from "@uiw/react-md-editor";
 import { Maximize2, Minimize2, Redo2, Undo2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
+import { uploadImage } from "@/actions/upload-image";
 import { markdownCodeText } from "@/components/markdown/code-text";
 import { MermaidDiagram } from "@/components/markdown/mermaid-diagram";
 import { remarkHighlight } from "@/components/markdown/remark-highlight";
@@ -37,30 +42,51 @@ function MarkdownPreviewCode({ className, children, node, ...props }: MarkdownCo
   return <code className={className} {...props}>{children}</code>;
 }
 
-const typechoEditorCommands = [
-  { ...commands.bold, icon: <span className="typecho-markdown-icon typecho-markdown-icon-bold" /> },
-  { ...commands.italic, icon: <span className="typecho-markdown-icon typecho-markdown-icon-italic" /> },
-  commands.divider,
-  { ...commands.link, icon: <span className="typecho-markdown-icon typecho-markdown-icon-link" /> },
-  { ...commands.quote, icon: <span className="typecho-markdown-icon typecho-markdown-icon-quote" /> },
-  { ...commands.code, icon: <span className="typecho-markdown-icon typecho-markdown-icon-code" /> },
-  { ...commands.image, icon: <span className="typecho-markdown-icon typecho-markdown-icon-image" /> },
-  commands.divider,
-  { ...commands.orderedListCommand, icon: <span className="typecho-markdown-icon typecho-markdown-icon-ordered-list" /> },
-  { ...commands.unorderedListCommand, icon: <span className="typecho-markdown-icon typecho-markdown-icon-unordered-list" /> },
-  { ...commands.title, icon: <span className="typecho-markdown-icon typecho-markdown-icon-heading" /> },
-  { ...commands.hr, icon: <span className="typecho-markdown-icon typecho-markdown-icon-thematic-break" /> },
-];
-
 export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
   const [content, setContent] = useState(defaultValue);
   const [mode, setMode] = useState<"write" | "preview">("write");
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [editorHeight, setEditorHeight] = useState(MIN_EDITOR_HEIGHT);
+  const [isImageDialogOpen, setIsImageDialogOpen] = useState(false);
+  const [imageUrl, setImageUrl] = useState("https://");
   const editorHeightRef = useRef(editorHeight);
   const editorShellRef = useRef<HTMLDivElement>(null);
+  const imageUrlInputRef = useRef<HTMLInputElement>(null);
+  const imageSelectionRef = useRef({ start: 0, end: 0, alt: "" });
+  const contentRef = useRef(content);
   const contentHistoryRef = useRef([defaultValue]);
   const contentHistoryIndexRef = useRef(0);
+  contentRef.current = content;
+
+  useEffect(() => {
+    if (!isImageDialogOpen) return;
+
+    imageUrlInputRef.current?.focus();
+    imageUrlInputRef.current?.select();
+  }, [isImageDialogOpen]);
+
+  useEffect(() => {
+    function handleInsertAttachment(event: Event) {
+      const { name, url } = (event as CustomEvent<{ name: string; url: string }>).detail;
+      const textarea = document.getElementById("markdown-editor-source") as HTMLTextAreaElement | null;
+      const source = contentRef.current;
+      const start = textarea?.selectionStart ?? source.length;
+      const end = textarea?.selectionEnd ?? start;
+      const selectedText = source.slice(start, end);
+      const markdown = `![${selectedText || name}](${url})`;
+
+      changeContent(`${source.slice(0, start)}${markdown}${source.slice(end)}`);
+      requestAnimationFrame(() => {
+        const editor = document.getElementById("markdown-editor-source") as HTMLTextAreaElement | null;
+        const caretPosition = start + markdown.length;
+        editor?.focus();
+        editor?.setSelectionRange(caretPosition, caretPosition);
+      });
+    }
+
+    window.addEventListener("typecho:insert-attachment", handleInsertAttachment);
+    return () => window.removeEventListener("typecho:insert-attachment", handleInsertAttachment);
+  }, []);
 
   function focusEditor() {
     requestAnimationFrame(() => document.getElementById("markdown-editor-source")?.focus());
@@ -110,6 +136,115 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
 
     window.open(`/posts/${encodeURIComponent(slug)}`, "_blank", "noopener,noreferrer");
   }
+
+  function openImageDialog() {
+    const textarea = document.getElementById("markdown-editor-source") as HTMLTextAreaElement | null;
+    const start = textarea?.selectionStart ?? content.length;
+    const end = textarea?.selectionEnd ?? start;
+
+    imageSelectionRef.current = {
+      start,
+      end,
+      alt: content.slice(start, end),
+    };
+    setImageUrl("https://");
+    setIsImageDialogOpen(true);
+  }
+
+  function closeImageDialog() {
+    setIsImageDialogOpen(false);
+    focusEditor();
+  }
+
+  function insertImage() {
+    const url = imageUrl.trim();
+    if (!url || url === "https://") {
+      imageUrlInputRef.current?.focus();
+      return;
+    }
+
+    const { start, end, alt } = imageSelectionRef.current;
+    const imageMarkdown = `![${alt}](${url})`;
+    changeContent(`${content.slice(0, start)}${imageMarkdown}${content.slice(end)}`);
+    setIsImageDialogOpen(false);
+
+    requestAnimationFrame(() => {
+      const textarea = document.getElementById("markdown-editor-source") as HTMLTextAreaElement | null;
+      const caretPosition = start + imageMarkdown.length;
+      textarea?.focus();
+      textarea?.setSelectionRange(caretPosition, caretPosition);
+    });
+  }
+
+  async function pasteClipboardImages(event: ReactClipboardEvent<HTMLTextAreaElement>) {
+    const imageFiles = Array.from(event.clipboardData.items)
+      .filter((item) => item.kind === "file" && item.type.startsWith("image/"))
+      .map((item) => item.getAsFile())
+      .filter((file): file is File => file !== null);
+
+    if (imageFiles.length === 0) return;
+
+    event.preventDefault();
+    const source = contentRef.current;
+    const start = event.currentTarget.selectionStart;
+    const end = event.currentTarget.selectionEnd;
+
+    try {
+      const uploadedImages = [];
+
+      for (const [index, file] of imageFiles.entries()) {
+        const formData = new FormData();
+        formData.set("image", file);
+        const storedImage = await uploadImage(formData);
+        const name = file.name || `clipboard-image-${index + 1}`;
+
+        uploadedImages.push({ ...storedImage, name });
+        window.dispatchEvent(
+          new CustomEvent("typecho:attachment-uploaded", {
+            detail: {
+              id: storedImage.key,
+              name,
+              size: storedImage.size,
+              url: storedImage.url,
+            },
+          }),
+        );
+      }
+
+      const markdown = uploadedImages
+        .map((image) => `![${image.name}](${image.url})`)
+        .join("\n") + "\n";
+      changeContent(`${source.slice(0, start)}${markdown}${source.slice(end)}`);
+
+      requestAnimationFrame(() => {
+        const textarea = document.getElementById("markdown-editor-source") as HTMLTextAreaElement | null;
+        const caretPosition = start + markdown.length;
+        textarea?.focus();
+        textarea?.setSelectionRange(caretPosition, caretPosition);
+      });
+    } catch (error) {
+      window.alert(error instanceof Error ? error.message : "粘贴图片上传失败");
+    }
+  }
+
+  const typechoEditorCommands = [
+    { ...commands.bold, icon: <span className="typecho-markdown-icon typecho-markdown-icon-bold" /> },
+    { ...commands.italic, icon: <span className="typecho-markdown-icon typecho-markdown-icon-italic" /> },
+    commands.divider,
+    { ...commands.link, icon: <span className="typecho-markdown-icon typecho-markdown-icon-link" /> },
+    { ...commands.quote, icon: <span className="typecho-markdown-icon typecho-markdown-icon-quote" /> },
+    { ...commands.code, icon: <span className="typecho-markdown-icon typecho-markdown-icon-code" /> },
+    {
+      ...commands.image,
+      icon: <span className="typecho-markdown-icon typecho-markdown-icon-image" />,
+      execute: openImageDialog,
+    },
+    commands.divider,
+    { ...commands.orderedListCommand, icon: <span className="typecho-markdown-icon typecho-markdown-icon-ordered-list" /> },
+    { ...commands.unorderedListCommand, icon: <span className="typecho-markdown-icon typecho-markdown-icon-unordered-list" /> },
+    { ...commands.title, icon: <span className="typecho-markdown-icon typecho-markdown-icon-heading" /> },
+    { ...commands.hr, icon: <span className="typecho-markdown-icon typecho-markdown-icon-thematic-break" /> },
+  ];
 
   const typechoActionCommands = [
     commands.divider,
@@ -216,7 +351,11 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
             rehypePlugins: [rehypeKatex],
             components: { code: MarkdownPreviewCode },
           }}
-          textareaProps={{ id: "markdown-editor-source", "aria-label": "Markdown 内容" }}
+          textareaProps={{
+            id: "markdown-editor-source",
+            "aria-label": "Markdown 内容",
+            onPaste: pasteClipboardImages,
+          }}
         />
         <div
           className="typecho-editor-resize"
@@ -227,6 +366,38 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
         >
           <i />
         </div>
+        {isImageDialogOpen && (
+          <div className="typecho-image-dialog-backdrop" role="presentation">
+            <div
+              className="typecho-image-dialog"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="typecho-image-dialog-title"
+            >
+              <p id="typecho-image-dialog-title"><b>插入图片</b></p>
+              <p>请在下方的输入框内输入要插入的远程图片地址</p>
+              <p>您也可以使用附件功能插入上传的本地图片</p>
+              <input
+                ref={imageUrlInputRef}
+                type="url"
+                value={imageUrl}
+                aria-label="远程图片地址"
+                onChange={(event) => setImageUrl(event.target.value)}
+                onKeyDown={(event) => {
+                  if (event.key === "Enter") {
+                    event.preventDefault();
+                    insertImage();
+                  }
+                  if (event.key === "Escape") closeImageDialog();
+                }}
+              />
+              <div className="typecho-image-dialog-actions">
+                <button type="button" className="btn btn-s primary" onClick={insertImage}>确定</button>
+                <button type="button" className="btn btn-s" onClick={closeImageDialog}>取消</button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
