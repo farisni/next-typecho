@@ -1,12 +1,14 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
+import { KeyRound, Save, UserRoundCheck } from "lucide-react";
 import {
   changeProfilePassword,
   saveProfile,
   saveWritingOptions,
   type ProfileActionState,
 } from "@/actions/profile";
+import { Switch } from "@/components/ui/switch";
 import type { WritingPreferences } from "@/lib/repositories/profile";
 
 const initialState: ProfileActionState = {};
@@ -59,12 +61,17 @@ export function ProfileDetailsForm({
           <FieldError messages={state.fieldErrors?.email} />
         </li>
       </ul>
-      <p><button className="btn primary" type="submit" disabled={pending}>{pending ? "正在更新…" : "更新我的档案"}</button></p>
+      <p>
+        <button className="btn primary admin-action-button" type="submit" disabled={pending}>
+          <UserRoundCheck aria-hidden="true" />
+          {pending ? "正在更新…" : "更新我的档案"}
+        </button>
+      </p>
     </form>
   );
 }
 
-function RadioSetting({
+function SwitchSetting({
   name,
   enabled,
   label,
@@ -75,12 +82,25 @@ function RadioSetting({
   label: string;
   children: React.ReactNode;
 }) {
+  const [checked, setChecked] = useState(enabled);
+
   return (
-    <li>
-      <span className="typecho-label">{label}</span>
-      <label className="profile-inline-option"><input type="radio" name={name} value="0" defaultChecked={!enabled} />关闭</label>
-      <label className="profile-inline-option"><input type="radio" name={name} value="1" defaultChecked={enabled} />打开</label>
-      <p className="description-text">{children}</p>
+    <li className="profile-switch-setting">
+      <div className="profile-switch-copy">
+        <label className="typecho-label" htmlFor={`profile-${name}`}>{label}</label>
+        <p className="description-text">{children}</p>
+      </div>
+      <div className="profile-switch-control">
+        <Switch
+          id={`profile-${name}`}
+          checked={checked}
+          onCheckedChange={setChecked}
+          className="profile-setting-switch"
+          aria-label={`${label}，当前${checked ? "开" : "关"}`}
+        />
+        <span className="profile-switch-state">{checked ? "开" : "关"}</span>
+      </div>
+      <input type="hidden" name={name} value={checked ? "1" : "0"} />
     </li>
   );
 }
@@ -92,15 +112,15 @@ export function ProfileWritingOptionsForm({ preferences }: { preferences: Writin
     <form action={action}>
       <FormMessage state={state} />
       <ul className="typecho-option profile-options">
-        <RadioSetting name="markdown" enabled={preferences.markdown} label="使用 Markdown 语法编辑和解析内容">
+        <SwitchSetting name="markdown" enabled={preferences.markdown} label="使用 Markdown 语法编辑和解析内容">
           使用 <a href="https://daringfireball.net/projects/markdown/">Markdown</a> 语法能够使您的撰写过程更加简便直观.<br />此功能开启不会影响以前没有使用 Markdown 语法编辑的内容.
-        </RadioSetting>
-        <RadioSetting name="xmlrpcMarkdown" enabled={preferences.xmlrpcMarkdown} label="在 XMLRPC 接口中使用 Markdown 语法">
+        </SwitchSetting>
+        <SwitchSetting name="xmlrpcMarkdown" enabled={preferences.xmlrpcMarkdown} label="在 XMLRPC 接口中使用 Markdown 语法">
           对于完全支持 <a href="https://daringfireball.net/projects/markdown/">Markdown</a> 语法写作的离线编辑器, 打开此选项后将避免内容被转换为 HTML.
-        </RadioSetting>
-        <RadioSetting name="autoSave" enabled={preferences.autoSave} label="自动保存">
+        </SwitchSetting>
+        <SwitchSetting name="autoSave" enabled={preferences.autoSave} label="自动保存">
           自动保存功能可以更好地保护你的文章不会丢失.
-        </RadioSetting>
+        </SwitchSetting>
         <li>
           <span className="typecho-label">默认允许</span>
           <label className="profile-inline-option"><input type="checkbox" name="defaultAllow" value="comment" defaultChecked={preferences.defaultAllowComment} />可以被评论</label>
@@ -109,7 +129,12 @@ export function ProfileWritingOptionsForm({ preferences }: { preferences: Writin
           <p className="description-text">设置你经常使用的默认允许权限</p>
         </li>
       </ul>
-      <p><button className="btn primary" type="submit" disabled={pending}>{pending ? "正在保存…" : "保存设置"}</button></p>
+      <p>
+        <button className="btn primary admin-action-button" type="submit" disabled={pending}>
+          <Save aria-hidden="true" />
+          {pending ? "正在保存…" : "保存设置"}
+        </button>
+      </p>
     </form>
   );
 }
@@ -134,7 +159,12 @@ export function ProfilePasswordForm() {
           <FieldError messages={state.fieldErrors?.confirm} />
         </li>
       </ul>
-      <p><button className="btn primary" type="submit" disabled={pending}>{pending ? "正在更新…" : "更新密码"}</button></p>
+      <p>
+        <button className="btn primary admin-action-button" type="submit" disabled={pending}>
+          <KeyRound aria-hidden="true" />
+          {pending ? "正在更新…" : "更新密码"}
+        </button>
+      </p>
     </form>
   );
 }

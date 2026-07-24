@@ -1,3 +1,4 @@
+import { Save, Send } from "lucide-react";
 import { PostAdvancedOptions } from "@/components/admin/post-advanced-options";
 import { PostSidebar } from "@/components/admin/post-sidebar";
 import { MarkdownEditor } from "@/components/markdown/markdown-editor";
@@ -35,8 +36,14 @@ export function PostForm({ action, categories, tags, value, preferences }: PostF
         <p className="post-submit">
           <span></span>
           <span className="right">
-            <button type="submit" name="status" value="draft" className="btn">保存草稿</button>
-            <button type="submit" name="status" value="published" className="btn primary">发布文章</button>
+            <button type="submit" name="status" value="draft" className="btn admin-action-button">
+              <Save aria-hidden="true" />
+              保存草稿
+            </button>
+            <button type="submit" name="status" value="published" className="btn primary admin-action-button">
+              <Send aria-hidden="true" />
+              发布文章
+            </button>
           </span>
         </p>
       </div>

@@ -7,7 +7,7 @@ import type {
   PointerEvent as ReactPointerEvent,
 } from "react";
 import { commands } from "@uiw/react-md-editor";
-import { Maximize2, Minimize2, Redo2, Undo2 } from "lucide-react";
+import { ExternalLink, Maximize2, Minimize2, Redo2, Save, Send, Undo2 } from "lucide-react";
 import dynamic from "next/dynamic";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
@@ -310,16 +310,15 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
           </svg>
         </span>
         <button type="button" className="btn fullscreen-toolbar-button" onClick={previewPost}>
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M14 5h5v5M19 5l-8 8" />
-            <path d="M19 13v5a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h5" />
-          </svg>
+          <ExternalLink aria-hidden="true" />
           预览文章
         </button>
         <button type="button" className="btn fullscreen-toolbar-button" onClick={() => submitPost("draft")}>
+          <Save aria-hidden="true" />
           保存草稿
         </button>
         <button type="button" className="btn primary fullscreen-toolbar-button" onClick={() => submitPost("published")}>
+          <Send aria-hidden="true" />
           发布文章
         </button>
       </div>
