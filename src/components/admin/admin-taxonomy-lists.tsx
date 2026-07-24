@@ -2,11 +2,12 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
-import { FolderPlus, MoreHorizontal, Plus, Trash2 } from "lucide-react";
+import { FolderPlus, MoreHorizontal, Plus, Tag as TagIcon, Trash2 } from "lucide-react";
 import {
   bulkDeleteCategories,
   bulkDeleteTags,
   createCategory,
+  createTag,
   deleteCategory,
   deleteTag,
 } from "@/actions/taxonomies";
@@ -195,13 +196,53 @@ export function AdminCategoryList({ categories }: { categories: TaxonomyItem[] }
 export function AdminTagList({ tags }: { tags: TaxonomyItem[] }) {
   const formId = "manage-tags";
   const { selected, selectAllRef, allSelected, selectAll, selectItem } = useTaxonomySelection(tags);
+  const [createDialogOpen, setCreateDialogOpen] = useState(false);
 
   return (
     <>
-      <div className="typecho-list-operate">
-        <div className="operate">
+      <div className="typecho-list-operate taxonomy-list-toolbar">
+        <div className="operate taxonomy-toolbar-actions">
           <label><span className="sr-only">全选</span><input ref={selectAllRef} type="checkbox" className="typecho-table-select-all" checked={allSelected} onChange={(event) => selectAll(event.target.checked)} /></label>
           <AdminBulkMenu formId={formId} actions={[{ icon: Trash2, label: "删除", variant: "destructive" }]} />
+          <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
+            <DialogTrigger
+              render={(
+                <Button type="button" variant="outline" size="sm" className="category-create-trigger rounded-none">
+                  <Plus aria-hidden="true" />
+                  新增标签
+                </Button>
+              )}
+            />
+            <DialogContent className="category-create-dialog rounded-none sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle>新增标签</DialogTitle>
+                <DialogDescription>创建一个新的文章标签，用于关联和检索相关内容。</DialogDescription>
+              </DialogHeader>
+              <form
+                className="category-create-dialog-form"
+                action={async (formData) => {
+                  await createTag(formData);
+                  setCreateDialogOpen(false);
+                }}
+              >
+                <label>
+                  <span className="typecho-label">标签名称</span>
+                  <input name="name" autoFocus required />
+                </label>
+                <label>
+                  <span className="typecho-label">标签缩略名</span>
+                  <input name="slug" placeholder="tag-slug" required />
+                </label>
+                <p className="description-text">缩略名将用于标签链接，建议使用简短的英文或拼音。</p>
+                <DialogFooter className="category-create-dialog-footer rounded-none">
+                  <DialogClose render={<Button type="button" variant="outline" className="rounded-none" />}>
+                    取消
+                  </DialogClose>
+                  <Button type="submit" className="rounded-none">增加标签</Button>
+                </DialogFooter>
+              </form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
       <form
@@ -219,13 +260,26 @@ export function AdminTagList({ tags }: { tags: TaxonomyItem[] }) {
       >
         <ul className="typecho-list-notable tag-list">
           {tags.length === 0 && <li className="none">没有任何标签</li>}
-          {tags.map((item, index) => {
+          {tags.map((item) => {
             const checked = selected.has(item.id);
             return (
-              <li key={item.id} className={`size-${index % 3 + 1}${checked ? " current" : ""}`}>
+              <li key={item.id} className={checked ? "current" : undefined}>
                 <input type="checkbox" name="ids" value={item.id} checked={checked} onChange={(event) => selectItem(item.id, event.target.checked)} aria-label={`选择 ${item.name}`} />
-                <span>{item.name}</span>
-                <button form={`delete-tag-${item.id}`} title={`删除 ${item.name}`} type="submit">×</button>
+                <Badge variant={checked ? "default" : "outline"} className="admin-tag-badge">
+                  <TagIcon aria-hidden="true" />
+                  {item.name}
+                </Badge>
+                <Button
+                  form={`delete-tag-${item.id}`}
+                  title={`删除 ${item.name}`}
+                  aria-label={`删除 ${item.name}`}
+                  type="submit"
+                  variant="ghost"
+                  size="icon-sm"
+                  className="admin-tag-delete rounded-none"
+                >
+                  <Trash2 aria-hidden="true" />
+                </Button>
               </li>
             );
           })}
