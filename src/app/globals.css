@@ -4234,9 +4234,10 @@ a {
     -apple-system,
     BlinkMacSystemFont,
     "Helvetica Neue",
-    "LXGW WenKai",
-    "霞鹜文楷",
-    sans-serif;
+    "Source Han Serif SC",
+    "思源宋体",
+    "Songti SC",
+    serif;
 }
 
 .handsome-sidebar {
@@ -5365,7 +5366,7 @@ a {
 .theme-handsome .post-detail-body .post-content h4,
 .theme-handsome .post-detail-body .post-content h5,
 .theme-handsome .post-detail-body .post-content h6 {
-  font-family: "LXGW WenKai", "霞鹜文楷", "PingFang SC", sans-serif !important;
+  font-family: "Source Han Serif SC", "思源宋体", "Songti SC", serif !important;
   font-weight: 700 !important;
   text-decoration-line: underline;
   text-decoration-color: #d5d9de;
