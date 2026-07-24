@@ -1,6 +1,7 @@
 import {
   Activity,
   Clock3,
+  Menu,
   Moon,
   Search,
   TrendingUp,
@@ -9,6 +10,9 @@ import {
 export function Header() {
   return (
     <header className="handsome-header">
+      <button className="handsome-mobile-menu" type="button" aria-label="打开菜单">
+        <Menu aria-hidden="true" />
+      </button>
       <div className="handsome-tools" aria-label="工具栏">
         <span><Clock3 aria-hidden="true" /></span>
         <span><Activity aria-hidden="true" /></span>

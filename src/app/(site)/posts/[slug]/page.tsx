@@ -26,34 +26,36 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     <>
       <article className="post post-detail">
         <header className="post-detail-header">
-          <h1 className="post-title"><Link href={`/posts/${post.slug}`}>{post.title}</Link></h1>
-          <ul className="post-meta">
-            <li>
-              <UserRound className="post-meta-icon" aria-hidden="true" />
-              <span className="post-meta-label">作者: </span>
-              <span>管理员</span>
-            </li>
-            {post.publishedAt && (
+          <div className="post-detail-header-content">
+            <h1 className="post-title"><Link href={`/posts/${post.slug}`}>{post.title}</Link></h1>
+            <ul className="post-meta">
               <li>
-                <Clock3 className="post-meta-icon" aria-hidden="true" />
-                <span className="post-meta-label">时间: </span>
-                <time>{formatPostDate(post.publishedAt)}</time>
+                <UserRound className="post-meta-icon" aria-hidden="true" />
+                <span className="post-meta-label">作者: </span>
+                <span>管理员</span>
               </li>
-            )}
-            <li>
-              <Eye className="post-meta-icon" aria-hidden="true" />
-              <span>0 浏览</span>
-            </li>
-            <li>
-              <MessageCircle className="post-meta-icon" aria-hidden="true" />
-              <Link href="#comments">暂无评论</Link>
-            </li>
-            <li>
-              <FolderOpen className="post-meta-icon" aria-hidden="true" />
-              <span className="post-meta-label">分类: </span>
-              {post.category ? <Link href={`/categories/${post.category.slug}`}>{post.category.name}</Link> : "未分类"}
-            </li>
-          </ul>
+              {post.publishedAt && (
+                <li>
+                  <Clock3 className="post-meta-icon" aria-hidden="true" />
+                  <span className="post-meta-label">时间: </span>
+                  <time>{formatPostDate(post.publishedAt)}</time>
+                </li>
+              )}
+              <li>
+                <Eye className="post-meta-icon" aria-hidden="true" />
+                <span>0 浏览</span>
+              </li>
+              <li>
+                <MessageCircle className="post-meta-icon" aria-hidden="true" />
+                <Link href="#comments">暂无评论</Link>
+              </li>
+              <li>
+                <FolderOpen className="post-meta-icon" aria-hidden="true" />
+                <span className="post-meta-label">分类: </span>
+                {post.category ? <Link href={`/categories/${post.category.slug}`}>{post.category.name}</Link> : "未分类"}
+              </li>
+            </ul>
+          </div>
         </header>
 
         <nav className="post-breadcrumb" aria-label="面包屑">
