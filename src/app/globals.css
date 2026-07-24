@@ -5417,12 +5417,19 @@ a {
 .theme-handsome .post-detail-body .post-content h6 {
   font-family: "Source Han Serif SC", "思源宋体", "Songti SC", serif !important;
   font-weight: 700 !important;
-  text-decoration-line: underline;
-  text-decoration-color: #d5d9de;
-  text-decoration-thickness: 0.12em;
-  text-underline-offset: 0.28em;
-  text-decoration-skip-ink: none;
-  transition: color 160ms ease, text-decoration-color 160ms ease;
+  width: fit-content;
+  padding: 0 0.06em;
+  margin-left: -0.06em;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 58%,
+    #c8eaf4 58%,
+    #c8eaf4 92%,
+    transparent 92%
+  );
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+  transition: color 160ms ease, background-image 160ms ease;
 }
 
 .theme-handsome .post-detail-body .post-content h1:hover,
@@ -5431,7 +5438,13 @@ a {
 .theme-handsome .post-detail-body .post-content h4:hover,
 .theme-handsome .post-detail-body .post-content h5:hover,
 .theme-handsome .post-detail-body .post-content h6:hover {
-  text-decoration-color: #295f9f;
+  background-image: linear-gradient(
+    to bottom,
+    transparent 58%,
+    #a9dceb 58%,
+    #a9dceb 92%,
+    transparent 92%
+  );
 }
 
 .handsome-right-sidebar {
