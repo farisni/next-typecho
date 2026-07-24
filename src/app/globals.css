@@ -2398,6 +2398,14 @@ a {
   color: #999;
 }
 
+.typecho-uiw-editor .w-md-editor-toolbar li > button .typecho-toolbar-lucide {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.7;
+}
+
 .typecho-uiw-editor .w-md-editor-toolbar li > button:hover {
   background: #e9e9e6;
   color: #444;

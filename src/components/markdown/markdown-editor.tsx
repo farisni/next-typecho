@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import type { ComponentProps, PointerEvent as ReactPointerEvent } from "react";
 import MDEditor, { commands } from "@uiw/react-md-editor";
+import { Maximize2, Minimize2, Redo2, Undo2 } from "lucide-react";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import { markdownCodeText } from "@/components/markdown/code-text";
@@ -106,7 +107,7 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
       keyCommand: "undo",
       shortcuts: "ctrlcmd+z",
       buttonProps: { "aria-label": "撤销" },
-      icon: <span className="typecho-markdown-icon typecho-markdown-icon-undo" />,
+      icon: <Undo2 className="typecho-toolbar-lucide" aria-hidden="true" />,
       execute: undoContent,
     },
     {
@@ -114,14 +115,16 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
       keyCommand: "redo",
       shortcuts: "ctrlcmd+shift+z",
       buttonProps: { "aria-label": "重做" },
-      icon: <span className="typecho-markdown-icon typecho-markdown-icon-redo" />,
+      icon: <Redo2 className="typecho-toolbar-lucide" aria-hidden="true" />,
       execute: redoContent,
     },
     commands.divider,
     {
       ...commands.fullscreen,
       buttonProps: { "aria-label": "切换全屏" },
-      icon: <span className="typecho-markdown-icon typecho-markdown-icon-fullscreen" />,
+      icon: isFullscreen
+        ? <Minimize2 className="typecho-toolbar-lucide" aria-hidden="true" />
+        : <Maximize2 className="typecho-toolbar-lucide" aria-hidden="true" />,
       execute: (...args: Parameters<NonNullable<typeof commands.fullscreen.execute>>) => {
         setIsFullscreen((current) => !current);
         commands.fullscreen.execute?.(...args);
