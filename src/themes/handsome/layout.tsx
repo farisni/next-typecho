@@ -1,3 +1,5 @@
+import "lxgw-wenkai-webfont/lxgwwenkai-regular.css";
+import "lxgw-wenkai-webfont/lxgwwenkai-bold.css";
 import type { HandsomeThemeConfig } from "@/themes/handsome/definition";
 import { BlogHeader } from "@/themes/handsome/blog-header";
 import { Header } from "@/themes/handsome/header";

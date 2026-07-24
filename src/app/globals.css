@@ -4227,7 +4227,13 @@ a {
   grid-template-columns: 236px minmax(0, 1fr);
   background: var(--handsome-background);
   color: #263244;
-  font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-family:
+    "Droid Serif",
+    Georgia,
+    "Times New Roman",
+    "LXGW WenKai",
+    "霞鹜文楷",
+    serif;
 }
 
 .handsome-sidebar {
@@ -4405,7 +4411,7 @@ a {
 .handsome-blog-header h1 {
   margin: 0;
   color: #1c293b;
-  font-family: Georgia, "Songti SC", serif;
+  font-family: inherit;
   font-size: clamp(28px, 3vw, 44px);
   line-height: 1.15;
 }
@@ -4471,7 +4477,7 @@ a {
 
 .handsome-main-content .post-content {
   color: #4b586a;
-  font-family: Georgia, "Songti SC", serif;
+  font-family: inherit;
   font-size: 15px;
   line-height: 1.85;
 }
@@ -4563,7 +4569,7 @@ a {
 .handsome-profile-panel p {
   margin: 0;
   color: #7a8798;
-  font-family: Georgia, "Songti SC", serif;
+  font-family: inherit;
   font-size: 13px;
   line-height: 1.7;
 }
