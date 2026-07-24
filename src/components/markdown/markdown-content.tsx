@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
@@ -16,6 +16,36 @@ type MarkdownCodeProps = ComponentProps<"code"> & {
   node?: unknown;
 };
 
+type MarkdownHeadingProps = ComponentProps<"h2"> & {
+  node?: unknown;
+};
+
+function headingText(children: ReactNode): string {
+  if (typeof children === "string" || typeof children === "number") {
+    return String(children);
+  }
+
+  if (Array.isArray(children)) {
+    return children.map(headingText).join("");
+  }
+
+  if (children && typeof children === "object" && "props" in children) {
+    return headingText((children as { props?: { children?: ReactNode } }).props?.children);
+  }
+
+  return "";
+}
+
+function headingSlug(value: string) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^\p{Letter}\p{Number}\s-]/gu, "")
+    .replace(/\s+/g, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "") || "section";
+}
+
 function MarkdownCode({ className, children, node, ...props }: MarkdownCodeProps) {
   const language = /language-([\w-]+)/.exec(className ?? "")?.[1];
   if (language === "mermaid") {
@@ -26,13 +56,35 @@ function MarkdownCode({ className, children, node, ...props }: MarkdownCodeProps
 }
 
 export function MarkdownContent({ content }: MarkdownContentProps) {
+  const headingCounts = new Map<string, number>();
+  const createHeading = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
+    function MarkdownHeading({ children, node, ...props }: MarkdownHeadingProps) {
+      const baseId = headingSlug(headingText(children));
+      const occurrence = headingCounts.get(baseId) ?? 0;
+      const id = occurrence ? `${baseId}-${occurrence + 1}` : baseId;
+      headingCounts.set(baseId, occurrence + 1);
+
+      return <Tag id={id} {...props}>{children}</Tag>;
+    }
+
+    return MarkdownHeading;
+  };
+
   return (
     <div className="markdown-body post-content">
       {/* 不启用 rehype-raw，并额外经过 sanitize，原始 HTML 不会成为可执行 DOM。 */}
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath, remarkHighlight]}
         rehypePlugins={[rehypeSanitize, rehypeKatex]}
-        components={{ code: MarkdownCode }}
+        components={{
+          code: MarkdownCode,
+          h1: createHeading("h1"),
+          h2: createHeading("h2"),
+          h3: createHeading("h3"),
+          h4: createHeading("h4"),
+          h5: createHeading("h5"),
+          h6: createHeading("h6"),
+        }}
       >
         {content}
       </ReactMarkdown>

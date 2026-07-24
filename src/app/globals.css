@@ -5447,6 +5447,152 @@ a {
   );
 }
 
+.handsome-article-toc {
+  display: none;
+}
+
+.theme-handsome .handsome-article-toc {
+  position: fixed;
+  top: calc(50% + (var(--handsome-topbar-height) / 2));
+  right: var(
+    --handsome-article-toc-right,
+    calc(var(--handsome-right-sidebar-width, 280px) + 8px)
+  );
+  display: block;
+  width: 20px;
+  max-height: calc(100vh - var(--handsome-topbar-height) - 48px);
+  padding: 8px 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  background: transparent;
+  box-shadow: none;
+  box-sizing: border-box;
+  overflow: hidden auto;
+  transform: translateY(-50%);
+  transition:
+    width 220ms cubic-bezier(0.22, 1, 0.36, 1),
+    padding 220ms ease,
+    background-color 180ms ease,
+    border-color 180ms ease,
+    box-shadow 180ms ease;
+  z-index: 6;
+}
+
+.theme-handsome .handsome-article-toc:hover,
+.theme-handsome .handsome-article-toc:focus-within {
+  width: 250px;
+  padding: 8px 0;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-handsome .handsome-article-toc ol {
+  display: flex;
+  width: 100%;
+  min-width: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.theme-handsome .handsome-article-toc li {
+  margin: 0;
+  padding: 0;
+}
+
+.theme-handsome .handsome-article-toc button {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 26px;
+  padding: 2px 16px 2px 8px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 3px;
+  outline: 0;
+  background: transparent;
+  color: #68727d;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  align-items: center;
+  justify-content: flex-end;
+  transition: background-color 150ms ease;
+}
+
+.theme-handsome .handsome-article-toc button[data-level="3"] {
+  padding-right: 24px;
+}
+
+.theme-handsome .handsome-article-toc button[data-level="4"] {
+  padding-right: 32px;
+}
+
+.theme-handsome .handsome-article-toc button:hover {
+  background: rgb(41 95 159 / 7%);
+}
+
+.theme-handsome .handsome-article-toc-marker {
+  position: absolute;
+  right: 5px;
+  display: block;
+  width: 3px;
+  height: 15px;
+  border-radius: 2px;
+  background: #e8ebef;
+  transition: background-color 160ms ease, transform 160ms ease;
+}
+
+.theme-handsome .handsome-article-toc button[data-level="3"] .handsome-article-toc-marker {
+  height: 12px;
+}
+
+.theme-handsome .handsome-article-toc button[data-level="4"] .handsome-article-toc-marker {
+  height: 9px;
+}
+
+.theme-handsome .handsome-article-toc button.is-active {
+  color: var(--handsome-accent);
+}
+
+.theme-handsome .handsome-article-toc button.is-active .handsome-article-toc-marker {
+  background: var(--handsome-accent);
+  transform: scaleY(1.08);
+}
+
+.theme-handsome .handsome-article-toc-label {
+  display: block;
+  max-width: 0;
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1.45;
+  opacity: 0;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transform: translateX(-6px);
+  transition: max-width 220ms ease, opacity 140ms ease, transform 220ms ease;
+}
+
+.theme-handsome .handsome-article-toc:hover .handsome-article-toc-label,
+.theme-handsome .handsome-article-toc:focus-within .handsome-article-toc-label {
+  max-width: 232px;
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.theme-handsome .post-detail-body .post-content h1[id],
+.theme-handsome .post-detail-body .post-content h2[id],
+.theme-handsome .post-detail-body .post-content h3[id],
+.theme-handsome .post-detail-body .post-content h4[id],
+.theme-handsome .post-detail-body .post-content h5[id],
+.theme-handsome .post-detail-body .post-content h6[id] {
+  scroll-margin-top: calc(var(--handsome-topbar-height) + 20px);
+}
+
 .handsome-right-sidebar {
   display: flex;
   flex-direction: column;
@@ -5931,6 +6077,10 @@ a {
   .handsome-right-sidebar {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .theme-handsome .handsome-article-toc {
+    display: none;
   }
 }
 
