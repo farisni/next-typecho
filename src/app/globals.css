@@ -3016,6 +3016,39 @@ a {
   gap: 8px;
 }
 
+.bottom-operate {
+  justify-content: flex-end;
+}
+
+.post-list-toolbar {
+  margin-bottom: 0;
+  padding: 20px 30px 10px;
+  background: #fff;
+}
+
+.post-list-toolbar + .operate-form .post-list-table {
+  border-top-width: 0;
+}
+
+.admin-filter-keywords {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.admin-filter-keywords > svg {
+  position: absolute;
+  left: 8px;
+  width: 14px;
+  height: 14px;
+  color: #999;
+  pointer-events: none;
+}
+
+.typecho-admin .admin-filter-keywords > input {
+  padding-left: 28px;
+}
+
 #edit-secondary {
   margin-top: 1em;
 }

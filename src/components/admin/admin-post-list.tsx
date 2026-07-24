@@ -2,9 +2,18 @@
 
 import Link from "next/link";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
-import { Clock, EyeOff, Globe, Lock, Trash2 } from "lucide-react";
+import { Check, Clock, EyeOff, Globe, ListFilter, Lock, Search, SquareX, Trash2 } from "lucide-react";
 import { bulkManagePosts } from "@/actions/posts";
 import { AdminBulkMenu } from "@/components/admin/admin-bulk-menu";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import type { PostStatus } from "@/lib/repositories/posts";
 
 type AdminPostItem = {
@@ -86,15 +95,12 @@ export function AdminPostList({
   const formId = "manage-posts";
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
   const topSelectAll = useRef<HTMLInputElement>(null);
-  const bottomSelectAll = useRef<HTMLInputElement>(null);
   const allSelected = posts.length > 0 && selected.size === posts.length;
   const partlySelected = selected.size > 0 && !allSelected;
   const returnTo = useMemo(() => `/admin/posts${currentQuery ? `?${currentQuery}` : ""}`, [currentQuery]);
 
   useEffect(() => {
-    for (const checkbox of [topSelectAll.current, bottomSelectAll.current]) {
-      if (checkbox) checkbox.indeterminate = partlySelected;
-    }
+    if (topSelectAll.current) topSelectAll.current.indeterminate = partlySelected;
   }, [partlySelected]);
 
   function selectAll(checked: boolean) {
@@ -112,9 +118,8 @@ export function AdminPostList({
 
   return (
     <>
-      <div className="typecho-list-operate">
+      <div className="typecho-list-operate post-list-toolbar">
         <div className="operate">
-          <label><span className="sr-only">全选</span><input ref={topSelectAll} type="checkbox" className="typecho-table-select-all" checked={allSelected} onChange={(event) => selectAll(event.target.checked)} /></label>
           <AdminBulkMenu
             formId={formId}
             actions={[
@@ -127,13 +132,69 @@ export function AdminPostList({
           />
         </div>
         <form method="get" className="search" role="search">
-          {(keywords || categoryId) && <Link href={cancelFilterHref}>« 取消筛选</Link>}
-          <input type="text" className="text-s" placeholder="请输入关键字" defaultValue={keywords} name="keywords" />
-          <select name="category" defaultValue={categoryId}>
-            <option value="">所有分类</option>
-            {categories.map((category) => <option key={category.id} value={category.id}>{category.name}</option>)}
-          </select>
-          <button type="submit" className="btn btn-s">筛选</button>
+          <label className="admin-filter-keywords">
+            <span className="sr-only">搜索文章</span>
+            <Search aria-hidden="true" />
+            <input type="text" className="text-s" placeholder="请输入关键字" defaultValue={keywords} name="keywords" />
+          </label>
+          {categoryId && <input type="hidden" name="category" value={categoryId} />}
+          <DropdownMenu>
+            <DropdownMenuTrigger
+              render={(
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="rounded-none bg-[#f6f6f3]"
+                />
+              )}
+            >
+              <ListFilter data-icon="inline-start" aria-hidden="true" />
+              筛选
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" className="rounded-none">
+              <DropdownMenuGroup>
+                <DropdownMenuItem
+                  className="w-full rounded-none"
+                  render={<Link href={buildQuery(currentQuery, { category: null, page: null })} />}
+                >
+                  {!categoryId && <Check aria-hidden="true" />}
+                  所有分类
+                </DropdownMenuItem>
+                {categories.map((category) => (
+                  <DropdownMenuItem
+                    key={category.id}
+                    className="w-full rounded-none"
+                    render={(
+                      <Link
+                        href={buildQuery(currentQuery, {
+                          category: category.id,
+                          page: null,
+                        })}
+                      />
+                    )}
+                  >
+                    {categoryId === category.id && <Check aria-hidden="true" />}
+                    {category.name}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+              {(keywords || categoryId) && (
+                <>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem
+                      className="w-full rounded-none"
+                      render={<Link href={cancelFilterHref} />}
+                    >
+                      <SquareX aria-hidden="true" />
+                      取消筛选
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                </>
+              )}
+            </DropdownMenuContent>
+          </DropdownMenu>
           {status !== "available" && <input type="hidden" name="status" value={status} />}
           {scope === "all" && <input type="hidden" name="scope" value="all" />}
         </form>
@@ -156,7 +217,27 @@ export function AdminPostList({
         <input type="hidden" name="returnTo" value={returnTo} />
         <table className="typecho-list-table post-list-table">
           <colgroup><col className="admin-check-column" /><col className="admin-comment-column" /><col /><col className="admin-author-column" /><col className="admin-category-column" /><col className="admin-date-column" /></colgroup>
-          <thead><tr><th className="kit-hidden-mb" /><th className="kit-hidden-mb" /><th>标题</th><th className="kit-hidden-mb">作者</th><th className="kit-hidden-mb">分类</th><th>日期</th></tr></thead>
+          <thead>
+            <tr>
+              <th className="kit-hidden-mb">
+                <label>
+                  <span className="sr-only">全选</span>
+                  <input
+                    ref={topSelectAll}
+                    type="checkbox"
+                    className="typecho-table-select-all"
+                    checked={allSelected}
+                    onChange={(event) => selectAll(event.target.checked)}
+                  />
+                </label>
+              </th>
+              <th className="kit-hidden-mb" />
+              <th>标题</th>
+              <th className="kit-hidden-mb">作者</th>
+              <th className="kit-hidden-mb">分类</th>
+              <th>日期</th>
+            </tr>
+          </thead>
           <tbody>
             {posts.length === 0 && <tr><td colSpan={6} className="none">没有任何文章</td></tr>}
             {posts.map((post) => {
@@ -191,19 +272,6 @@ export function AdminPostList({
       </form>
 
       <div className="typecho-list-operate bottom-operate">
-        <div className="operate">
-          <label><span className="sr-only">全选</span><input ref={bottomSelectAll} type="checkbox" className="typecho-table-select-all" checked={allSelected} onChange={(event) => selectAll(event.target.checked)} /></label>
-          <AdminBulkMenu
-            formId={formId}
-            actions={[
-              { icon: Trash2, label: "删除", name: "operation", value: "delete", variant: "destructive" },
-              { icon: Globe, label: "公开", name: "operation", value: "published" },
-              { icon: Clock, label: "待审核", name: "operation", value: "waiting" },
-              { icon: EyeOff, label: "隐藏", name: "operation", value: "hidden" },
-              { icon: Lock, label: "私密", name: "operation", value: "private" },
-            ]}
-          />
-        </div>
         <Pager page={page} totalPages={totalPages} currentQuery={currentQuery} />
       </div>
     </>

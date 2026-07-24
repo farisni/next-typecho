@@ -28,11 +28,20 @@ type AdminBulkMenuProps = {
 export function AdminBulkMenu({ formId, actions }: AdminBulkMenuProps) {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger render={<Button type="button" variant="outline" size="sm" />}>
+      <DropdownMenuTrigger
+        render={(
+          <Button
+            type="button"
+            variant="outline"
+            size="sm"
+            className="rounded-none bg-[#f6f6f3]"
+          />
+        )}
+      >
         选中项
         <ChevronDownIcon data-icon="inline-end" />
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="start">
+      <DropdownMenuContent align="start" className="rounded-none">
         <DropdownMenuGroup>
           {actions.map((action, index) => {
             const Icon = action.icon;
@@ -40,6 +49,7 @@ export function AdminBulkMenu({ formId, actions }: AdminBulkMenuProps) {
             return (
               <DropdownMenuItem
                 key={`${action.name ?? "action"}-${action.value ?? index}`}
+                className="w-full rounded-none"
                 nativeButton
                 variant={action.variant}
                 render={(
