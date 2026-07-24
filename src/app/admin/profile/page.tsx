@@ -20,11 +20,11 @@ export default async function ProfilePage() {
   const { user, preferences, stats } = getProfilePageData(currentUser.id);
 
   return (
-    <>
+    <div className="profile-page-shell">
       <AdminPageTitle title="个人设置" />
       <div className="profile-page-grid">
         <aside className="profile-summary">
-          <p>
+          <p className="profile-avatar-wrap">
             <a href="https://gravatar.com/" title="在 Gravatar 上修改头像">
               {/* Gravatar 地址由邮箱动态生成，使用原生图片以避免开放任意远程图片域名。 */}
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -32,16 +32,15 @@ export default async function ProfilePage() {
             </a>
           </p>
           <h2>{user.displayName}</h2>
-          <p>{user.username}</p>
-          <p>
-            目前有 <em>{stats.publishedPosts}</em> 篇日志, 并有 <em>{stats.comments}</em> 条关于你的评论在 <em>{stats.categories}</em> 个分类中.
+          {user.username !== user.displayName && <p className="profile-username">@{user.username}</p>}
+          <p className="profile-stats">
+            目前有 <em>{stats.publishedPosts}</em> 篇日志，并有 <em>{stats.comments}</em> 条关于你的评论，分布在 <em>{stats.categories}</em> 个分类中。
           </p>
-          {user.lastLoginAt && <p>最后登录: {user.lastLoginAt.toLocaleString("zh-CN")}</p>}
+          {user.lastLoginAt && <p className="profile-last-login">最后登录：{user.lastLoginAt.toLocaleString("zh-CN")}</p>}
         </aside>
 
-        <div className="typecho-content-panel" role="form">
+        <div className="typecho-content-panel profile-form-panel" role="form">
           <section>
-            <h3>个人资料</h3>
             <ProfileDetailsForm displayName={user.displayName} url={user.url} email={user.email} />
           </section>
 
@@ -56,6 +55,6 @@ export default async function ProfilePage() {
           </section>
         </div>
       </div>
-    </>
+    </div>
   );
 }

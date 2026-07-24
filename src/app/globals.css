@@ -3630,10 +3630,21 @@ a {
   margin-left: 0;
 }
 
+.profile-page-shell {
+  width: 988px;
+  max-width: 100%;
+  margin-inline: auto;
+}
+
 .profile-page-grid {
   display: grid;
-  grid-template-columns: 25% 50%;
-  column-gap: 8.33333%;
+  width: 100%;
+  max-width: 100%;
+  margin-inline: 0;
+  grid-template-columns: 220px minmax(0, 720px);
+  gap: 48px;
+  align-items: start;
+  justify-content: center;
 }
 
 .profile-summary p,
@@ -3641,22 +3652,83 @@ a {
   margin: 1em 0;
 }
 
+.profile-summary {
+  box-sizing: border-box;
+  padding: 20px;
+  border: 1px solid #e5e5e2;
+  background: #fff;
+  text-align: center;
+}
+
+.profile-summary .profile-avatar-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 0 16px;
+  text-align: center;
+}
+
+.profile-avatar-wrap > a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .profile-summary h2 {
-  margin: 0.83em 0;
-  font-size: 1.5em;
-  font-weight: 700;
+  margin: 0;
+  font-size: 1.25em;
+  font-weight: 600;
+  text-align: center;
 }
 
 .profile-summary em {
-  font-style: italic;
+  color: #496e89;
+  font-style: normal;
+  font-weight: 600;
 }
 
 .profile-avatar {
-  width: 220px;
-  height: 220px;
+  width: 136px;
+  height: 136px;
   max-width: 100%;
-  border-radius: 10px;
+  border: 1px solid #e2e2df;
+  border-radius: 50%;
+  background: #f3f3f1;
   object-fit: cover;
+}
+
+.profile-username {
+  margin: 6px 0 0 !important;
+  color: #999;
+  font-size: 0.92857em;
+  text-align: center;
+}
+
+.profile-summary .profile-stats {
+  margin: 20px 0 0;
+  padding-top: 16px;
+  border-top: 1px solid #ecece8;
+  color: #555;
+  font-size: 0.92857em;
+  line-height: 1.7;
+  text-align: left;
+}
+
+.profile-summary .profile-last-login {
+  margin: 14px 0 0;
+  color: #999;
+  font-size: 0.85714em;
+  line-height: 1.6;
+  text-align: left;
+}
+
+.profile-form-panel {
+  width: 100%;
+  max-width: 720px;
+}
+
+.profile-form-panel > section:first-child .typecho-option {
+  margin-top: 0;
 }
 
 .typecho-content-panel h3 {
@@ -3666,7 +3738,7 @@ a {
 }
 
 .profile-section {
-  margin-top: 3em;
+  margin-top: 40px;
 }
 
 .profile-options .typecho-label {
