@@ -71,7 +71,7 @@ a {
 
 /* Typecho Default Theme replica: front-end only. */
 .theme-site {
-  --site-primary: #496e89;
+  --site-primary: #295f9f;
   min-height: 100vh;
   background: #fff;
   color: #444;
@@ -913,7 +913,7 @@ a {
 }
 
 .typecho-admin a {
-  color: #467b96;
+  color: #295f9f;
   text-decoration: none;
 }
 
@@ -1233,12 +1233,12 @@ a {
 }
 
 .typecho-head-nav .admin-avatar-trigger:focus-visible {
-  outline: 2px solid #496e89;
+  outline: 2px solid #295f9f;
   outline-offset: -2px;
 }
 
 .typecho-head-nav .admin-avatar-trigger [data-slot="avatar-fallback"] {
-  background: #496e89;
+  background: #295f9f;
   color: #fff;
   font-weight: 600;
 }
@@ -1444,7 +1444,7 @@ a {
 
 .btn.primary,
 .primary {
-  background: #467b96;
+  background: #295f9f;
   color: #fff;
 }
 
@@ -1790,7 +1790,7 @@ a {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #467b96;
+  color: #295f9f;
   cursor: pointer;
 }
 
@@ -2109,7 +2109,7 @@ a {
   padding: 0 8px;
   border: 0;
   background: transparent;
-  color: #467b96;
+  color: #295f9f;
   line-height: 1;
   cursor: pointer;
 }
@@ -3005,7 +3005,7 @@ a {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #467b96;
+  color: #295f9f;
   font: inherit;
   cursor: pointer;
 }
@@ -3056,7 +3056,7 @@ a {
   padding: 0;
   border: 0;
   background: transparent;
-  color: #467b96;
+  color: #295f9f;
   cursor: pointer;
   align-items: center;
 }
@@ -3336,7 +3336,7 @@ a {
   border: 1px solid #dedede;
   border-radius: 50%;
   background: #f6f6f3;
-  color: #496e89;
+  color: #295f9f;
   font-size: 16px;
   font-weight: 500;
   line-height: 1;
@@ -3780,7 +3780,7 @@ a {
 }
 
 .profile-summary em {
-  color: #496e89;
+  color: #295f9f;
   font-style: normal;
   font-weight: 600;
 }
@@ -3902,7 +3902,7 @@ a {
 }
 
 .profile-setting-switch[data-checked] {
-  background: #496e89;
+  background: #295f9f;
 }
 
 .profile-switch-state {
@@ -4166,7 +4166,7 @@ a {
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: #496e89;
+  --primary: #295f9f;
   --primary-foreground: #fff;
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -4177,7 +4177,7 @@ a {
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: #496e89;
+  --ring: #295f9f;
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
