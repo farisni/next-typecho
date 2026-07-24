@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { ChevronDownIcon } from "lucide-react";
+import { ListChecksIcon } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -38,8 +38,8 @@ export function AdminBulkMenu({ formId, actions }: AdminBulkMenuProps) {
           />
         )}
       >
+        <ListChecksIcon />
         选中项
-        <ChevronDownIcon data-icon="inline-end" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="rounded-none">
         <DropdownMenuGroup>
