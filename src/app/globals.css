@@ -4314,21 +4314,22 @@ a {
 
 .handsome-nav {
   display: flex;
-  margin-top: 32px;
+  margin-top: 28px;
   flex-direction: column;
-  gap: 4px;
+  gap: 3px;
 }
 
 .handsome-nav a,
 .handsome-sidebar-footer a {
   display: flex;
-  min-height: 36px;
-  padding: 0 12px;
+  min-height: 32px;
+  padding: 0 10px;
   border-radius: 6px;
   color: var(--handsome-sidebar-muted);
+  font-size: 14px;
   text-decoration: none;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   transition: background-color 160ms ease, color 160ms ease;
 }
 
@@ -4339,7 +4340,12 @@ a {
   color: #435b66;
 }
 
-.handsome-nav svg,
+.handsome-nav svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.9;
+}
+
 .handsome-sidebar-footer svg {
   width: 18px;
   height: 18px;
@@ -4347,8 +4353,8 @@ a {
 }
 
 .handsome-nav .handsome-nav-chevron {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   margin-left: auto;
   color: #6f7d90;
   stroke-width: 1.8;
