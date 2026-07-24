@@ -190,16 +190,52 @@ a {
   border: 0;
 }
 
-.post-meta a,
-.post-content a,
-.widget a {
+.post-content a {
   border-bottom: 1px solid #eee;
 }
 
-.post-meta a:hover,
-.post-content a:hover,
-.widget a:hover {
+.post-content a:hover {
   border-bottom-color: transparent;
+}
+
+.post-meta a,
+.widget a,
+.site-logout-button {
+  border-bottom: 0;
+  text-decoration: none;
+}
+
+.post-meta a:hover,
+.post-meta a:active,
+.widget a:hover,
+.widget a:active,
+.site-logout-button:hover,
+.site-logout-button:active {
+  border-bottom: 0;
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.12em;
+}
+
+.post-meta a:hover:lang(zh),
+.post-meta a:active:lang(zh),
+.widget a:hover:lang(zh),
+.widget a:active:lang(zh),
+.site-logout-button:hover:lang(zh),
+.site-logout-button:active:lang(zh) {
+  text-decoration-skip-ink: none;
+  text-underline-offset: 0.22em;
+}
+
+.post-meta a:hover:lang(en),
+.post-meta a:active:lang(en),
+.widget a:hover:lang(en),
+.widget a:active:lang(en),
+.site-logout-button:hover:lang(en),
+.site-logout-button:active:lang(en) {
+  text-decoration-skip-ink: auto;
+  text-underline-offset: 0.12em;
 }
 
 .post-content {
@@ -406,7 +442,6 @@ a {
   margin: 0;
   padding: 0;
   border: 0;
-  border-bottom: 1px solid #eee;
   background: transparent;
   color: #3354aa;
   font: inherit;
@@ -416,7 +451,6 @@ a {
 
 .site-logout-button:hover,
 .site-logout-button:active {
-  border-bottom-color: transparent;
   color: #444;
 }
 
