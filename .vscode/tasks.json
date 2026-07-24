@@ -1,0 +1,66 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Next Typecho: dev",
+			"type": "shell",
+			"command": "C:\\sandbox\\devtools\\node\\node-v24.13.0-win-x64\\node.exe",
+			"args": [
+				"node_modules\\next\\dist\\bin\\next",
+				"dev"
+			],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": "build"
+		},
+		{
+			"label": "Next Typecho: verify routes",
+			"type": "shell",
+			"command": "C:\\sandbox\\devtools\\node\\node-v24.13.0-win-x64\\node.exe",
+			"args": [
+				"scripts\\verify-routes.mjs"
+			],
+			"isBackground": false,
+			"problemMatcher": [],
+			"group": "test"
+		},
+		{
+			"label": "Next Typecho: lint",
+			"type": "shell",
+			"command": "C:\\sandbox\\devtools\\node\\node-v24.13.0-win-x64\\node.exe",
+			"args": [
+				"C:\\sandbox\\devtools\\node\\node-v24.13.0-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+				"exec",
+				"--yes",
+				"--package=pnpm@10",
+				"--",
+				"pnpm",
+				"lint"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		},
+		{
+			"label": "Next Typecho: typecheck",
+			"type": "shell",
+			"command": "C:\\sandbox\\devtools\\node\\node-v24.13.0-win-x64\\node.exe",
+			"args": [
+				"C:\\sandbox\\devtools\\node\\node-v24.13.0-win-x64\\node_modules\\npm\\bin\\npm-cli.js",
+				"exec",
+				"--yes",
+				"--package=pnpm@10",
+				"--",
+				"pnpm",
+				"typecheck"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$tsc"
+			],
+			"group": "build"
+		}
+	]
+}

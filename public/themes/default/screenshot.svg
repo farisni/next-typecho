@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="600" height="500" viewBox="0 0 600 500">
+  <rect width="600" height="500" fill="#fff"/>
+  <rect x="36" y="35" width="528" height="1" fill="#eee"/>
+  <text x="48" y="82" fill="#333" font-family="Georgia,serif" font-size="30">Hello World</text>
+  <text x="48" y="106" fill="#999" font-family="Georgia,serif" font-size="12" font-style="italic">Your description here.</text>
+  <rect x="438" y="67" width="112" height="26" rx="2" fill="#fff" stroke="#e9e9e9"/>
+  <text x="449" y="84" fill="#aaa" font-family="Arial,sans-serif" font-size="10">输入关键字搜索</text>
+  <g transform="translate(48 133)">
+    <rect width="48" height="28" fill="#f6f6f6" stroke="#eee"/><rect x="47" width="48" height="28" fill="#fff" stroke="#eee"/>
+    <text x="13" y="19" fill="#444" font-family="Arial,sans-serif" font-size="12">首页</text><text x="60" y="19" fill="#444" font-family="Arial,sans-serif" font-size="12">关于</text>
+  </g>
+  <line x1="36" y1="161" x2="564" y2="161" stroke="#eee"/>
+  <g transform="translate(48 190)">
+    <text fill="#3354aa" font-family="Arial,sans-serif" font-size="19" font-weight="bold">欢迎使用 Typecho</text>
+    <text y="28" fill="#999" font-family="Arial,sans-serif" font-size="10">作者: 管理员　时间: 2026年7月24日　分类: 默认分类</text>
+    <text y="63" fill="#444" font-family="Georgia,serif" font-size="12">如果您看到这篇文章, 表示您的 blog 已经安装成功.</text>
+    <line y1="93" x2="350" y2="93" stroke="#eee"/>
+    <text y="133" fill="#3354aa" font-family="Arial,sans-serif" font-size="19" font-weight="bold">使用 Markdown 专注写作</text>
+    <text y="161" fill="#999" font-family="Arial,sans-serif" font-size="10">作者: 管理员　时间: 2026年7月22日　分类: 随笔</text>
+    <text y="196" fill="#444" font-family="Georgia,serif" font-size="12">Markdown 源文便于编辑、迁移和版本管理。</text>
+  </g>
+  <g transform="translate(438 190)" font-family="Arial,sans-serif">
+    <text fill="#444" font-size="14" font-weight="bold">最新文章</text>
+    <text y="27" fill="#3354aa" font-size="11">欢迎使用 Typecho</text>
+    <text y="68" fill="#444" font-size="14" font-weight="bold">分类</text>
+    <text y="95" fill="#3354aa" font-size="11">默认分类 (1)</text>
+    <text y="136" fill="#444" font-size="14" font-weight="bold">其它</text>
+    <text y="163" fill="#3354aa" font-size="11">进入后台 (管理员)</text>
+  </g>
+  <text x="300" y="472" text-anchor="middle" fill="#aaa" font-family="Arial,sans-serif" font-size="11">Typecho Replica Theme 1.2</text>
+</svg>
