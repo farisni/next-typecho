@@ -2,7 +2,7 @@
   <rect width="600" height="500" fill="#fff"/>
   <rect x="36" y="35" width="528" height="1" fill="#eee"/>
   <text x="48" y="82" fill="#333" font-family="Georgia,serif" font-size="30">Dust In The Wind</text>
-  <text x="48" y="106" fill="#999" font-family="Georgia,serif" font-size="12" font-style="italic">Your description here.</text>
+  <text x="48" y="106" fill="#999" font-family="Georgia,serif" font-size="12" font-style="italic">人生如逆旅，我亦是行人。</text>
   <rect x="438" y="67" width="112" height="26" rx="2" fill="#fff" stroke="#e9e9e9"/>
   <text x="449" y="84" fill="#aaa" font-family="Arial,sans-serif" font-size="10">输入关键字搜索</text>
   <g transform="translate(48 133)">

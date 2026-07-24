@@ -26,7 +26,7 @@ async function main() {
       run(
         `INSERT OR IGNORE INTO site_settings
          (id, site_name, site_description, site_url, posts_per_page, created_at, updated_at)
-         VALUES (1, 'Dust In The Wind', 'Your description here.', 'http://localhost:3000', 5, ?, ?)`,
+         VALUES (1, 'Dust In The Wind', '人生如逆旅，我亦是行人。', 'http://localhost:3000', 5, ?, ?)`,
         now,
         now,
       );
@@ -58,7 +58,7 @@ async function main() {
     run(
       `INSERT OR IGNORE INTO site_settings
        (id, site_name, site_description, site_url, posts_per_page, created_at, updated_at)
-       VALUES (1, 'Dust In The Wind', 'Your description here.', 'http://localhost:3000', 5, ?, ?)`,
+       VALUES (1, 'Dust In The Wind', '人生如逆旅，我亦是行人。', 'http://localhost:3000', 5, ?, ?)`,
       now,
       now,
     );

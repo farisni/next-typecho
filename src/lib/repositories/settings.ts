@@ -2,7 +2,7 @@ import { get } from "@/lib/db";
 
 export const DEFAULT_SITE_SETTINGS = {
   siteName: "Next Typecho",
-  siteDescription: "Your description here.",
+  siteDescription: "人生如逆旅，我亦是行人。",
   postsPerPage: 6,
 };
 

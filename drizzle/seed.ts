@@ -30,7 +30,7 @@ async function main() {
   run("INSERT INTO categories (id, name, slug, created_at, updated_at) VALUES (?, ?, ?, ?, ?)", "category-notes", "随笔", "notes", now, now);
   run("INSERT INTO tags (id, name, slug, created_at, updated_at) VALUES (?, ?, ?, ?, ?)", "tag-nextjs", "Next.js", "nextjs", now, now);
   run("INSERT INTO tags (id, name, slug, created_at, updated_at) VALUES (?, ?, ?, ?, ?)", "tag-markdown", "Markdown", "markdown", now, now);
-  run("INSERT INTO site_settings (id, site_name, site_description, posts_per_page, created_at, updated_at) VALUES (1, ?, ?, ?, ?, ?)", "Next Typecho", "Your description here.", 6, now, now);
+  run("INSERT INTO site_settings (id, site_name, site_description, posts_per_page, created_at, updated_at) VALUES (1, ?, ?, ?, ?, ?)", "Next Typecho", "人生如逆旅，我亦是行人。", 6, now, now);
   run(
     `INSERT INTO users
      (id, username, email, password_hash, display_name, url, role, last_login_at, created_at, updated_at)
