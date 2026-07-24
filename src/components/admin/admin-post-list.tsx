@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { Clock, EyeOff, Globe, Lock, Trash2 } from "lucide-react";
 import { bulkManagePosts } from "@/actions/posts";
+import { AdminBulkMenu } from "@/components/admin/admin-bulk-menu";
 import type { PostStatus } from "@/lib/repositories/posts";
 
 type AdminPostItem = {
@@ -45,21 +47,6 @@ function buildQuery(currentQuery: string, changes: Record<string, string | null>
   }
   const query = params.toString();
   return `/admin/posts${query ? `?${query}` : ""}`;
-}
-
-function BulkMenu({ formId }: { formId: string }) {
-  return (
-    <details className="btn-group btn-drop post-bulk-menu">
-      <summary className="btn dropdown-toggle btn-s">选中项 <i className="i-caret-down" aria-hidden="true" /></summary>
-      <ul className="dropdown-menu">
-        <li><button form={formId} type="submit" name="operation" value="delete">删除</button></li>
-        <li><button form={formId} type="submit" name="operation" value="published">标记为<strong>公开</strong></button></li>
-        <li><button form={formId} type="submit" name="operation" value="waiting">标记为<strong>待审核</strong></button></li>
-        <li><button form={formId} type="submit" name="operation" value="hidden">标记为<strong>隐藏</strong></button></li>
-        <li><button form={formId} type="submit" name="operation" value="private">标记为<strong>私密</strong></button></li>
-      </ul>
-    </details>
-  );
 }
 
 function Pager({ page, totalPages, currentQuery }: { page: number; totalPages: number; currentQuery: string }) {
@@ -128,7 +115,16 @@ export function AdminPostList({
       <div className="typecho-list-operate">
         <div className="operate">
           <label><span className="sr-only">全选</span><input ref={topSelectAll} type="checkbox" className="typecho-table-select-all" checked={allSelected} onChange={(event) => selectAll(event.target.checked)} /></label>
-          <BulkMenu formId={formId} />
+          <AdminBulkMenu
+            formId={formId}
+            actions={[
+              { icon: Trash2, label: "删除", name: "operation", value: "delete", variant: "destructive" },
+              { icon: Globe, label: "公开", name: "operation", value: "published" },
+              { icon: Clock, label: "待审核", name: "operation", value: "waiting" },
+              { icon: EyeOff, label: "隐藏", name: "operation", value: "hidden" },
+              { icon: Lock, label: "私密", name: "operation", value: "private" },
+            ]}
+          />
         </div>
         <form method="get" className="search" role="search">
           {(keywords || categoryId) && <Link href={cancelFilterHref}>« 取消筛选</Link>}
@@ -197,7 +193,16 @@ export function AdminPostList({
       <div className="typecho-list-operate bottom-operate">
         <div className="operate">
           <label><span className="sr-only">全选</span><input ref={bottomSelectAll} type="checkbox" className="typecho-table-select-all" checked={allSelected} onChange={(event) => selectAll(event.target.checked)} /></label>
-          <BulkMenu formId={formId} />
+          <AdminBulkMenu
+            formId={formId}
+            actions={[
+              { icon: Trash2, label: "删除", name: "operation", value: "delete", variant: "destructive" },
+              { icon: Globe, label: "公开", name: "operation", value: "published" },
+              { icon: Clock, label: "待审核", name: "operation", value: "waiting" },
+              { icon: EyeOff, label: "隐藏", name: "operation", value: "hidden" },
+              { icon: Lock, label: "私密", name: "operation", value: "private" },
+            ]}
+          />
         </div>
         <Pager page={page} totalPages={totalPages} currentQuery={currentQuery} />
       </div>

@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Search } from "lucide-react";
 import { SiteNav } from "@/components/site/site-nav";
 
 type SiteHeaderProps = {
@@ -22,7 +23,9 @@ export function SiteHeader({ name, description, logoUrl }: SiteHeaderProps) {
             <form id="search" action="/" role="search">
               <label htmlFor="site-search-input" className="sr-only">搜索关键字</label>
               <input id="site-search-input" name="q" type="text" placeholder="输入关键字搜索" />
-              <button type="submit" aria-label="搜索">⌕</button>
+              <button type="submit" aria-label="搜索">
+                <Search aria-hidden="true" />
+              </button>
             </form>
           </div>
           <SiteNav />

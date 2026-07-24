@@ -2,25 +2,16 @@
 
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { Trash2 } from "lucide-react";
 import {
   bulkDeleteCategories,
   bulkDeleteTags,
   deleteCategory,
   deleteTag,
 } from "@/actions/taxonomies";
+import { AdminBulkMenu } from "@/components/admin/admin-bulk-menu";
 
 type TaxonomyItem = { id: string; name: string; slug: string };
-
-function BulkMenu({ formId }: { formId: string }) {
-  return (
-    <details className="btn-group btn-drop">
-      <summary className="btn dropdown-toggle btn-s">选中项 <i className="i-caret-down" aria-hidden="true" /></summary>
-      <ul className="dropdown-menu">
-        <li><button form={formId} type="submit">删除</button></li>
-      </ul>
-    </details>
-  );
-}
 
 function useTaxonomySelection(items: TaxonomyItem[]) {
   const [selected, setSelected] = useState<Set<string>>(() => new Set());
@@ -57,7 +48,7 @@ export function AdminCategoryList({ categories }: { categories: TaxonomyItem[] }
       <div className="typecho-list-operate">
         <div className="operate">
           <label><span className="sr-only">全选</span><input ref={selectAllRef} type="checkbox" className="typecho-table-select-all" checked={allSelected} onChange={(event) => selectAll(event.target.checked)} /></label>
-          <BulkMenu formId={formId} />
+          <AdminBulkMenu formId={formId} actions={[{ icon: Trash2, label: "删除", variant: "destructive" }]} />
         </div>
       </div>
       <form
@@ -107,7 +98,7 @@ export function AdminTagList({ tags }: { tags: TaxonomyItem[] }) {
       <div className="typecho-list-operate">
         <div className="operate">
           <label><span className="sr-only">全选</span><input ref={selectAllRef} type="checkbox" className="typecho-table-select-all" checked={allSelected} onChange={(event) => selectAll(event.target.checked)} /></label>
-          <BulkMenu formId={formId} />
+          <AdminBulkMenu formId={formId} actions={[{ icon: Trash2, label: "删除", variant: "destructive" }]} />
         </div>
       </div>
       <form

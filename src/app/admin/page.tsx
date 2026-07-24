@@ -14,7 +14,11 @@ export default async function AdminPage() {
       <AdminPageTitle title="网站概要" />
       <div className="typecho-dashboard">
         <div className="welcome-board">
-          <p>目前有 <em>{published.length}</em> 篇文章，并有 <em>0</em> 条评论在 <em>{categories.length}</em> 个分类中。<br />点击下面的链接快速开始：</p>
+          <p>
+            目前有 <em>{published.length}</em> 篇文章，并有 <em>0</em> 条评论在 <em>{categories.length}</em> 个分类中。
+            <br />
+            <span className="quick-start-hint">点击下面的链接快速开始：</span>
+          </p>
           <ul id="start-link">
             <li><Link href="/admin/posts/new">撰写新文章</Link></li>
             <li><Link href="/admin/categories">管理分类</Link></li>
