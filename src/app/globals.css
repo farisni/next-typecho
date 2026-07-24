@@ -1255,7 +1255,7 @@ a {
 .typecho-head-nav .admin-avatar-trigger [data-slot="avatar-fallback"] {
   background: #295f9f;
   color: #fff;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .typecho-head-nav .admin-nav-action:hover,
@@ -4215,7 +4215,7 @@ a {
 }
 
 .theme-handsome {
-  --handsome-topbar-height: 64px;
+  --handsome-topbar-height: 50px;
   --handsome-page-header-height: 100px;
   --handsome-accent: #295f9f;
   --handsome-sidebar: #edf2f4;
@@ -5359,6 +5359,31 @@ a {
   font-size: 18px;
 }
 
+.theme-handsome .post-detail-body .post-content h1,
+.theme-handsome .post-detail-body .post-content h2,
+.theme-handsome .post-detail-body .post-content h3,
+.theme-handsome .post-detail-body .post-content h4,
+.theme-handsome .post-detail-body .post-content h5,
+.theme-handsome .post-detail-body .post-content h6 {
+  font-family: "LXGW WenKai", "霞鹜文楷", "PingFang SC", sans-serif !important;
+  font-weight: 700 !important;
+  text-decoration-line: underline;
+  text-decoration-color: #d5d9de;
+  text-decoration-thickness: 0.12em;
+  text-underline-offset: 0.28em;
+  text-decoration-skip-ink: none;
+  transition: color 160ms ease, text-decoration-color 160ms ease;
+}
+
+.theme-handsome .post-detail-body .post-content h1:hover,
+.theme-handsome .post-detail-body .post-content h2:hover,
+.theme-handsome .post-detail-body .post-content h3:hover,
+.theme-handsome .post-detail-body .post-content h4:hover,
+.theme-handsome .post-detail-body .post-content h5:hover,
+.theme-handsome .post-detail-body .post-content h6:hover {
+  text-decoration-color: #295f9f;
+}
+
 .handsome-right-sidebar {
   display: flex;
   flex-direction: column;
@@ -5410,6 +5435,10 @@ a {
 .handsome-sidebar-tabs button:hover,
 .handsome-sidebar-tabs button.is-active {
   color: #5d6670;
+}
+
+.handsome-sidebar-tabs button.is-active {
+  color: var(--handsome-primary);
 }
 
 .handsome-sidebar-tabs svg {
