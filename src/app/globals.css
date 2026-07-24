@@ -4154,8 +4154,26 @@ a {
 }
 
 @media (max-width: 768px) {
+  body:has(.theme-default) {
+    overflow-x: hidden;
+    background: #fff;
+  }
+
   .theme-site {
     font-size: 81.25%;
+  }
+
+  .theme-default {
+    width: 100vw;
+    min-height: 100dvh;
+    margin-left: calc(50% - 50vw);
+    overflow-x: clip;
+  }
+
+  .theme-default .theme-container {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: none;
   }
 
   #header,
@@ -4171,6 +4189,29 @@ a {
   #nav-menu a {
     display: inline-block;
     margin: 0 -2px;
+  }
+
+  /* 移动端取消原版桌面布局的负边距，恢复标题、元信息与正文的阅读节奏。 */
+  .theme-default .post {
+    padding: 24px 0;
+  }
+
+  .theme-default .post-title {
+    margin: 0 0 10px;
+    line-height: 1.35;
+  }
+
+  .theme-default .post-meta {
+    margin: 0 0 18px;
+    line-height: 1.65;
+  }
+
+  .theme-default .post-content {
+    line-height: 1.75;
+  }
+
+  .theme-default .post-content > p:first-child {
+    margin-top: 0;
   }
 }
 
