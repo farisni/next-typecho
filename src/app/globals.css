@@ -2437,6 +2437,15 @@ a {
   filter: none;
 }
 
+.typecho-uiw-editor .w-md-editor-toolbar li.active > button:hover {
+  background: #e9e9e6;
+  color: #444;
+}
+
+.typecho-uiw-editor .w-md-editor-toolbar li.active > button:hover svg {
+  color: #444;
+}
+
 .typecho-uiw-editor .w-md-editor-content {
   min-height: 0;
   border: 1px solid #d9d9d6;
