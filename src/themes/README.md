@@ -14,5 +14,11 @@
 3. 将布局加入 `src/themes/renderers.tsx`。
 4. 添加以 `.theme-<slug>` 为根作用域的样式和主题截图。
 
+当前内置主题：
+
+- `default`：原版 Typecho 风格。
+- `classic-22`：Typecho Classic 22 风格。
+- `handsome`：固定左侧导航、顶部工具栏、文章主栏和右侧信息栏。
+
 前台路由只提供文章、分类和页面数据；当前主题负责整体布局。主题启用状态、
 预览 Cookie、配置 JSON 和 `custom.css` 均由现有主题服务统一处理。

@@ -2,8 +2,6 @@ import { z } from "zod";
 import {
   getThemeDefinition,
   isThemeSlug,
-  type ClassicThemeConfig,
-  type DefaultThemeConfig,
   type ThemeConfig,
   type ThemeSlug,
 } from "@/lib/themes/registry";
@@ -23,9 +21,6 @@ export const themeCustomCssSchema = z
   .max(100_000, "自定义 CSS 不能超过 100,000 个字符")
   .refine((value) => !/<\/style/i.test(value), "自定义 CSS 不能包含 </style 标签");
 
-export function parseThemeConfig(slug: "default", value: unknown): DefaultThemeConfig;
-export function parseThemeConfig(slug: "classic-22", value: unknown): ClassicThemeConfig;
-export function parseThemeConfig(slug: ThemeSlug, value: unknown): ThemeConfig;
 export function parseThemeConfig(slug: ThemeSlug, value: unknown): ThemeConfig {
   return getThemeDefinition(slug).configSchema.parse(value) as ThemeConfig;
 }

@@ -1,5 +1,6 @@
 import { classic22ThemeDefinition } from "@/themes/classic-22/definition";
 import { defaultThemeDefinition } from "@/themes/default/definition";
+import { handsomeThemeDefinition } from "@/themes/handsome/definition";
 
 export {
   classicThemeConfigSchema,
@@ -11,6 +12,12 @@ export {
   type DefaultSidebarBlock,
   type DefaultThemeConfig,
 } from "@/themes/default/definition";
+export {
+  handsomeRightSidebarBlocks,
+  handsomeThemeConfigSchema,
+  type HandsomeRightSidebarBlock,
+  type HandsomeThemeConfig,
+} from "@/themes/handsome/definition";
 export type {
   ThemeDefinition,
   ThemeSettingField,
@@ -20,12 +27,14 @@ export type {
 export const themeRegistry = {
   default: defaultThemeDefinition,
   "classic-22": classic22ThemeDefinition,
+  handsome: handsomeThemeDefinition,
 } as const;
 
 export type ThemeSlug = keyof typeof themeRegistry;
 export type ThemeConfig =
   | typeof defaultThemeDefinition.defaults
-  | typeof classic22ThemeDefinition.defaults;
+  | typeof classic22ThemeDefinition.defaults
+  | typeof handsomeThemeDefinition.defaults;
 
 export const themeSlugs = Object.keys(themeRegistry) as ThemeSlug[];
 

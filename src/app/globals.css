@@ -4215,6 +4215,478 @@ a {
   }
 }
 
+.theme-handsome {
+  --handsome-accent: #295f9f;
+  --handsome-sidebar: #182333;
+  --handsome-sidebar-muted: #94a3b8;
+  --handsome-background: #f3f5f8;
+  --handsome-surface: #fff;
+  --handsome-border: #e3e8ef;
+  display: grid;
+  min-height: 100dvh;
+  grid-template-columns: 236px minmax(0, 1fr);
+  background: var(--handsome-background);
+  color: #263244;
+  font-family: "Avenir Next", "PingFang SC", "Microsoft YaHei", sans-serif;
+}
+
+.handsome-sidebar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  height: 100dvh;
+  padding: 30px 20px 22px;
+  background:
+    radial-gradient(circle at 20% 0%, rgb(70 103 146 / 28%), transparent 34%),
+    var(--handsome-sidebar);
+  color: #fff;
+  flex-direction: column;
+}
+
+.handsome-identity {
+  display: flex;
+  color: #fff;
+  text-decoration: none;
+  align-items: center;
+  gap: 12px;
+}
+
+.handsome-identity:hover {
+  color: #fff;
+}
+
+.handsome-identity img,
+.handsome-avatar {
+  display: grid;
+  width: 46px;
+  height: 46px;
+  border: 2px solid rgb(255 255 255 / 20%);
+  border-radius: 50%;
+  background: var(--handsome-accent);
+  object-fit: cover;
+  place-items: center;
+}
+
+.handsome-identity strong {
+  overflow: hidden;
+  font-size: 16px;
+  letter-spacing: 0.01em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.handsome-nav {
+  display: flex;
+  margin-top: 42px;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.handsome-nav a,
+.handsome-sidebar-footer a {
+  display: flex;
+  min-height: 42px;
+  padding: 0 14px;
+  border-radius: 7px;
+  color: var(--handsome-sidebar-muted);
+  text-decoration: none;
+  align-items: center;
+  gap: 12px;
+  transition: background-color 160ms ease, color 160ms ease;
+}
+
+.handsome-nav a:first-child,
+.handsome-nav a:hover,
+.handsome-sidebar-footer a:hover {
+  background: rgb(255 255 255 / 9%);
+  color: #fff;
+}
+
+.handsome-nav svg,
+.handsome-sidebar-footer svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.9;
+}
+
+.handsome-sidebar-footer {
+  margin-top: auto;
+}
+
+.handsome-workspace {
+  min-width: 0;
+}
+
+.handsome-header {
+  position: sticky;
+  top: 0;
+  display: flex;
+  min-height: 64px;
+  padding: 0 34px;
+  border-bottom: 1px solid var(--handsome-border);
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 4px 18px rgb(30 45 65 / 4%);
+  backdrop-filter: blur(14px);
+  align-items: center;
+  justify-content: space-between;
+  z-index: 5;
+}
+
+.handsome-tools {
+  display: flex;
+  align-items: center;
+  gap: 26px;
+}
+
+.handsome-tools span {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  color: #7d8793;
+  place-items: center;
+}
+
+.handsome-tools svg {
+  width: 18px;
+  height: 18px;
+  stroke-width: 1.8;
+}
+
+.handsome-header-actions,
+.handsome-search {
+  display: flex;
+  align-items: center;
+}
+
+.handsome-header-actions {
+  gap: 18px;
+}
+
+.handsome-search {
+  width: 220px;
+  height: 36px;
+  padding: 0 12px;
+  border: 1px solid var(--handsome-border);
+  border-radius: 18px;
+  background: #f8fafc;
+  gap: 8px;
+}
+
+.handsome-search:focus-within {
+  border-color: var(--handsome-accent);
+  background: #fff;
+}
+
+.handsome-search svg {
+  width: 16px;
+  height: 16px;
+  color: #8b97a7;
+}
+
+.handsome-search input {
+  width: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #263244;
+  font: inherit;
+}
+
+.handsome-blog-header {
+  display: flex;
+  min-height: 132px;
+  padding: 28px 34px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.handsome-blog-header h1 {
+  margin: 0;
+  color: #1c293b;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: clamp(28px, 3vw, 44px);
+  line-height: 1.15;
+}
+
+.handsome-blog-description {
+  margin: 12px 0 0;
+  color: #718096;
+  font-size: 14px;
+}
+
+.handsome-content-grid {
+  display: grid;
+  padding: 0 34px 48px;
+  grid-template-columns: minmax(0, 1fr) 286px;
+  align-items: start;
+  gap: 22px;
+}
+
+.handsome-main-content {
+  min-width: 0;
+}
+
+.handsome-main-content .post,
+.handsome-main-content .post-near {
+  margin: 0 0 20px;
+  padding: 28px 30px;
+  border: 1px solid var(--handsome-border);
+  border-radius: 9px;
+  background: var(--handsome-surface);
+  box-shadow: 0 8px 28px rgb(35 52 72 / 4%);
+}
+
+.handsome-main-content .post-title {
+  margin: 0 0 13px;
+  font-size: 24px;
+  line-height: 1.35;
+}
+
+.handsome-main-content .post-title a {
+  color: #203047;
+  text-decoration: none;
+}
+
+.handsome-main-content .post-title a:hover {
+  color: var(--handsome-accent);
+}
+
+.handsome-main-content .post-meta {
+  display: flex;
+  margin: 0 0 20px;
+  color: #8993a2;
+  font-size: 12px;
+  flex-wrap: wrap;
+  gap: 7px 16px;
+}
+
+.handsome-main-content .post-meta li,
+.handsome-main-content .post-meta li:first-child {
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.handsome-main-content .post-content {
+  color: #4b586a;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 15px;
+  line-height: 1.85;
+}
+
+.handsome-main-content .post-content p {
+  margin: 0 0 1em;
+}
+
+.handsome-main-content .tags {
+  color: #7b8797;
+  font-size: 13px;
+}
+
+.handsome-main-content .post-near {
+  list-style: none;
+}
+
+.handsome-right-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.handsome-panel {
+  padding: 22px;
+  border: 1px solid var(--handsome-border);
+  border-radius: 9px;
+  background: var(--handsome-surface);
+}
+
+.handsome-panel h2 {
+  display: flex;
+  margin: 0 0 16px;
+  color: #314158;
+  font-size: 14px;
+  align-items: center;
+  gap: 8px;
+}
+
+.handsome-panel h2 svg {
+  width: 17px;
+  height: 17px;
+  color: var(--handsome-accent);
+}
+
+.handsome-panel ul {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  flex-direction: column;
+  gap: 11px;
+}
+
+.handsome-panel li {
+  display: flex;
+  color: #768396;
+  font-size: 13px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.handsome-panel li a {
+  overflow: hidden;
+  color: #5e6d80;
+  text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.handsome-panel li a:hover {
+  color: var(--handsome-accent);
+}
+
+.handsome-panel li span {
+  color: #a0a9b6;
+  font-variant-numeric: tabular-nums;
+}
+
+.handsome-profile-panel {
+  text-align: center;
+}
+
+.handsome-profile-panel h2 {
+  justify-content: center;
+}
+
+.handsome-profile-panel p {
+  margin: 0;
+  color: #7a8798;
+  font-family: Georgia, "Songti SC", serif;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+.handsome-panel-icon {
+  display: grid;
+  width: 48px;
+  height: 48px;
+  margin: 0 auto 13px;
+  border-radius: 50%;
+  background: rgb(41 95 159 / 9%);
+  color: var(--handsome-accent);
+  place-items: center;
+}
+
+.handsome-panel-icon svg {
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 1080px) {
+  .theme-handsome {
+    grid-template-columns: 210px minmax(0, 1fr);
+  }
+
+  .handsome-content-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .handsome-right-sidebar {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 720px) {
+  .theme-handsome {
+    display: block;
+  }
+
+  .handsome-sidebar {
+    position: relative;
+    display: flex;
+    width: 100%;
+    height: auto;
+    min-height: 64px;
+    padding: 10px 16px;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .handsome-identity img,
+  .handsome-avatar {
+    width: 38px;
+    height: 38px;
+  }
+
+  .handsome-identity strong,
+  .handsome-sidebar-footer,
+  .handsome-nav a span {
+    display: none;
+  }
+
+  .handsome-nav {
+    margin: 0 0 0 auto;
+    flex-direction: row;
+    gap: 2px;
+  }
+
+  .handsome-nav a {
+    min-height: 40px;
+    padding: 0 12px;
+  }
+
+  .handsome-header {
+    min-height: 56px;
+    padding: 0 16px;
+  }
+
+  .handsome-tools {
+    gap: 4px;
+  }
+
+  .handsome-tools span:nth-child(n + 3) {
+    display: none;
+  }
+
+  .handsome-search {
+    width: min(52vw, 210px);
+  }
+
+  .handsome-blog-header {
+    min-height: 0;
+    padding: 26px 16px;
+  }
+
+  .handsome-blog-header h1 {
+    font-size: 30px;
+  }
+
+  .handsome-content-grid {
+    padding: 0 16px 32px;
+  }
+
+  .handsome-main-content .post,
+  .handsome-main-content .post-near {
+    padding: 22px 20px;
+  }
+
+  .handsome-main-content .post-title {
+    font-size: 21px;
+    text-align: left;
+  }
+
+  .handsome-main-content .post-meta {
+    text-align: left;
+  }
+
+  .handsome-right-sidebar {
+    display: flex;
+  }
+}
+
 :root {
   --background: #f8fafc;
   --foreground: #0f172a;

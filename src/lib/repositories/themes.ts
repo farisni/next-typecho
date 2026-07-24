@@ -2,8 +2,7 @@ import { get } from "@/lib/db";
 import {
   getDefaultThemeConfig,
   isThemeSlug,
-  type ClassicThemeConfig,
-  type DefaultThemeConfig,
+  type ThemeConfig,
   type ThemeSlug,
 } from "@/lib/themes/registry";
 import { parseThemeConfig, themeCustomCssSchema } from "@/lib/validation/themes";
@@ -13,9 +12,11 @@ type ThemeSettingsRow = {
   customCss: string;
 };
 
-export type ResolvedTheme =
-  | { slug: "default"; config: DefaultThemeConfig; customCss: string }
-  | { slug: "classic-22"; config: ClassicThemeConfig; customCss: string };
+export type ResolvedTheme = {
+  slug: ThemeSlug;
+  config: ThemeConfig;
+  customCss: string;
+};
 
 export function getActiveThemeSlug(): ThemeSlug {
   const value = get<{ activeTheme: string }>(
@@ -44,25 +45,12 @@ function readStoredConfig(slug: ThemeSlug) {
   }
 }
 
-export function getResolvedTheme(slug: "default"): Extract<ResolvedTheme, { slug: "default" }>;
-export function getResolvedTheme(slug: "classic-22"): Extract<ResolvedTheme, { slug: "classic-22" }>;
-export function getResolvedTheme(slug: ThemeSlug): ResolvedTheme;
 export function getResolvedTheme(slug: ThemeSlug): ResolvedTheme {
   const stored = readStoredConfig(slug);
 
   try {
-    if (slug === "default") {
-      return { slug, config: parseThemeConfig(slug, stored.value), customCss: stored.customCss };
-    }
     return { slug, config: parseThemeConfig(slug, stored.value), customCss: stored.customCss };
   } catch {
-    if (slug === "default") {
-      return {
-        slug,
-        config: parseThemeConfig(slug, getDefaultThemeConfig(slug)),
-        customCss: stored.customCss,
-      };
-    }
     return {
       slug,
       config: parseThemeConfig(slug, getDefaultThemeConfig(slug)),

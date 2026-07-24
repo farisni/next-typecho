@@ -1,5 +1,10 @@
 import { get, run, transaction } from "@/lib/db";
-import { getDefaultThemeConfig, type ThemeConfig, type ThemeSlug } from "@/lib/themes/registry";
+import {
+  getDefaultThemeConfig,
+  isThemeSlug,
+  type ThemeConfig,
+  type ThemeSlug,
+} from "@/lib/themes/registry";
 
 function writeDefaultConfig(slug: ThemeSlug, now: number) {
   run(
@@ -25,7 +30,7 @@ export function activateTheme(slug: ThemeSlug) {
     if (activeTheme === slug) return;
 
     // 与原版一致：切换外观会清除旧外观配置，并用新外观默认值初始化。
-    if (activeTheme === "default" || activeTheme === "classic-22") {
+    if (isThemeSlug(activeTheme)) {
       writeDefaultConfig(activeTheme, now);
     }
     writeDefaultConfig(slug, now);
