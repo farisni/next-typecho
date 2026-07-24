@@ -157,6 +157,11 @@ export function PostSidebar({ children }: PostSidebarProps) {
                       type="button"
                       title="从列表移除"
                       onClick={() => {
+                        window.dispatchEvent(
+                          new CustomEvent("typecho:remove-attachment", {
+                            detail: { url: attachment.url },
+                          }),
+                        );
                         setAttachments((current) => current.filter((item) => item.id !== attachment.id));
                       }}
                     >

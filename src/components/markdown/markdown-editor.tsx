@@ -84,8 +84,28 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
       });
     }
 
+    function handleRemoveAttachment(event: Event) {
+      const { url } = (event as CustomEvent<{ url: string }>).detail;
+      const escapedUrl = url.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+      const source = contentRef.current;
+      const wholeLinePattern = new RegExp(
+        `^[\\t ]*!\\[[^\\]]*\\]\\(${escapedUrl}\\)[\\t ]*(?:\\r?\\n|$)`,
+        "gm",
+      );
+      const inlinePattern = new RegExp(`!\\[[^\\]]*\\]\\(${escapedUrl}\\)`, "g");
+      const nextContent = source
+        .replace(wholeLinePattern, "")
+        .replace(inlinePattern, "");
+
+      if (nextContent !== source) changeContent(nextContent);
+    }
+
     window.addEventListener("typecho:insert-attachment", handleInsertAttachment);
-    return () => window.removeEventListener("typecho:insert-attachment", handleInsertAttachment);
+    window.addEventListener("typecho:remove-attachment", handleRemoveAttachment);
+    return () => {
+      window.removeEventListener("typecho:insert-attachment", handleInsertAttachment);
+      window.removeEventListener("typecho:remove-attachment", handleRemoveAttachment);
+    };
   }, []);
 
   function focusEditor() {
