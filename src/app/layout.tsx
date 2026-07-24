@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import "@mdxeditor/editor/style.css";
+import "@uiw/react-md-editor/markdown-editor.css";
 import "./globals.css";
 
 export const metadata: Metadata = {

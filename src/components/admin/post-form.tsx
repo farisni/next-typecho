@@ -31,11 +31,6 @@ export function PostForm({ action, categories, tags, value, preferences }: PostF
         <p className="title"><label className="sr-only" htmlFor="title">标题</label><input id="title" className="title-input" name="title" defaultValue={value?.title} placeholder="标题" autoComplete="off" required /></p>
         <p className="url-slug"><span>http://localhost:3000/posts/</span><label className="sr-only" htmlFor="slug">网址缩略名</label><input id="slug" className="mono slug-input" name="slug" defaultValue={value?.slug} placeholder="hello-next-typecho" required /></p>
         <MarkdownEditor defaultValue={value?.content} />
-        <details className="excerpt-panel">
-          <summary>文章摘要</summary>
-          <label className="sr-only" htmlFor="excerpt">摘要</label>
-          <textarea id="excerpt" name="excerpt" defaultValue={value?.excerpt ?? ""} placeholder="可选；留空时前台将截取正文" />
-        </details>
         <p className="post-submit">
           <span></span>
           <span className="right">

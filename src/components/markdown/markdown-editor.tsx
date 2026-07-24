@@ -1,75 +1,53 @@
 "use client";
 
-import { useRef, useState, useTransition } from "react";
-import {
-  BlockTypeSelect,
-  BoldItalicUnderlineToggles,
-  CodeToggle,
-  CreateLink,
-  InsertImage,
-  InsertTable,
-  InsertThematicBreak,
-  ListsToggle,
-  MDXEditor,
-  MDXEditorMethods,
-  Separator,
-  UndoRedo,
-  codeBlockPlugin,
-  codeMirrorPlugin,
-  headingsPlugin,
-  imagePlugin,
-  linkDialogPlugin,
-  linkPlugin,
-  listsPlugin,
-  markdownShortcutPlugin,
-  quotePlugin,
-  tablePlugin,
-  thematicBreakPlugin,
-  toolbarPlugin,
-} from "@mdxeditor/editor";
-import { uploadImage } from "@/actions/upload-image";
-import { MarkdownContent } from "@/components/markdown/markdown-content";
+import { useRef, useState } from "react";
+import type { PointerEvent as ReactPointerEvent } from "react";
+import MDEditor, { commands } from "@uiw/react-md-editor";
 
 type MarkdownEditorProps = {
   defaultValue?: string;
 };
 
+const typechoEditorCommands = [
+  { ...commands.bold, icon: <span className="typecho-markdown-icon typecho-markdown-icon-bold" /> },
+  { ...commands.italic, icon: <span className="typecho-markdown-icon typecho-markdown-icon-italic" /> },
+  commands.divider,
+  { ...commands.link, icon: <span className="typecho-markdown-icon typecho-markdown-icon-link" /> },
+  { ...commands.quote, icon: <span className="typecho-markdown-icon typecho-markdown-icon-quote" /> },
+  { ...commands.code, icon: <span className="typecho-markdown-icon typecho-markdown-icon-code" /> },
+  { ...commands.image, icon: <span className="typecho-markdown-icon typecho-markdown-icon-image" /> },
+  commands.divider,
+  { ...commands.orderedListCommand, icon: <span className="typecho-markdown-icon typecho-markdown-icon-ordered-list" /> },
+  { ...commands.unorderedListCommand, icon: <span className="typecho-markdown-icon typecho-markdown-icon-unordered-list" /> },
+  { ...commands.title, icon: <span className="typecho-markdown-icon typecho-markdown-icon-heading" /> },
+  { ...commands.hr, icon: <span className="typecho-markdown-icon typecho-markdown-icon-thematic-break" /> },
+];
+
 export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
   const [content, setContent] = useState(defaultValue);
   const [mode, setMode] = useState<"write" | "preview">("write");
-  const [uploadMessage, setUploadMessage] = useState("");
-  const [isUploading, startUpload] = useTransition();
-  const fileInput = useRef<HTMLInputElement>(null);
-  const editorRef = useRef<MDXEditorMethods>(null);
+  const [editorHeight, setEditorHeight] = useState(452);
+  const editorHeightRef = useRef(editorHeight);
 
-  async function uploadImageForEditor(image: File) {
-    const formData = new FormData();
-    formData.set("image", image);
-    const uploadedImage = await uploadImage(formData);
-    return uploadedImage.url;
-  }
+  function resizeEditor(event: ReactPointerEvent<HTMLDivElement>) {
+    event.preventDefault();
 
-  function handleUpload() {
-    const file = fileInput.current?.files?.[0];
-    if (!file) return setUploadMessage("请先选择图片");
+    const startY = event.clientY;
+    const startHeight = editorHeightRef.current;
 
-    startUpload(async () => {
-      try {
-        const formData = new FormData();
-        formData.set("image", file);
-        const image = await uploadImage(formData);
-        const imageMarkdown = `![图片描述](${image.url})`;
-        if (editorRef.current) {
-          editorRef.current.insertMarkdown(imageMarkdown);
-        } else {
-          setContent((current) => `${current}${current ? "\n\n" : ""}${imageMarkdown}`);
-        }
-        setUploadMessage("上传成功，Markdown 图片语法已插入正文");
-        if (fileInput.current) fileInput.current.value = "";
-      } catch (error) {
-        setUploadMessage(error instanceof Error ? error.message : "上传失败");
-      }
-    });
+    function handlePointerMove(pointerEvent: PointerEvent) {
+      const nextHeight = Math.max(452, startHeight + pointerEvent.clientY - startY);
+      editorHeightRef.current = nextHeight;
+      setEditorHeight(nextHeight);
+    }
+
+    function handlePointerUp() {
+      window.removeEventListener("pointermove", handlePointerMove);
+      window.removeEventListener("pointerup", handlePointerUp);
+    }
+
+    window.addEventListener("pointermove", handlePointerMove);
+    window.addEventListener("pointerup", handlePointerUp);
   }
 
   return (
@@ -80,67 +58,27 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
           <button type="button" className={mode === "preview" ? "active" : undefined} onClick={() => setMode("preview")}>预览</button>
         </div>
       </div>
-      <label className="sr-only" htmlFor="content">Markdown 内容</label>
-      <textarea id="content" name="content" className="editor-value" value={content} onChange={() => undefined} required readOnly />
-      {mode === "write" ? (
-        <div className="typecho-mdx-editor">
-          <MDXEditor
-            ref={editorRef}
-            markdown={content}
-            onChange={setContent}
-            contentEditableClassName="typecho-mdx-content"
-            plugins={[
-              headingsPlugin(),
-              listsPlugin(),
-              quotePlugin(),
-              thematicBreakPlugin(),
-              linkPlugin(),
-              linkDialogPlugin(),
-              codeBlockPlugin({ defaultCodeBlockLanguage: "text" }),
-              codeMirrorPlugin({
-                codeBlockLanguages: {
-                  text: "纯文本",
-                  javascript: "JavaScript",
-                  typescript: "TypeScript",
-                  markdown: "Markdown",
-                  html: "HTML",
-                  css: "CSS",
-                  json: "JSON",
-                  bash: "Bash",
-                },
-              }),
-              tablePlugin(),
-              markdownShortcutPlugin(),
-              imagePlugin({ imageUploadHandler: uploadImageForEditor }),
-              toolbarPlugin({
-                toolbarContents: () => (
-                  <>
-                    <UndoRedo />
-                    <Separator />
-                    <BoldItalicUnderlineToggles />
-                    <CreateLink />
-                    <InsertImage />
-                    <Separator />
-                    <ListsToggle options={["number", "bullet"]} />
-                    <BlockTypeSelect />
-                    <CodeToggle />
-                    <InsertTable />
-                    <InsertThematicBreak />
-                  </>
-                ),
-              }),
-            ]}
-          />
+      <input type="hidden" name="content" value={content} />
+      <div className="typecho-uiw-editor" data-color-mode="light">
+        <MDEditor
+          value={content}
+          onChange={(value) => setContent(value ?? "")}
+          preview={mode === "write" ? "edit" : "preview"}
+          height={editorHeight}
+          visibleDragbar={false}
+          commands={typechoEditorCommands}
+          extraCommands={[]}
+          textareaProps={{ id: "markdown-editor-source", "aria-label": "Markdown 内容" }}
+        />
+        <div
+          className="typecho-editor-resize"
+          role="separator"
+          aria-label="调整编辑器高度"
+          aria-orientation="horizontal"
+          onPointerDown={resizeEditor}
+        >
+          <i />
         </div>
-      ) : (
-        <div className="wmd-preview">{content ? <MarkdownContent content={content} /> : <p>预览会在输入后显示。</p>}</div>
-      )}
-      <div className="upload-panel">
-        <div className="upload-area">
-          <input ref={fileInput} type="file" accept="image/jpeg,image/png,image/gif,image/webp" />
-          <button type="button" className="btn btn-s" disabled={isUploading} onClick={handleUpload}>{isUploading ? "上传中..." : "上传并插入图片"}</button>
-        </div>
-        {uploadMessage && <p className="upload-message">{uploadMessage}</p>}
       </div>
     </div>
   );
