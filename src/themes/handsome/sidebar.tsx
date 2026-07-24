@@ -30,11 +30,19 @@ export function Sidebar({
   return (
     <aside className="handsome-sidebar" aria-label="博客导航">
       <Link className="handsome-identity" href="/">
-        {logoUrl ? (
-          <img src={logoUrl} alt={name} />
-        ) : (
-          <img src="/images/avatar.png" alt={name} />
-        )}
+        <span className="handsome-avatar-wrap">
+          {logoUrl ? (
+            <img src={logoUrl} alt={name} />
+          ) : (
+            <img src="/images/avatar.png" alt={name} />
+          )}
+          <span
+            className="handsome-profile-status"
+            data-status="vacation"
+            title="度假中"
+            aria-label="当前状态：度假中"
+          />
+        </span>
         <span className="handsome-identity-copy">
           <strong>{user?.displayName || "Faris"}</strong>
           <span>Developer &amp; Blogger</span>

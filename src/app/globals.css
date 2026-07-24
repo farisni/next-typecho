@@ -4281,6 +4281,47 @@ a {
   place-items: center;
 }
 
+.handsome-avatar-wrap {
+  position: relative;
+  display: grid;
+  flex: 0 0 auto;
+  place-items: center;
+}
+
+.handsome-profile-status {
+  position: absolute;
+  right: -3px;
+  bottom: -2px;
+  display: grid;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--handsome-sidebar);
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgb(38 55 64 / 14%);
+  place-items: center;
+}
+
+.handsome-profile-status::before {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", sans-serif;
+  font-size: 11px;
+  line-height: 1;
+  content: "🧑‍💻";
+}
+
+.handsome-profile-status[data-status="working"] {
+  background: #2f9e63;
+  color: #fff;
+}
+
+.handsome-profile-status[data-status="vacation"] {
+  background: #fff;
+  color: inherit;
+}
+
+.handsome-profile-status[data-status="vacation"]::before {
+  content: "🌴";
+}
+
 .handsome-identity strong {
   overflow: hidden;
   font-size: 16px;
