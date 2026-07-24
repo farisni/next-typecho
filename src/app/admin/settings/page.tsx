@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic";
 export default async function SettingsPage() {
   const settings = await getSiteSettings();
   return (
-    <>
+    <section className="settings-page-column">
       <AdminPageTitle title="基本设置" />
       <div className="admin-option-wrap">
         <form action={updateSiteSettings}>
@@ -19,6 +19,6 @@ export default async function SettingsPage() {
           <ul className="typecho-option typecho-option-submit"><li><button className="btn primary" type="submit">保存设置</button></li></ul>
         </form>
       </div>
-    </>
+    </section>
   );
 }
