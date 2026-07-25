@@ -91,6 +91,15 @@ export function listPublishedPosts(page: number, pageSize: number) {
   return paginate(publishedWhere, [Date.now()], page, pageSize);
 }
 
+export function listAllPublishedPosts() {
+  return hydrate(
+    all<RawPost>(
+      `${postSelect} WHERE ${publishedWhere} ORDER BY p.published_at DESC`,
+      Date.now(),
+    ),
+  );
+}
+
 export function getPublishedPostBySlug(slug: string) {
   const row = get<RawPost>(
     `${postSelect} WHERE p.slug = ? AND ${publishedWhere} LIMIT 1`,

@@ -63,7 +63,7 @@ export function PaperThemeLayout({
         <nav className="paper-nav" aria-label="站点导航">
           <Link href="/">Home</Link>
           <Link href="/start-page.html">About</Link>
-          <Link href="/">Blog</Link>
+          <Link href="/posts">Posts</Link>
           <Link href="/feed.xml">Notes</Link>
         </nav>
       </header>
@@ -95,7 +95,9 @@ export function PaperThemeLayout({
         </section>
 
         <section className="paper-posts" aria-labelledby="paper-posts-title">
-          <h2 id="paper-posts-title" className="paper-section-title">Posts</h2>
+          <h2 id="paper-posts-title" className="paper-section-title">
+            <Link href="/posts">Posts</Link>
+          </h2>
           <div className="paper-post-list">{children}</div>
         </section>
       </main>
