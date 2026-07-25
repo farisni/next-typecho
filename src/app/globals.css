@@ -744,7 +744,7 @@ html[data-paper-theme="dark"] body {
 .paper-header-actions a,
 .paper-header-actions button {
   display: grid;
-  width: 28px;
+  width: 42px;
   height: 28px;
   padding: 0;
   place-items: center;
@@ -8086,14 +8086,17 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .handsome-sidebar-tabs {
-  height: 64px;
+  height: 44px;
   margin: 0 -24px 18px;
+  padding: 0;
   border-radius: 0;
   border-bottom: 1px solid #eee;
   background: #fff;
 }
 
 .theme-lite .handsome-sidebar-tabs button {
+  min-height: 44px;
+  border-radius: 0;
   color: #999;
 }
 
@@ -8101,7 +8104,15 @@ body:has(.theme-lite) {
   color: #444;
 }
 
+.theme-lite .handsome-sidebar-tabs svg {
+  width: 18px;
+  height: 18px;
+}
+
 .theme-lite .handsome-sidebar-tab-indicator {
+  top: auto;
+  left: 0;
+  width: calc(100% / 3);
   bottom: -1px;
   height: 2px;
   border-radius: 0;
