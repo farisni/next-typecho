@@ -6,6 +6,7 @@ import {
   Search,
   TrendingUp,
 } from "lucide-react";
+import { HeaderScrollProgress } from "@/themes/handsome/header-scroll-progress";
 
 export function Header() {
   return (
@@ -31,6 +32,7 @@ export function Header() {
           />
         </form>
       </div>
+      <HeaderScrollProgress />
     </header>
   );
 }
