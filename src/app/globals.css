@@ -2079,16 +2079,13 @@ a {
 
 /* MDXEditor 自带工具栏，模式切换层只覆盖在右侧，不再额外占一整行。 */
 .editor > .wmd-button-bar {
-  position: relative;
-  z-index: 4;
-  height: 10px;
-  min-height: 10px;
+  position: static;
+  height: 32px;
+  min-height: 32px;
 }
 
 .editor > .wmd-button-bar .wmd-edittab {
-  position: absolute;
-  top: 0;
-  right: 0;
+  position: static;
 }
 
 .wmd-button-row {
@@ -2415,9 +2412,10 @@ a {
 
 .typecho-uiw-editor .w-md-editor {
   --md-editor-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  border: 1px solid transparent;
-  border-radius: 4px;
-  background: #fff;
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: transparent;
+  box-shadow: none !important;
   color: #444;
   font-family: inherit;
 }
@@ -2533,6 +2531,136 @@ a {
 
 .typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown {
   background: transparent !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown {
+  color: #46515d !important;
+  font-family: var(--font-sans), "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.9 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown p,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown li,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown blockquote {
+  font-size: 16px !important;
+  line-height: 1.9 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h1,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h2,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h3,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h4,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h5,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h6 {
+  width: auto;
+  margin-left: 0;
+  padding: 2px 0 3px 14px;
+  border-left: 4px solid #e97a5b;
+  background: transparent !important;
+  color: #171717 !important;
+  font-family: var(--font-sans), "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h1 {
+  font-size: 24px !important;
+  line-height: 1.4 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h2 {
+  font-size: 21px !important;
+  line-height: 1.45 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown h3 {
+  font-size: 18px !important;
+  line-height: 1.5 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown strong {
+  color: #d6674d !important;
+  font-weight: 700 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown pre,
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown pre {
+  font-size: 14px !important;
+  line-height: 1.7 !important;
+}
+
+.typecho-uiw-editor .w-md-editor.w-md-editor-fullscreen .w-md-editor-preview .wmde-markdown code {
+  font-size: 14px !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown {
+  color: #46515d !important;
+  font-family: var(--font-sans), "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  font-size: 16px !important;
+  line-height: 1.9 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown p,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown li,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown blockquote {
+  font-size: 16px !important;
+  line-height: 1.9 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h1,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h2,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h3,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h4,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h5,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h6 {
+  width: auto;
+  margin-left: 0;
+  padding: 2px 0 3px 14px;
+  border-left: 4px solid #e97a5b;
+  border-bottom: 0 !important;
+  background: transparent !important;
+  background-image: none !important;
+  color: #171717 !important;
+  font-family: var(--font-sans), "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  font-weight: 600 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h1 {
+  font-size: 24px !important;
+  line-height: 1.4 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h2 {
+  font-size: 21px !important;
+  line-height: 1.45 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown h3 {
+  font-size: 18px !important;
+  line-height: 1.5 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown strong {
+  color: #d6674d !important;
+  font-weight: 700 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown pre,
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown code {
+  font-family: Menlo, Monaco, Consolas, "Courier New", monospace !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown pre {
+  font-size: 14px !important;
+  line-height: 1.7 !important;
+}
+
+.typecho-uiw-editor .w-md-editor-preview .wmde-markdown code {
+  font-size: 14px !important;
 }
 
 .typecho-uiw-editor .w-md-editor-bar {
