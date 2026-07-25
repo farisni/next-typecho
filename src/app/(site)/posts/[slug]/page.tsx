@@ -9,7 +9,6 @@ import {
   ThumbsUp,
   Share2,
   Star,
-  UserRound,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
 import { PaperTableOfContents } from "@/components/site/article-toc";
@@ -33,11 +32,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           <div className="post-detail-header-content">
             <h1 className="post-title"><Link href={`/posts/${post.slug}`}>{post.title}</Link></h1>
             <ul className="post-meta">
-              <li>
-                <UserRound className="post-meta-icon" aria-hidden="true" />
-                <span className="post-meta-label">作者: </span>
-                <span>管理员</span>
-              </li>
               {post.publishedAt && (
                 <li>
                   <Clock3 className="post-meta-icon" aria-hidden="true" />

@@ -27,6 +27,7 @@ DEFAULT_USER = "root"
 DEFAULT_KEY = Path.home() / ".ssh" / "id_ed25519"
 DEFAULT_REMOTE_ROOT = "/opt/next-typecho"
 DEFAULT_DOMAIN = "www.farisni.com"
+DEFAULT_APEX_DOMAIN = "farisni.com"
 DEFAULT_LEGACY_DOMAIN = "savor.farisni.com"
 DEFAULT_CERT_NAME = "savor.farisni.com"
 DEFAULT_NPM_REGISTRY = "https://registry.npmmirror.com"
@@ -91,7 +92,7 @@ def make_archive(project_dir: Path) -> Path:
 
 
 def validate_options(args: argparse.Namespace) -> None:
-    for label, value in (("域名", args.domain), ("旧域名", args.legacy_domain), ("证书名称", args.cert_name)):
+    for label, value in (("主域名", args.domain), ("裸域名", args.apex_domain), ("旧域名", args.legacy_domain), ("证书名称", args.cert_name)):
         if not SAFE_DOMAIN.fullmatch(value):
             raise SystemExit(f"{label}包含不支持的字符: {value}")
 
@@ -127,6 +128,7 @@ releases="$root/releases"
 release="$releases/$(date +%Y%m%d%H%M%S%N)"
 registry={q(args.npm_registry)}
 domain={q(args.domain)}
+apex_domain={q(args.apex_domain)}
 site_url={q(f"https://{args.domain}")}
 legacy_domain={q(args.legacy_domain)}
 cert_name={q(args.cert_name)}
@@ -171,9 +173,12 @@ test -x "$release/node_modules/.bin/next"
 echo '[5/7] 配置 HTTPS 和 Nginx'
 certificate="/etc/letsencrypt/live/$cert_name/fullchain.pem"
 certificate_key="/etc/letsencrypt/live/$cert_name/privkey.pem"
-if [ ! -s "$certificate" ] || ! openssl x509 -in "$certificate" -noout -text | grep -q "DNS:$domain"; then
+if [ ! -s "$certificate" ] \
+  || ! openssl x509 -in "$certificate" -noout -text | grep -q "DNS:$legacy_domain" \
+  || ! openssl x509 -in "$certificate" -noout -text | grep -q "DNS:$domain" \
+  || ! openssl x509 -in "$certificate" -noout -text | grep -q "DNS:$apex_domain"; then
   certbot certonly --nginx --non-interactive --agree-tos --no-eff-email \\
-    --expand --cert-name "$cert_name" -d "$legacy_domain" -d "$domain"
+    --expand --cert-name "$cert_name" -d "$legacy_domain" -d "$domain" -d "$apex_domain"
 fi
 if [ ! -s "$certificate" ] || [ ! -s "$certificate_key" ]; then
   echo 'HTTPS 证书不存在，停止部署。' >&2
@@ -183,6 +188,8 @@ if [ -f /etc/nginx/conf.d/savor-manager.conf ]; then
   cp /etc/nginx/conf.d/savor-manager.conf "/etc/nginx/conf.d/savor-manager.conf.bak.$(date +%Y%m%d%H%M%S)"
 fi
 cat > /etc/nginx/conf.d/savor-manager.conf <<'NGINX'
+proxy_cache_path /var/cache/nginx/next_typecho levels=1:2 keys_zone=next_typecho_static:20m max_size=1g inactive=1d use_temp_path=off;
+
 map $http_upgrade $connection_upgrade_next_typecho {{
     default upgrade;
     ""      close;
@@ -190,13 +197,53 @@ map $http_upgrade $connection_upgrade_next_typecho {{
 server {{
     listen 443 ssl;
     listen [::]:443 ssl;
-    server_name {args.domain};
+    server_name {args.domain} {args.apex_domain};
     ssl_certificate /etc/letsencrypt/live/{args.cert_name}/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/{args.cert_name}/privkey.pem;
     include /etc/letsencrypt/options-ssl-nginx.conf;
     ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem;
+    if ($host = "{args.apex_domain}") {{
+        return 301 https://{args.domain}$request_uri;
+    }}
     client_max_body_size 1m;
-    location / {{
+    location ^~ /_next/static/ {{
+        alias /opt/next-typecho/current/.next/static/;
+        access_log off;
+        expires 1y;
+        add_header Cache-Control "public, max-age=31536000, immutable";
+        add_header X-Static-Cache HIT always;
+    }}
+
+    location ^~ /uploads/ {{
+        alias /opt/next-typecho/data/uploads/;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000, stale-while-revalidate=86400";
+    }}
+
+    location /favicon.ico {{
+        root /opt/next-typecho/current/public;
+        access_log off;
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+        try_files $uri =404;
+    }}
+
+    location /robots.txt {{
+        root /opt/next-typecho/current/public;
+        access_log off;
+        try_files $uri =404;
+    }}
+
+    location /static/ {{
+        root /opt/next-typecho/current/public;
+        access_log off;
+        try_files $uri @next_proxy;
+        expires 30d;
+        add_header Cache-Control "public, max-age=2592000";
+    }}
+
+    location @next_proxy {{
         proxy_pass http://127.0.0.1:8000;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
@@ -209,6 +256,14 @@ server {{
         proxy_send_timeout 70s;
         proxy_read_timeout 70s;
         proxy_buffering off;
+        proxy_cache next_typecho_static;
+        proxy_cache_methods GET HEAD;
+        proxy_cache_valid 200 301 302 304 10m;
+        add_header X-Static-Cache $upstream_cache_status always;
+    }}
+
+    location / {{
+        try_files $uri $uri/ @next_proxy;
     }}
 }}
 server {{
@@ -224,7 +279,7 @@ server {{
 server {{
     listen 80;
     listen [::]:80;
-    server_name {args.domain} {args.legacy_domain};
+server_name {args.domain} {args.legacy_domain} {args.apex_domain};
     return 301 https://{args.domain}$request_uri;
 }}
 NGINX
@@ -284,6 +339,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--identity", type=Path, default=DEFAULT_KEY)
     parser.add_argument("--remote-root", default=DEFAULT_REMOTE_ROOT)
     parser.add_argument("--domain", default=DEFAULT_DOMAIN)
+    parser.add_argument("--apex-domain", default=DEFAULT_APEX_DOMAIN)
     parser.add_argument("--legacy-domain", default=DEFAULT_LEGACY_DOMAIN)
     parser.add_argument("--cert-name", default=DEFAULT_CERT_NAME)
     parser.add_argument("--npm-registry", default=os.environ.get("NPM_REGISTRY", DEFAULT_NPM_REGISTRY))
