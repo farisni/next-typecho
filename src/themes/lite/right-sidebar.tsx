@@ -1,4 +1,5 @@
 import { getSidebarContent } from "@/lib/repositories/posts";
+import { ArticleToc } from "@/components/site/article-toc";
 import type { LiteThemeConfig } from "@/themes/lite/definition";
 import { PopularPostsWidget } from "@/themes/lite/widgets/popular-posts-widget";
 
@@ -16,6 +17,7 @@ export function RightSidebar({
   return (
     <aside className="handsome-right-sidebar" aria-label="博客信息">
       <PopularPostsWidget posts={recentPosts} />
+      <ArticleToc />
     </aside>
   );
 }

@@ -114,6 +114,7 @@ export function ArticleToc() {
 
   return (
     <nav ref={tocRef} className="handsome-article-toc" aria-label="文章目录">
+      <h2 className="handsome-article-toc-title">文章目录</h2>
       <ol>
         {items.map((item) => (
           <li key={item.id}>

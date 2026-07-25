@@ -12,7 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
-import { ArticleToc, PaperTableOfContents } from "@/components/site/article-toc";
+import { PaperTableOfContents } from "@/components/site/article-toc";
 import { DonationDialog } from "@/components/site/donation-dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatPostDate } from "@/lib/format-date";
@@ -29,7 +29,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   return (
     <>
       <article className="post post-detail">
-        <ArticleToc />
         <header className="post-detail-header">
           <div className="post-detail-header-content">
             <h1 className="post-title"><Link href={`/posts/${post.slug}`}>{post.title}</Link></h1>
