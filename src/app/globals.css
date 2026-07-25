@@ -4902,7 +4902,7 @@ a {
 .handsome-main-content .post-card {
   display: flex;
   min-height: 154px;
-  margin-bottom: 14px;
+  margin-bottom: 22px;
   padding: 17px 28px 13px;
   flex-direction: column;
 }
