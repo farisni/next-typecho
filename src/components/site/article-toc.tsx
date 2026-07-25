@@ -8,6 +8,12 @@ type TocItem = {
   title: string;
 };
 
+function getHeadingTitle(heading: HTMLElement) {
+  const clone = heading.cloneNode(true) as HTMLElement;
+  clone.querySelector(".markdown-heading-icon")?.remove();
+  return clone.textContent?.trim() || "未命名章节";
+}
+
 export function ArticleToc() {
   const tocRef = useRef<HTMLElement>(null);
   const [items, setItems] = useState<TocItem[]>([]);
@@ -53,7 +59,7 @@ export function ArticleToc() {
     const nextItems = headings.map((heading) => ({
       id: heading.id,
       level: Number(heading.tagName.slice(1)),
-      title: heading.textContent?.trim() || "未命名章节",
+      title: getHeadingTitle(heading),
     }));
 
     setItems(nextItems);
@@ -182,7 +188,7 @@ export function PaperTableOfContents() {
       headings.map((heading) => ({
         id: heading.id,
         level: Number(heading.tagName.slice(1)),
-        title: heading.textContent?.trim() || "未命名章节",
+        title: getHeadingTitle(heading),
       })),
     );
   }, []);
