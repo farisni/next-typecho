@@ -26,6 +26,15 @@ function formatHandsomePostDate(date: Date) {
   return `${value("year")} 年 ${value("month")} 月 ${value("day")} 日`;
 }
 
+function formatPaperPostDate(date: Date) {
+  return new Intl.DateTimeFormat("en-GB", {
+    day: "numeric",
+    month: "short",
+    year: "numeric",
+    timeZone: "Asia/Shanghai",
+  }).format(date);
+}
+
 export function PostCard({ post }: PostCardProps) {
   return (
     <article className="post post-card">
@@ -45,6 +54,7 @@ export function PostCard({ post }: PostCardProps) {
             <time>
               <span className="post-date-default">{formatPostDate(post.publishedAt)}</span>
               <span className="post-date-handsome">{formatHandsomePostDate(post.publishedAt)}</span>
+              <span className="post-date-paper">{formatPaperPostDate(post.publishedAt)}</span>
             </time>
           </li>
         )}

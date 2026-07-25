@@ -12,7 +12,7 @@ import {
   UserRound,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
-import { ArticleToc } from "@/components/site/article-toc";
+import { ArticleToc, PaperTableOfContents } from "@/components/site/article-toc";
 import { DonationDialog } from "@/components/site/donation-dialog";
 import { Separator } from "@/components/ui/separator";
 import { formatPostDate } from "@/lib/format-date";
@@ -93,6 +93,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               <small>此内容根据文章生成，仅用于文章内容的解释与总结。</small>
             </aside>
           )}
+          <PaperTableOfContents />
           <MarkdownContent content={post.content} />
           <p className="tags">标签: {post.tags.length ? post.tags.map((tag, index) => <span key={tag.id}>{index > 0 && ", "}<Link href={`/tags/${tag.slug}`}>{tag.name}</Link></span>) : "none"}</p>
           <div className="post-ending">

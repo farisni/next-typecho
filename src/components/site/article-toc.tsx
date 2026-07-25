@@ -15,7 +15,9 @@ export function ArticleToc() {
 
   useEffect(() => {
     const positionToc = () => {
-      const article = document.querySelector(".handsome-main-content");
+      const article = document.querySelector<HTMLElement>(
+        ".handsome-main-content",
+      );
       if (!article || !tocRef.current) return;
 
       const articleRight = article.getBoundingClientRect().right;
@@ -29,7 +31,9 @@ export function ArticleToc() {
 
     const frame = window.requestAnimationFrame(positionToc);
     const observer = new ResizeObserver(positionToc);
-    const article = document.querySelector(".handsome-main-content");
+    const article = document.querySelector<HTMLElement>(
+      ".handsome-main-content",
+    );
     if (article) observer.observe(article);
     window.addEventListener("resize", positionToc);
     return () => {
@@ -120,6 +124,85 @@ export function ArticleToc() {
           </li>
         ))}
       </ol>
+    </nav>
+  );
+}
+
+type PaperTocNode = TocItem & { children: PaperTocNode[] };
+
+function buildPaperTocTree(items: TocItem[]) {
+  const roots: PaperTocNode[] = [];
+  const stack: PaperTocNode[] = [];
+
+  for (const item of items) {
+    const node: PaperTocNode = { ...item, children: [] };
+    while (stack.length && stack[stack.length - 1].level >= node.level) {
+      stack.pop();
+    }
+
+    if (stack.length) {
+      stack[stack.length - 1].children.push(node);
+    } else {
+      roots.push(node);
+    }
+    stack.push(node);
+  }
+
+  return roots;
+}
+
+function PaperTocList({ items }: { items: PaperTocNode[] }) {
+  return (
+    <ol>
+      {items.map((item) => (
+        <li key={item.id}>
+          <a href={`#${item.id}`}>
+            <span className="paper-toc-hash" aria-hidden="true">#</span>
+            {item.title}
+          </a>
+          {item.children.length > 0 && <PaperTocList items={item.children} />}
+        </li>
+      ))}
+    </ol>
+  );
+}
+
+export function PaperTableOfContents() {
+  const [items, setItems] = useState<TocItem[]>([]);
+  const [isOpen, setIsOpen] = useState(true);
+
+  useEffect(() => {
+    const headings = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        ".post-detail-body .post-content h2[id], .post-detail-body .post-content h3[id], .post-detail-body .post-content h4[id]",
+      ),
+    );
+
+    setItems(
+      headings.map((heading) => ({
+        id: heading.id,
+        level: Number(heading.tagName.slice(1)),
+        title: heading.textContent?.trim() || "未命名章节",
+      })),
+    );
+  }, []);
+
+  if (!items.length) {
+    return null;
+  }
+
+  return (
+    <nav className="paper-table-of-contents" aria-label="Table of Contents">
+      <button
+        className="paper-toc-toggle"
+        type="button"
+        aria-expanded={isOpen}
+        onClick={() => setIsOpen((open) => !open)}
+      >
+        <span aria-hidden="true">{isOpen ? "▾" : "▸"}</span>
+        Table of Contents
+      </button>
+      {isOpen && <PaperTocList items={buildPaperTocTree(items)} />}
     </nav>
   );
 }

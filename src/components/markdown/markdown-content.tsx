@@ -1,4 +1,5 @@
 import type { ComponentProps, ReactNode } from "react";
+import { Hash } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
@@ -64,7 +65,12 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
       const id = occurrence ? `${baseId}-${occurrence + 1}` : baseId;
       headingCounts.set(baseId, occurrence + 1);
 
-      return <Tag id={id} {...props}>{children}</Tag>;
+      return (
+        <Tag id={id} {...props}>
+          <Hash className="markdown-heading-icon" aria-hidden="true" />
+          {children}
+        </Tag>
+      );
     }
 
     return MarkdownHeading;
