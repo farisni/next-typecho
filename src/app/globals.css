@@ -8110,6 +8110,35 @@ body:has(.theme-lite) {
   transform: scale(1.025);
 }
 
+.theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) {
+  padding-right: 30px;
+  padding-left: 42%;
+}
+
+.theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) .post-title,
+.theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) .post-content {
+  text-align: right;
+}
+
+.theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) .post-meta {
+  justify-content: flex-end;
+  text-align: right;
+}
+
+.theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd)::before {
+  right: auto;
+  left: 0;
+  background:
+    linear-gradient(270deg, #fff 0%, rgb(255 255 255 / 94%) 18%, rgb(255 255 255 / 22%) 68%, transparent 100%),
+    url("/images/lite-card-pure.jpg") left center / cover no-repeat;
+}
+
+.theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) .post-meta::before {
+  right: 0;
+  left: 30%;
+  background: linear-gradient(90deg, transparent 0%, rgb(231 232 235 / 42%) 32%, #e7e8eb 62%, #e3e5e8 100%);
+}
+
 .theme-lite .handsome-main-content .post-card:not(:first-child) > * {
   position: relative;
   z-index: 1;
@@ -8592,6 +8621,11 @@ body:has(.theme-lite) {
 
   .theme-lite .handsome-main-content .post-card:not(:first-child)::before {
     width: 64%;
+  }
+
+  .theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) {
+    padding-right: 18px;
+    padding-left: 42%;
   }
 
   .theme-lite .post-detail-header {
