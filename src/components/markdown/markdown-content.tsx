@@ -66,8 +66,8 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
 
       return (
         <Tag id={id} {...props}>
-          <span className="markdown-heading-icon" aria-hidden="true">#</span>
-          {children}
+          <span className="markdown-heading-icon" aria-hidden="true" />
+          <span className="markdown-heading-text">{children}</span>
         </Tag>
       );
     }

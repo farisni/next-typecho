@@ -269,7 +269,7 @@ a {
   margin: 0 8px 0 0;
   padding-left: 12px;
   border-left: 1px solid #eee;
-  vertical-align: middle;
+  vertical-align: 0.04em;
   line-height: 1.5;
 }
 
@@ -1360,15 +1360,21 @@ html[data-paper-theme="dark"] body {
 
 .theme-paper .post-detail-body .post-content .markdown-heading-icon {
   display: inline-block;
-  width: auto;
-  height: auto;
-  margin-right: 0.14em;
-  color: var(--paper-muted);
-  font-size: 1.05em;
-  font-weight: 700;
+  width: 3px;
+  height: 1.25em;
+  margin-right: 0.32em;
+  border-radius: 0;
+  color: var(--paper-accent);
+  font-size: inherit;
   line-height: 1;
-  vertical-align: -0.02em;
+  vertical-align: middle;
+  background: currentColor;
   transition: color 160ms ease;
+}
+
+.theme-paper .post-detail-body .post-content .markdown-heading-text {
+  display: inline-block;
+  transform: translateY(0.1em);
 }
 
 .theme-paper .post-detail-body .post-content h1:hover .markdown-heading-icon,
