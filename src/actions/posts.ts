@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { z } from "zod";
 import { requireAdministrator } from "@/lib/auth/session";
 import { get, run, transaction } from "@/lib/db";
+import { renderMarkdownToHtml } from "@/lib/markdown/render-post-html";
 import { bulkManagePostRecords } from "@/lib/posts/admin-service";
 import { postSchema } from "@/lib/validation/post";
 
@@ -51,13 +52,14 @@ export async function createPost(formData: FormData) {
   const input = parsePostForm(formData);
   const id = randomUUID();
   const now = Date.now();
+  const renderedContent = renderMarkdownToHtml(input.content);
 
   transaction(() => {
     run(
       `INSERT INTO posts
-       (id, title, slug, excerpt, content, status, published_at, category_id, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      id, input.title, input.slug, input.excerpt ?? null, input.content, input.status,
+       (id, title, slug, excerpt, content, rendered_content, rendered_content_updated_at, status, published_at, category_id, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      id, input.title, input.slug, input.excerpt ?? null, input.content, renderedContent, now, input.status,
       ["published", "hidden", "private"].includes(input.status) ? now : null,
       input.categoryId ?? null, now, now,
     );
@@ -79,12 +81,14 @@ export async function updatePost(postId: string, formData: FormData) {
   );
   if (!current) throw new Error("文章不存在");
   const now = Date.now();
+  const renderedContent = renderMarkdownToHtml(input.content);
 
   transaction(() => {
     run(
-      `UPDATE posts SET title = ?, slug = ?, excerpt = ?, content = ?, status = ?,
-       published_at = ?, category_id = ?, updated_at = ? WHERE id = ?`,
-      input.title, input.slug, input.excerpt ?? null, input.content, input.status,
+      `UPDATE posts SET title = ?, slug = ?, excerpt = ?, content = ?, rendered_content = ?, rendered_content_updated_at = ?,
+       status = ?, published_at = ?, category_id = ?, updated_at = ? WHERE id = ?`,
+      input.title, input.slug, input.excerpt ?? null, input.content, renderedContent, now,
+      input.status,
       ["published", "hidden", "private"].includes(input.status) ? (current.publishedAt ?? now) : null,
       input.categoryId ?? null, now, postId,
     );

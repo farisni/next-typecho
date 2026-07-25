@@ -33,6 +33,8 @@ export const posts = sqliteTable(
     slug: text("slug").notNull().unique(),
     excerpt: text("excerpt"),
     content: text("content").notNull(),
+    renderedContent: text("rendered_content"),
+    renderedContentUpdatedAt: integer("rendered_content_updated_at", { mode: "timestamp_ms" }),
     status: text("status", { enum: ["draft", "published", "waiting", "hidden", "private"] }).notNull().default("draft"),
     publishedAt: integer("published_at", { mode: "timestamp_ms" }),
     categoryId: text("category_id").references(() => categories.id, { onDelete: "set null" }),

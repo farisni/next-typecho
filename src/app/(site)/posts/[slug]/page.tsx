@@ -87,7 +87,14 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             </aside>
           )}
           <PaperTableOfContents />
-          <MarkdownContent content={post.content} />
+          {post.renderedContent ? (
+            <div
+              className="markdown-body post-content"
+              dangerouslySetInnerHTML={{ __html: post.renderedContent }}
+            />
+          ) : (
+            <MarkdownContent content={post.content} />
+          )}
           <p className="tags">标签: {post.tags.length ? post.tags.map((tag, index) => <span key={tag.id}>{index > 0 && ", "}<Link href={`/tags/${tag.slug}`}>{tag.name}</Link></span>) : "none"}</p>
           <div className="post-ending">
             <p className="post-reference">代码参考了 <Link href="/">小刘同学</Link> 的文章。</p>

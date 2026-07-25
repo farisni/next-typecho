@@ -10,6 +10,7 @@ type RawPost = {
   slug: string;
   excerpt: string | null;
   content: string;
+  renderedContent: string | null;
   status: PostStatus;
   publishedAt: number | null;
   createdAt: number;
@@ -24,6 +25,7 @@ type TaxonomyRow = { id: string; name: string; slug: string };
 
 const postSelect = `
   SELECT p.id, p.title, p.slug, p.excerpt, p.content, p.status,
+         p.rendered_content AS renderedContent,
          p.published_at AS publishedAt, p.created_at AS createdAt,
          p.updated_at AS updatedAt, p.category_id AS categoryId,
          c.name AS categoryName, c.slug AS categorySlug
@@ -57,6 +59,7 @@ function hydrate(rows: RawPost[]) {
     slug: row.slug,
     excerpt: row.excerpt,
     content: row.content,
+    renderedContent: row.renderedContent,
     status: row.status,
     publishedAt: row.publishedAt === null ? null : new Date(row.publishedAt),
     createdAt: new Date(row.createdAt),

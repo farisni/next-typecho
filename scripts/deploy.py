@@ -187,6 +187,8 @@ fi
 if [ -f /etc/nginx/conf.d/savor-manager.conf ]; then
   cp /etc/nginx/conf.d/savor-manager.conf "/etc/nginx/conf.d/savor-manager.conf.bak.$(date +%Y%m%d%H%M%S)"
 fi
+install -d -m 750 /var/cache/nginx/next_typecho
+install -d -m 750 /var/cache/nginx
 cat > /etc/nginx/conf.d/savor-manager.conf <<'NGINX'
 proxy_cache_path /var/cache/nginx/next_typecho levels=1:2 keys_zone=next_typecho_static:20m max_size=1g inactive=1d use_temp_path=off;
 
@@ -263,7 +265,7 @@ server {{
     }}
 
     location / {{
-        try_files $uri $uri/ @next_proxy;
+        try_files $uri @next_proxy;
     }}
 }}
 server {{
