@@ -56,6 +56,7 @@ export type ThemeLayoutProps<TConfig extends object> = {
   description: string;
   user: AuthUser | null;
   config: TConfig;
+  boxModel: boolean;
   customStyle: ReactNode;
   previewBar: ReactNode;
   children: ReactNode;

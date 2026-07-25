@@ -60,6 +60,7 @@ export const siteSettings = sqliteTable("site_settings", {
   siteUrl: text("site_url").notNull().default("http://localhost:3000"),
   activeTheme: text("active_theme").notNull().default("default"),
   postsPerPage: integer("posts_per_page").notNull().default(10),
+  boxModel: integer("box_model", { mode: "boolean" }).notNull().default(false),
   ...timestamps,
 });
 

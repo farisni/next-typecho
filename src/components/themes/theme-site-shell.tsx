@@ -20,12 +20,14 @@ export function ThemeSiteShell({
   description,
   user,
   theme,
+  boxModel,
   children,
 }: {
   name: string;
   description: string;
   user: AuthUser | null;
   theme: Awaited<ReturnType<typeof resolveThemeForRequest>>;
+  boxModel: boolean;
   children: React.ReactNode;
 }) {
   const definition = getThemeDefinition(theme.slug);
@@ -38,6 +40,7 @@ export function ThemeSiteShell({
       description={description}
       user={user}
       config={theme.config}
+      boxModel={boxModel}
       customStyle={customStyle}
       previewBar={theme.isPreview ? <ThemePreviewBar title={definition.title} /> : null}
     >

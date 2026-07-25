@@ -19,6 +19,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       description={settings.siteDescription}
       user={user}
       theme={theme}
+      boxModel={settings.boxModel}
     >
       {children}
     </ThemeSiteShell>

@@ -14,6 +14,7 @@ export function HandsomeThemeLayout({
   description,
   user,
   config,
+  boxModel,
   customStyle,
   previewBar,
   children,
@@ -22,8 +23,8 @@ export function HandsomeThemeLayout({
     <div
       className={
         config.colorScheme === "mint"
-          ? "theme-handsome handsome-color-mint"
-          : "theme-handsome"
+          ? `theme-handsome handsome-color-mint${boxModel ? " handsome-box-model" : ""}`
+          : `theme-handsome${boxModel ? " handsome-box-model" : ""}`
       }
     >
       {customStyle}
