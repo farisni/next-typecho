@@ -8276,6 +8276,10 @@ body:has(.theme-lite) {
   transition: none;
 }
 
+.theme-lite .handsome-content-grid:not(:has(.post-detail)) .handsome-article-toc {
+  display: none;
+}
+
 .theme-lite .handsome-article-toc:hover,
 .theme-lite .handsome-article-toc:focus-within {
   width: auto;
