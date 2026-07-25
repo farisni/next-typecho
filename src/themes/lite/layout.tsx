@@ -39,10 +39,12 @@ export function LiteThemeLayout({
       <div className="handsome-workspace">
         <BlogHeader name={name} description={description} />
         <div className="handsome-content-grid">
-          <MainContent>{children}</MainContent>
+          <div className="lite-content-column">
+            <MainContent>{children}</MainContent>
+            <Footer />
+          </div>
           <RightSidebar description={description} config={config} />
         </div>
-        <Footer />
       </div>
     </div>
   );

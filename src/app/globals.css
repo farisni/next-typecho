@@ -8083,6 +8083,14 @@ body:has(.theme-lite) {
   padding: 0;
 }
 
+.theme-lite .lite-content-column {
+  display: flex;
+  min-width: 0;
+  min-height: calc(100dvh - 44px - var(--lite-page-header-height));
+  background: #f4f5f6;
+  flex-direction: column;
+}
+
 .theme-lite.theme-handsome .handsome-workspace,
 .theme-lite.theme-handsome.handsome-box-model .handsome-workspace {
   grid-column: 2;
@@ -8565,8 +8573,12 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .handsome-footer {
+  width: 100%;
+  margin: auto 0 0;
+  padding: 16px 24px 22px;
   border: 0;
-  background: #f4f5f6;
+  background: transparent;
+  box-shadow: none;
 }
 
 .theme-lite .handsome-main-content:has(.post-detail) {
@@ -8711,7 +8723,7 @@ body:has(.theme-lite) {
   width: calc(100% + 48px);
   margin-left: -24px;
   margin-right: -24px;
-  padding: 42px 24px 48px;
+  padding: 42px 24px 24px;
   border: 0;
   border-radius: 4px;
   background: #fff;
@@ -8748,7 +8760,10 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .handsome-main-content .post-near {
-  margin: 20px 0 0;
+  position: relative;
+  top: -16px;
+  margin: 0;
+  margin-bottom: -16px;
   padding: 0 8px;
   border: 0;
   background: transparent;
