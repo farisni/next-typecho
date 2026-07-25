@@ -5,6 +5,7 @@ import {
 } from "lucide-react";
 import type { HandsomeColorScheme } from "@/themes/lite/color-scheme-menu";
 import { HeaderScrollProgress } from "@/themes/lite/header-scroll-progress";
+import { SystemDataPanel } from "@/themes/lite/system-data-panel";
 
 export function Header({
   colorScheme,
@@ -18,6 +19,7 @@ export function Header({
       </button>
       <span className="lite-header-spacer" data-color-scheme={colorScheme} />
       <div className="handsome-header-actions">
+        <SystemDataPanel />
         <form className="handsome-search" action="/" role="search">
           <Search aria-hidden="true" />
           <label className="sr-only" htmlFor="handsome-search-input">搜索文章</label>
