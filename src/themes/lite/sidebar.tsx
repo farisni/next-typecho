@@ -48,12 +48,12 @@ export function Sidebar({
           <Home aria-hidden="true" />
           <span>首页</span>
         </Link>
-        <div className="lite-nav-group">
-          <span className="lite-nav-group-title">
+        <details className="lite-nav-group" open>
+          <summary className="lite-nav-group-title">
             <FolderOpen aria-hidden="true" />
             <span>分类</span>
             <ChevronRight aria-hidden="true" />
-          </span>
+          </summary>
           <div className="lite-category-list">
             {categories.map((category) => (
               <Link href={`/categories/${category.slug}`} key={category.slug}>
@@ -62,7 +62,7 @@ export function Sidebar({
               </Link>
             ))}
           </div>
-        </div>
+        </details>
         <Link href="/">
           <CircleDot aria-hidden="true" />
           <span>归档</span>

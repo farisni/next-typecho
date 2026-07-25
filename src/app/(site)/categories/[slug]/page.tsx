@@ -1,3 +1,5 @@
+import Link from "next/link";
+import { Home } from "lucide-react";
 import { Pagination } from "@/components/site/pagination";
 import { PostList } from "@/components/site/post-list";
 import { listPostsByCategory } from "@/lib/repositories/posts";
@@ -10,5 +12,25 @@ export default async function CategoryPage({ params, searchParams }: { params: P
   const page = Math.max(1, Number(query.page) || 1);
   const result = await listPostsByCategory(slug, page, settings.postsPerPage);
 
-  return <><h1 className="archive-title">{result.title}</h1><PostList posts={result.items} /><Pagination page={page} totalPages={result.totalPages} /></>;
+  return (
+    <div className="lite-category-page">
+      <header className="lite-category-header">
+        <h1>
+          <span>分类</span> {result.title} <span>下的文章</span>
+        </h1>
+      </header>
+      <div className="lite-category-content">
+        <nav className="lite-category-breadcrumb" aria-label="面包屑导航">
+          <Link href="/">
+            <Home aria-hidden="true" />
+            <span>首页</span>
+          </Link>
+          <span aria-hidden="true">/</span>
+          <span>{result.title}</span>
+        </nav>
+        <PostList posts={result.items} />
+        <Pagination page={page} totalPages={result.totalPages} />
+      </div>
+    </div>
+  );
 }
