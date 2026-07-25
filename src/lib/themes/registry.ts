@@ -1,13 +1,8 @@
-import { classic22ThemeDefinition } from "@/themes/classic-22/definition";
 import { defaultThemeDefinition } from "@/themes/default/definition";
 import { handsomeThemeDefinition } from "@/themes/handsome/definition";
 import { liteThemeDefinition } from "@/themes/lite/definition";
 import { paperThemeDefinition } from "@/themes/paper/definition";
 
-export {
-  classicThemeConfigSchema,
-  type ClassicThemeConfig,
-} from "@/themes/classic-22/definition";
 export {
   defaultSidebarBlocks,
   defaultThemeConfigSchema,
@@ -38,7 +33,6 @@ export type {
 
 export const themeRegistry = {
   default: defaultThemeDefinition,
-  "classic-22": classic22ThemeDefinition,
   handsome: handsomeThemeDefinition,
   lite: liteThemeDefinition,
   paper: paperThemeDefinition,
@@ -47,7 +41,6 @@ export const themeRegistry = {
 export type ThemeSlug = keyof typeof themeRegistry;
 export type ThemeConfig =
   | typeof defaultThemeDefinition.defaults
-  | typeof classic22ThemeDefinition.defaults
   | typeof handsomeThemeDefinition.defaults
   | typeof liteThemeDefinition.defaults
   | typeof paperThemeDefinition.defaults;

@@ -1,9 +1,5 @@
 import type { ComponentType } from "react";
 import {
-  type ClassicThemeConfig,
-} from "@/themes/classic-22/definition";
-import { Classic22ThemeLayout } from "@/themes/classic-22/layout";
-import {
   type DefaultThemeConfig,
 } from "@/themes/default/definition";
 import { DefaultThemeLayout } from "@/themes/default/layout";
@@ -31,13 +27,6 @@ const DefaultRenderer: RegisteredThemeLayout = (props) => (
   />
 );
 
-const Classic22Renderer: RegisteredThemeLayout = (props) => (
-  <Classic22ThemeLayout
-    {...props}
-    config={props.config as ClassicThemeConfig}
-  />
-);
-
 const HandsomeRenderer: RegisteredThemeLayout = (props) => (
   <HandsomeThemeLayout
     {...props}
@@ -61,7 +50,6 @@ const PaperRenderer: RegisteredThemeLayout = (props) => (
 
 const themeRenderers = {
   default: DefaultRenderer,
-  "classic-22": Classic22Renderer,
   handsome: HandsomeRenderer,
   lite: LiteRenderer,
   paper: PaperRenderer,
