@@ -5027,7 +5027,7 @@ a {
   justify-content: space-between;
   min-height: 88px;
   margin: 0 0 20px;
-  padding: 20px 0;
+  padding: 20px 18px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -5544,6 +5544,38 @@ a {
   line-height: 1.9;
 }
 
+.theme-handsome .post-detail-body .post-content strong {
+  color: #d6674d;
+  font-weight: 700;
+}
+
+.theme-handsome .post-detail-body .post-content {
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.theme-handsome .post-detail-body .post-content p,
+.theme-handsome .post-detail-body .post-content li,
+.theme-handsome .post-detail-body .post-content blockquote {
+  font-size: 16px;
+  line-height: 1.9;
+}
+
+.theme-handsome .post-detail-body .post-content h1 {
+  font-size: 24px;
+  line-height: 1.4;
+}
+
+.theme-handsome .post-detail-body .post-content h2 {
+  font-size: 21px;
+  line-height: 1.45;
+}
+
+.theme-handsome .post-detail-body .post-content pre,
+.theme-handsome .post-detail-body .post-content code {
+  font-size: 14px;
+}
+
 .theme-handsome .post-detail-body .post-content h2 {
   margin: 1.8em 0 0.7em;
   color: #34414e;
@@ -5562,36 +5594,15 @@ a {
 .theme-handsome .post-detail-body .post-content h4,
 .theme-handsome .post-detail-body .post-content h5,
 .theme-handsome .post-detail-body .post-content h6 {
-  font-family: "Source Han Serif SC", "思源宋体", "Songti SC", serif !important;
-  font-weight: 700 !important;
-  width: fit-content;
-  padding: 0 0.06em;
-  margin-left: -0.06em;
-  background-image: linear-gradient(
-    to bottom,
-    transparent 58%,
-    #c8eaf4 58%,
-    #c8eaf4 92%,
-    transparent 92%
-  );
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  transition: color 160ms ease, background-image 160ms ease;
-}
-
-.theme-handsome .post-detail-body .post-content h1:hover,
-.theme-handsome .post-detail-body .post-content h2:hover,
-.theme-handsome .post-detail-body .post-content h3:hover,
-.theme-handsome .post-detail-body .post-content h4:hover,
-.theme-handsome .post-detail-body .post-content h5:hover,
-.theme-handsome .post-detail-body .post-content h6:hover {
-  background-image: linear-gradient(
-    to bottom,
-    transparent 58%,
-    #a9dceb 58%,
-    #a9dceb 92%,
-    transparent 92%
-  );
+  font-family: var(--font-sans), "PingFang SC", "Microsoft YaHei", sans-serif !important;
+  font-weight: 600 !important;
+  width: auto;
+  margin-left: 0;
+  padding: 2px 0 3px 14px;
+  border-left: 4px solid #e97a5b;
+  background-image: none;
+  color: #171717;
+  line-height: 1.25;
 }
 
 .handsome-article-toc {
