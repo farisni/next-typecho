@@ -4769,6 +4769,10 @@ a {
   flex-direction: column;
 }
 
+.theme-handsome .handsome-main-content .post-card {
+  border-color: transparent;
+}
+
 .handsome-main-content .post-card .post-title {
   order: 1;
   margin-bottom: 11px;
@@ -5741,10 +5745,10 @@ a {
   position: relative;
   display: grid;
   padding: 2px;
-  border: 1px solid #eceff2;
-  border-radius: 7px;
+  border: 0;
+  border-radius: 6px;
   background: #f1f2f4;
-  box-shadow: 0 3px 12px rgb(45 57 69 / 5%);
+  box-shadow: 0 1px 3px rgb(45 57 69 / 5%);
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
@@ -5878,10 +5882,10 @@ a {
 
 .handsome-qps-card {
   padding: 18px 16px 16px;
-  border: 1px solid #e5e8ea;
-  border-radius: 5px;
-  background: #fff;
-  box-shadow: 0 5px 18px rgb(40 53 65 / 5%);
+  border: 0;
+  border-radius: 6px;
+  background: #fefffd;
+  box-shadow: 0 1px 3px rgb(40 53 65 / 5%);
 }
 
 .handsome-qps-header,
@@ -6111,9 +6115,10 @@ a {
 
 .handsome-panel {
   padding: 22px;
-  border: 1px solid var(--handsome-border);
-  border-radius: 9px;
+  border: 0;
+  border-radius: 6px;
   background: var(--handsome-surface);
+  box-shadow: 0 1px 3px rgb(40 53 65 / 5%);
 }
 
 .handsome-panel h2 {
@@ -6260,16 +6265,14 @@ a {
 }
 
 .theme-handsome.handsome-color-mint .handsome-sidebar {
-  background:
-    radial-gradient(circle at 18% 0%, rgb(255 255 255 / 78%), transparent 35%),
-    var(--handsome-sidebar);
+  background: #ebf2ed;
   color: #5f706b;
 }
 
 .theme-handsome.handsome-color-mint .handsome-nav a:first-child,
 .theme-handsome.handsome-color-mint .handsome-nav a:hover,
 .theme-handsome.handsome-color-mint .handsome-sidebar-footer a:hover {
-  background: rgb(99 143 131 / 10%);
+  background: rgb(90 123 99 / 8%);
   color: #4f6961;
 }
 
@@ -6308,6 +6311,11 @@ a {
   box-shadow: 0 8px 24px rgb(61 88 79 / 4%);
 }
 
+.theme-handsome.handsome-color-mint .handsome-main-content .post-card {
+  border: 0;
+  box-shadow: 0 1px 3px rgb(61 88 79 / 5%);
+}
+
 .theme-handsome.handsome-color-mint .handsome-main-content .post-detail {
   border: 0;
   background: transparent;
@@ -6320,8 +6328,14 @@ a {
 }
 
 .theme-handsome.handsome-color-mint .handsome-sidebar-tabs {
-  border-color: #e1e9e5;
+  border: 0;
   background: #f1f6f3;
+  box-shadow: 0 1px 3px rgb(72 101 92 / 5%);
+}
+
+.theme-handsome.handsome-color-mint .handsome-panel {
+  background: #fefffd;
+  box-shadow: 0 1px 3px rgb(72 101 92 / 5%);
 }
 
 .theme-handsome.handsome-color-mint .post-detail-header .post-meta {
