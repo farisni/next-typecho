@@ -21,6 +21,8 @@ export function ArticleToc() {
 
   useEffect(() => {
     const positionToc = () => {
+      if (tocRef.current?.closest(".theme-lite")) return;
+
       const article = document.querySelector<HTMLElement>(
         ".handsome-main-content",
       );
@@ -50,26 +52,16 @@ export function ArticleToc() {
   }, [items.length]);
 
   useEffect(() => {
-    const headings = Array.from(
-      document.querySelectorAll<HTMLElement>(
-        ".post-detail-body .post-content h2[id], .post-detail-body .post-content h3[id], .post-detail-body .post-content h4[id]",
-      ),
-    );
-
-    const nextItems = headings.map((heading) => ({
-      id: heading.id,
-      level: Number(heading.tagName.slice(1)),
-      title: getHeadingTitle(heading),
-    }));
-
-    setItems(nextItems);
-
-    if (!headings.length) {
-      return;
-    }
-
+    let headings: HTMLElement[] = [];
+    let headingSignature = "";
     let frame = 0;
+
     const updateActiveHeading = () => {
+      if (!headings.length) {
+        setActiveId("");
+        return;
+      }
+
       const readingLine = window.scrollY + 120;
       let currentId = headings[0].id;
 
@@ -84,19 +76,51 @@ export function ArticleToc() {
       setActiveId(currentId);
     };
 
+    const collectHeadings = () => {
+      headings = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          ".post-detail-body .post-content h2[id], .post-detail-body .post-content h3[id], .post-detail-body .post-content h4[id]",
+        ),
+      );
+
+      const nextSignature = headings
+        .map((heading) => `${heading.tagName}:${heading.id}:${getHeadingTitle(heading)}`)
+        .join("|");
+
+      if (nextSignature !== headingSignature) {
+        headingSignature = nextSignature;
+        setItems(
+          headings.map((heading) => ({
+            id: heading.id,
+            level: Number(heading.tagName.slice(1)),
+            title: getHeadingTitle(heading),
+          })),
+        );
+      }
+
+      updateActiveHeading();
+    };
+
     const handleScroll = () => {
       window.cancelAnimationFrame(frame);
       frame = window.requestAnimationFrame(updateActiveHeading);
     };
 
-    updateActiveHeading();
+    const contentObserver = new MutationObserver(() => {
+      window.cancelAnimationFrame(frame);
+      frame = window.requestAnimationFrame(collectHeadings);
+    });
+
+    collectHeadings();
+    contentObserver.observe(document.body, { childList: true, subtree: true });
     window.addEventListener("scroll", handleScroll, { passive: true });
-    window.addEventListener("resize", handleScroll);
+    window.addEventListener("resize", collectHeadings);
 
     return () => {
       window.cancelAnimationFrame(frame);
+      contentObserver.disconnect();
       window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleScroll);
+      window.removeEventListener("resize", collectHeadings);
     };
   }, []);
 

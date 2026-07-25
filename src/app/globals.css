@@ -8015,6 +8015,11 @@ body:has(.theme-lite) {
   cursor: pointer;
 }
 
+.theme-lite .handsome-main-content .post-card::before,
+.theme-lite .handsome-main-content .post-card::after {
+  pointer-events: none !important;
+}
+
 .theme-lite.handsome-box-model .handsome-main-content > .post,
 .theme-lite.handsome-box-model .handsome-main-content > .post-card,
 .theme-lite.handsome-box-model .handsome-main-content > .post-detail,
@@ -8129,6 +8134,8 @@ body:has(.theme-lite) {
   content: "";
   opacity: 0.92;
   pointer-events: none;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 28%, #000 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000 28%, #000 100%);
   transition: opacity 180ms ease, transform 180ms ease;
   z-index: -1;
 }
@@ -8165,6 +8172,8 @@ body:has(.theme-lite) {
   background:
     linear-gradient(270deg, #fff 0%, rgb(255 255 255 / 94%) 18%, rgb(255 255 255 / 22%) 68%, transparent 100%),
     url("/images/lite-card-pure.jpg") left center / cover no-repeat;
+  -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 28%, #000 100%);
+  mask-image: linear-gradient(to left, transparent 0%, #000 28%, #000 100%);
 }
 
 .theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) .post-meta::before {

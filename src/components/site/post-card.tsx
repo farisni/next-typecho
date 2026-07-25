@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Clock3, FolderOpen, MessageSquare, UserRound } from "lucide-react";
+import { ClickablePostCard } from "@/components/site/clickable-post-card";
 import { formatPostDate } from "@/lib/format-date";
 
 type PostCardProps = {
@@ -45,7 +46,10 @@ function PaperDate({ date }: { date: Date }) {
 
 export function PostCard({ post }: PostCardProps) {
   return (
-    <article className="post post-card">
+    <ClickablePostCard
+      href={`/posts/${post.slug}`}
+      label={`阅读文章：${post.title}`}
+    >
       <h2 className="post-title">
         <Link href={`/posts/${post.slug}`}>{post.title}</Link>
       </h2>
@@ -77,6 +81,6 @@ export function PostCard({ post }: PostCardProps) {
       <div className="post-content">
         <p>{post.excerpt ?? post.content.slice(0, 180)}</p>
       </div>
-    </article>
+    </ClickablePostCard>
   );
 }
