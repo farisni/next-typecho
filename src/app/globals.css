@@ -87,6 +87,16 @@ a {
   flex-direction: column;
 }
 
+.theme-default .post-ending {
+  display: none;
+}
+
+.theme-default .post-near {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
 .theme-default #body {
   flex: 1;
 }
