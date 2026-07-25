@@ -8389,6 +8389,8 @@ body:has(.theme-lite) {
 
 .theme-lite .handsome-right-sidebar {
   display: block;
+  align-self: stretch;
+  min-height: calc(100vh - var(--handsome-topbar-height));
   min-width: 0;
   padding: 0;
   border-left: 0;
@@ -8807,12 +8809,57 @@ body:has(.theme-lite) {
   }
 
   .theme-lite .handsome-header {
-    padding: 0 14px;
+    display: grid;
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+    height: 44px;
+    min-height: 44px;
+    padding: 0 12px;
+    gap: 8px;
+  }
+
+  .theme-lite .lite-header-spacer {
+    display: block;
+  }
+
+  .theme-lite .handsome-mobile-menu {
+    width: 36px;
+    height: 36px;
+  }
+
+  .theme-lite .handsome-header-actions {
+    position: static;
+    grid-column: 3;
+    width: auto;
+    height: 44px;
+    margin-left: 0;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 4px;
   }
 
   .theme-lite .handsome-search {
-    width: min(220px, 62vw);
-    margin-left: auto;
+    order: 2;
+    width: 34px;
+    height: 32px;
+    margin-left: 0;
+  }
+
+  .theme-lite .lite-system-data {
+    order: 1;
+  }
+
+  .theme-lite .lite-system-data-trigger {
+    width: 48px;
+    height: 44px;
+  }
+
+  .theme-lite .lite-admin-link {
+    display: none;
+  }
+
+  .theme-lite .handsome-search:hover {
+    border-color: transparent;
+    background: #f5f5f5;
   }
 
   .theme-lite .lite-system-data-panel {
@@ -8876,6 +8923,27 @@ body:has(.theme-lite) {
     padding-top: 0;
   }
 
+  /* 文章详情在桌面端会预留 250px 的目录栏。移动端右栏已隐藏，
+     必须同时移除该网格列，否则正文会被压缩成一条窄栏。 */
+  .theme-lite .handsome-content-grid:has(.post-detail),
+  .theme-lite.handsome-box-model .handsome-content-grid:has(.post-detail) {
+    grid-template-columns: minmax(0, 1fr);
+    width: 100%;
+  }
+
+  .theme-lite .handsome-content-grid:has(.post-detail) .lite-content-column,
+  .theme-lite .handsome-main-content:has(.post-detail) {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .theme-lite .handsome-main-content .post-detail,
+  .theme-lite .handsome-main-content .post-detail-body {
+    width: 100%;
+    max-width: none;
+    box-sizing: border-box;
+  }
+
   .theme-lite .handsome-main-content .post-card,
   .theme-lite.handsome-box-model .handsome-main-content .post-card {
     padding: 20px 18px 16px;
@@ -8901,27 +8969,40 @@ body:has(.theme-lite) {
 
   .theme-lite .post-detail-header {
     width: calc(100% + 24px);
+    height: auto;
     min-height: var(--lite-page-header-height);
     margin: 0 -12px;
-    padding: 24px 20px 22px;
+    padding: 18px 20px 16px;
   }
 
   .theme-lite .post-detail-header .post-title {
-    margin-bottom: 15px;
-    font-size: clamp(25px, 7vw, 34px);
+    margin-bottom: 12px;
+    font-size: clamp(22px, 6vw, 28px);
+    line-height: 1.4;
   }
 
   .theme-lite .post-detail-header .post-meta {
-    gap: 7px 12px;
+    gap: 8px 12px;
+    flex-wrap: wrap;
+    font-size: 12px;
+  }
+
+  .theme-lite .post-detail-header .post-meta li {
+    white-space: nowrap;
   }
 
   .theme-lite .post-detail .post-breadcrumb {
-    width: 100%;
+    width: calc(100% + 48px);
     min-height: 38px;
-    margin: 16px 0;
+    margin: 16px -24px;
     padding: 0 16px;
     gap: 8px;
     font-size: 15px;
+    flex-wrap: wrap;
+  }
+
+  .theme-lite .post-detail .post-share {
+    display: none;
   }
 
   .theme-lite .post-detail .post-breadcrumb svg {
@@ -8929,10 +9010,11 @@ body:has(.theme-lite) {
     height: 18px;
   }
 
-  .theme-lite .post-detail-body {
-    width: 100%;
-    margin: 0;
-    padding: 26px 20px 32px;
+  .theme-lite .handsome-main-content .post-detail-body {
+    width: calc(100% + 48px);
+    margin-right: -24px;
+    margin-left: -24px;
+    padding: 26px 18px 32px;
   }
 
   .theme-lite .post-detail-body .post-content {

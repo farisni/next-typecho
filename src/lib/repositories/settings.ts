@@ -4,7 +4,7 @@ export const DEFAULT_SITE_SETTINGS = {
   siteName: "Next Typecho",
   siteDescription: "人生如逆旅，我亦是行人。",
   postsPerPage: 6,
-  boxModel: false,
+  boxModel: true,
 };
 
 type SettingRow = {

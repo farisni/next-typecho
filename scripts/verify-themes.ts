@@ -49,21 +49,27 @@ async function main() {
     });
     saveThemeCustomCss("default", ".theme-default { --verified: 1; }");
     let defaultTheme = getResolvedTheme("default");
-    assert(defaultTheme.config.sidebarBlocks.length === 2, "Default 外观设置未保存");
+    const defaultSidebarBlocks = (theme: { config: unknown }) =>
+      (theme.config as { sidebarBlocks: unknown[] }).sidebarBlocks;
+    assert(defaultSidebarBlocks(defaultTheme).length === 2, "Default 外观设置未保存");
     assert(defaultTheme.customCss.includes("--verified"), "自定义 CSS 未保存");
 
-    activateTheme("classic-22");
-    assert(getActiveThemeSlug() === "classic-22", "Classic 22 未成功启用");
+    activateTheme("handsome");
+    assert(getActiveThemeSlug() === "handsome", "Handsome 未成功启用");
     defaultTheme = getResolvedTheme("default");
-    assert(defaultTheme.config.sidebarBlocks.length === 5, "切换外观后旧配置未恢复默认值");
+    assert(defaultSidebarBlocks(defaultTheme).length === 5, "切换外观后旧配置未恢复默认值");
     assert(defaultTheme.customCss.includes("--verified"), "切换外观不应删除 custom.css");
 
-    saveThemeConfig("classic-22", {
+    saveThemeConfig("handsome", {
       logoUrl: "",
-      colorSchema: "dark",
+      colorScheme: "default",
+      rightSidebarBlocks: ["Profile", "RecentPosts", "Categories", "Archives"],
     });
-    const classicTheme = getResolvedTheme("classic-22");
-    assert(classicTheme.config.colorSchema === "dark", "Classic 22 配色设置未保存");
+    const handsomeTheme = getResolvedTheme("handsome");
+    assert(
+      (handsomeTheme.config as { colorScheme: string }).colorScheme === "default",
+      "Handsome 配色设置未保存",
+    );
 
     assert(
       !defaultThemeConfigSchema.safeParse({ logoUrl: "javascript:alert(1)", sidebarBlocks: [] }).success,
@@ -76,9 +82,9 @@ async function main() {
 
     const { database } = await import("../src/lib/db");
     database
-      .prepare("UPDATE theme_settings SET custom_css = ? WHERE theme = 'classic-22'")
+      .prepare("UPDATE theme_settings SET custom_css = ? WHERE theme = 'handsome'")
       .run("</style><script>alert(1)</script>");
-    assert(getResolvedTheme("classic-22").customCss === "", "读取侧未过滤非法 custom.css");
+    assert(getResolvedTheme("handsome").customCss === "", "读取侧未过滤非法 custom.css");
     database.close();
     console.log("Theme verification passed.");
   } finally {

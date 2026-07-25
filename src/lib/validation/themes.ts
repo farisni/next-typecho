@@ -7,7 +7,6 @@ import {
 } from "@/lib/themes/registry";
 
 export {
-  classicThemeConfigSchema,
   defaultThemeConfigSchema,
 } from "@/lib/themes/registry";
 

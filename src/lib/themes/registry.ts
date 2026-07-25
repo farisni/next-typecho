@@ -2,6 +2,10 @@ import { defaultThemeDefinition } from "@/themes/default/definition";
 import { handsomeThemeDefinition } from "@/themes/handsome/definition";
 import { liteThemeDefinition } from "@/themes/lite/definition";
 import { paperThemeDefinition } from "@/themes/paper/definition";
+import type { DefaultThemeConfig } from "@/themes/default/definition";
+import type { HandsomeThemeConfig } from "@/themes/handsome/definition";
+import type { LiteThemeConfig } from "@/themes/lite/definition";
+import type { PaperThemeConfig } from "@/themes/paper/definition";
 
 export {
   defaultSidebarBlocks,
@@ -40,10 +44,10 @@ export const themeRegistry = {
 
 export type ThemeSlug = keyof typeof themeRegistry;
 export type ThemeConfig =
-  | typeof defaultThemeDefinition.defaults
-  | typeof handsomeThemeDefinition.defaults
-  | typeof liteThemeDefinition.defaults
-  | typeof paperThemeDefinition.defaults;
+  | DefaultThemeConfig
+  | HandsomeThemeConfig
+  | LiteThemeConfig
+  | PaperThemeConfig;
 
 export const themeSlugs = Object.keys(themeRegistry) as ThemeSlug[];
 

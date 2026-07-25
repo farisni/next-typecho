@@ -14,19 +14,19 @@ export function LiteThemeLayout({
   description,
   user,
   config,
-  boxModel,
   customStyle,
   previewBar,
   children,
 }: ThemeLayoutProps<LiteThemeConfig>) {
+  // Lite 固定使用当前本地的紧凑结构；boxModel 仅保留给 Handsome 主题，
+  // 避免后台切换 0/1 时改变 Lite 的页面网格。
+  const themeClassName =
+    config.colorScheme === "mint"
+      ? "theme-lite theme-handsome handsome-color-mint handsome-box-model"
+      : "theme-lite theme-handsome handsome-box-model";
+
   return (
-    <div
-      className={
-        config.colorScheme === "mint"
-          ? `theme-lite theme-handsome handsome-color-mint${boxModel ? " handsome-box-model" : ""}`
-          : `theme-lite theme-handsome${boxModel ? " handsome-box-model" : ""}`
-      }
-    >
+    <div className={themeClassName}>
       {customStyle}
       {previewBar}
       <div className="handsome-topbar">
