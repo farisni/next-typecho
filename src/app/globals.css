@@ -907,11 +907,23 @@ a {
 }
 
 /* Paper theme */
-body:has(.theme-paper) {
+html[data-paper-theme="light"] {
+  color-scheme: light;
+}
+
+html[data-paper-theme="dark"] {
+  color-scheme: dark;
+}
+
+html[data-paper-theme] body {
+  transition: background-color 180ms ease-out, color 180ms ease-out;
+}
+
+html[data-paper-theme="light"] body {
   background: oklch(98.48% 0 0);
 }
 
-body:has(.theme-paper[data-paper-theme="dark"]) {
+html[data-paper-theme="dark"] body {
   background: oklch(23.64% 0.0045 248);
 }
 
@@ -935,7 +947,7 @@ body:has(.theme-paper[data-paper-theme="dark"]) {
   font-weight: 400;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  transition: background-color 300ms ease-in-out, color 300ms ease-in-out;
+  transition: background-color 180ms ease-out, color 180ms ease-out;
 }
 
 .theme-paper[data-paper-theme="dark"] {
@@ -1269,10 +1281,19 @@ body:has(.theme-paper[data-paper-theme="dark"]) {
 }
 
 .theme-paper .post-detail-body .post-content {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   color: var(--paper-text);
   font-family: inherit;
   font-size: 16px;
   line-height: 1.9;
+}
+
+.theme-paper .post-detail-body {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
 }
 
 .paper-table-of-contents {
@@ -1296,12 +1317,16 @@ body:has(.theme-paper[data-paper-theme="dark"]) {
 .theme-paper .post-detail-body:has(.paper-table-of-contents) {
   display: grid;
   width: calc(100% + 284px);
-  grid-template-columns: minmax(0, 1fr) 260px;
+  max-width: none;
+  grid-template-columns: calc(100% - 284px) 260px;
   gap: 24px;
   position: relative;
 }
 
 .theme-paper .post-detail-body:has(.paper-table-of-contents) > :not(.paper-table-of-contents) {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
   grid-column: 1;
 }
 

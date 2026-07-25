@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 const storageKey = "paper-color-mode";
 
 function applyMode(mode: "light" | "dark") {
+  document.documentElement.setAttribute("data-paper-theme", mode);
   document.querySelector<HTMLElement>(".theme-paper")?.setAttribute("data-paper-theme", mode);
 }
 
@@ -21,6 +22,10 @@ export function PaperThemeToggle() {
 
     setMode(initialMode);
     applyMode(initialMode);
+
+    return () => {
+      document.documentElement.removeAttribute("data-paper-theme");
+    };
   }, []);
 
   function toggleMode() {
