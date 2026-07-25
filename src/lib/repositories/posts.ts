@@ -115,6 +115,7 @@ export function listPostsByCategory(slug: string, page: number, pageSize: number
   if (!category) notFound();
   return {
     title: `分类 ${category.name} 下的文章`,
+    categoryName: category.name,
     ...paginate(`${publishedWhere} AND p.category_id = ?`, [Date.now(), category.id], page, pageSize),
   };
 }

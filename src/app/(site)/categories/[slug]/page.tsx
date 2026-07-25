@@ -16,7 +16,7 @@ export default async function CategoryPage({ params, searchParams }: { params: P
     <div className="lite-category-page">
       <header className="lite-category-header">
         <h1>
-          <span>分类</span> {result.title} <span>下的文章</span>
+          <span>分类</span> <strong className="lite-category-name">{result.categoryName}</strong> <span>下的文章</span>
         </h1>
       </header>
       <div className="lite-category-content">
@@ -26,7 +26,7 @@ export default async function CategoryPage({ params, searchParams }: { params: P
             <span>首页</span>
           </Link>
           <span aria-hidden="true">/</span>
-          <span>{result.title}</span>
+          <span>{result.categoryName}</span>
         </nav>
         <PostList posts={result.items} />
         <Pagination page={page} totalPages={result.totalPages} />

@@ -307,7 +307,8 @@ a {
 .site-logout-button:active {
   border-bottom: 0;
   text-decoration: underline;
-  text-decoration-thickness: 1px;
+  text-decoration-color: #295f9f;
+  text-decoration-thickness: 2px;
   text-decoration-skip-ink: auto;
   text-underline-offset: 0.12em;
 }
@@ -7555,7 +7556,7 @@ body:has(.theme-lite) {
 .theme-lite {
   --lite-shell-width: 1470px;
   --lite-sidebar-width: 278px;
-  --lite-page-header-height: 148px;
+  --lite-page-header-height: 104px;
   position: relative;
   display: block;
   grid-template-columns: none;
@@ -7571,7 +7572,7 @@ body:has(.theme-lite) {
   right: auto;
   left: max(0px, calc((100% - var(--lite-shell-width)) / 2));
   width: min(100%, var(--lite-shell-width));
-  height: 64px;
+  height: 44px;
   grid-template-columns: var(--lite-sidebar-width) minmax(0, 1fr);
   border: 0;
   background: #fff;
@@ -7608,7 +7609,7 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .handsome-header {
-  height: 64px;
+  height: 44px;
   padding: 0 26px 0 36px;
   border: 0;
   background: #fff;
@@ -7656,7 +7657,7 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .handsome-sidebar {
-  top: 64px;
+  top: 44px;
   right: auto;
   bottom: 0;
   left: max(0px, calc((100% - var(--lite-shell-width)) / 2));
@@ -7826,7 +7827,7 @@ body:has(.theme-lite) {
 .theme-lite .handsome-workspace {
   min-height: 100vh;
   margin-left: var(--lite-sidebar-width);
-  padding-top: 64px;
+  padding-top: 44px;
   background: #f5f6f7;
 }
 
@@ -7917,16 +7918,27 @@ body:has(.theme-lite) {
   color: #222;
 }
 
+.theme-lite .lite-category-header h1 .lite-category-name {
+  display: inline-block;
+  color: #111;
+  font-size: inherit;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 1.15;
+  border-bottom: 2px solid #295f9f;
+  text-decoration: none;
+}
+
 .theme-lite .lite-category-content {
-  padding: 40px;
+  padding: 24px 40px 40px;
 }
 
 .theme-lite .lite-category-breadcrumb {
   display: flex;
-  min-height: 72px;
+  min-height: 42px;
   align-items: center;
   gap: 12px;
-  margin: 0 0 40px;
+  margin: 0 0 24px;
   padding: 0 30px;
   background: #fff;
   color: #888;
@@ -8068,7 +8080,7 @@ body:has(.theme-lite) {
 
 .theme-lite .handsome-popular-widget {
   position: sticky;
-  top: 64px;
+  top: 44px;
   padding: 0 24px 28px;
   background: #fff;
 }
@@ -8320,7 +8332,7 @@ body:has(.theme-lite) {
 @media (max-width: 760px) {
   .theme-lite {
     --lite-sidebar-width: 0px;
-    --lite-page-header-height: 104px;
+    --lite-page-header-height: 80px;
   }
 
   .theme-lite .handsome-topbar {
@@ -8371,13 +8383,13 @@ body:has(.theme-lite) {
   }
 
   .theme-lite .lite-category-content {
-    padding: 18px 12px 26px;
+    padding: 12px 12px 26px;
   }
 
   .theme-lite .lite-category-breadcrumb {
-    min-height: 52px;
+    min-height: 38px;
     gap: 8px;
-    margin-bottom: 22px;
+    margin-bottom: 16px;
     padding: 0 16px;
     font-size: 15px;
   }
