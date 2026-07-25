@@ -2171,10 +2171,9 @@ a {
   display: flex;
   min-height: 32px;
   padding: 0;
-  border: 0;
-  border-radius: 0;
+  border: 1px solid #e8ebee;
+  border-radius: 7px;
   background: transparent;
-  box-shadow: none;
   align-items: center;
 }
 
@@ -2406,10 +2405,9 @@ a {
 
 .typecho-uiw-editor .w-md-editor {
   --md-editor-font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
-  border: 0;
-  border-radius: 0;
-  background: transparent;
-  box-shadow: none;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: #fff;
   color: #444;
   font-family: inherit;
 }
@@ -4478,6 +4476,7 @@ a {
 }
 
 .handsome-header-progress {
+  display: none;
   position: absolute;
   right: 0;
   bottom: -4px;
@@ -4520,6 +4519,90 @@ a {
   width: 18px;
   height: 18px;
   stroke-width: 1.8;
+}
+
+.handsome-color-menu {
+  position: relative;
+}
+
+.handsome-color-menu-trigger {
+  display: flex;
+  width: 38px;
+  height: 32px;
+  padding: 0;
+  border: 0;
+  border-radius: 5px;
+  outline: 0;
+  background: transparent;
+  color: #b5bdc9;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  transition: background-color 150ms ease, color 150ms ease;
+}
+
+.handsome-color-menu-trigger:hover,
+.handsome-color-menu-trigger[aria-expanded="true"] {
+  background: rgb(255 255 255 / 9%);
+  color: #fff;
+}
+
+.handsome-color-menu-trigger .handsome-color-menu-chevron {
+  width: 11px;
+  height: 11px;
+}
+
+.handsome-color-menu-panel {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  display: grid;
+  width: 166px;
+  padding: 5px;
+  border: 1px solid #dfe4ea;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 12px 30px rgb(32 44 58 / 16%);
+  gap: 2px;
+  z-index: 20;
+}
+
+.handsome-color-menu-panel button {
+  display: grid;
+  min-height: 34px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  color: #4e5968;
+  font: inherit;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  align-items: center;
+  grid-template-columns: 18px minmax(0, 1fr) 16px;
+  gap: 8px;
+}
+
+.handsome-color-menu-panel button:hover,
+.handsome-color-menu-panel button.is-active {
+  background: #f2f5f7;
+  color: #243347;
+}
+
+.handsome-color-menu-panel button > svg {
+  width: 14px;
+  height: 14px;
+  color: var(--handsome-accent);
+}
+
+.handsome-color-menu-swatch {
+  width: 14px;
+  height: 14px;
+  border: 1px solid rgb(37 49 62 / 12%);
+  border-radius: 50%;
+  box-shadow: inset 0 0 0 2px rgb(255 255 255 / 45%);
 }
 
 .handsome-header-actions,
@@ -4575,9 +4658,9 @@ a {
   display: flex;
   min-height: 132px;
   padding: 28px 34px;
-  text-align: center;
+  text-align: left;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .handsome-blog-header h1 {
@@ -5246,7 +5329,7 @@ a {
   flex-direction: column;
 }
 
-.theme-handsome .post-detail-header-content {
+.theme-handsome .post-detail-header .post-detail-header-content {
   display: flex;
   width: calc(100% - 34px - 22px - 286px);
   margin-left: 34px;
@@ -5291,11 +5374,12 @@ a {
 .theme-handsome .post-detail .post-breadcrumb {
   display: flex;
   min-height: 42px;
-  margin: 18px 0 14px;
+  margin: 18px 0 20px;
   padding: 8px 15px;
-  border: 1px solid #e8ebee;
-  border-radius: 7px;
+  border: 1px solid transparent;
+  border-radius: 4px;
   background: #fff;
+  box-shadow: none;
   color: #7d8791;
   font-size: 13px;
   align-items: center;
@@ -5347,9 +5431,39 @@ a {
 
 .theme-handsome .post-detail-body {
   padding: 34px 36px;
-  border: 1px solid #e8ebee;
-  border-radius: 8px;
+  border: 0;
+  border-radius: 10px;
   background: #fff;
+  box-shadow: none;
+  justify-content: flex-start;
+}
+
+.theme-handsome .handsome-main-content .post-detail {
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-handsome .post-detail-header .post-detail-header-content {
+  margin-right: auto;
+  margin-left: 6px;
+  width: calc(100% - 320px);
+  text-align: left;
+  align-items: flex-start;
+}
+
+.theme-handsome .post-detail-header .post-title {
+  width: 100%;
+  align-self: flex-start;
+  text-align: left;
+}
+
+.theme-handsome .post-detail-header .post-meta {
+  width: 100%;
+  align-self: flex-start;
+  justify-content: flex-start;
+  text-align: left;
 }
 
 .theme-handsome .post-ai-summary {
@@ -5358,9 +5472,9 @@ a {
   box-sizing: border-box;
   margin: 0 0 30px;
   padding: 22px 26px 20px;
-  border: 1px solid #e5e9ed;
+  border: 0;
   border-radius: 10px;
-  background: #fafbfc;
+  background: #f7f9f8;
   box-shadow: none;
 }
 
@@ -6082,6 +6196,142 @@ a {
 .handsome-panel-icon svg {
   width: 22px;
   height: 22px;
+}
+
+.theme-handsome.handsome-color-mint {
+  --handsome-accent: #638f83;
+  --handsome-sidebar: #e8f1ed;
+  --handsome-sidebar-muted: #71817d;
+  --handsome-background: #edf4f1;
+  --handsome-surface: #fbfdfc;
+  --handsome-border: #dce7e2;
+  background: var(--handsome-background);
+  color: #4d5c58;
+}
+
+.theme-handsome.handsome-color-mint .handsome-topbar,
+.theme-handsome.handsome-color-mint .handsome-header {
+  background: #f7faf8;
+}
+
+.theme-handsome.handsome-color-mint .handsome-topbar {
+  border-bottom: 1px solid #dce6e1;
+}
+
+.theme-handsome.handsome-color-mint .handsome-tools > span,
+.theme-handsome.handsome-color-mint .handsome-tools svg {
+  color: #657670;
+}
+
+.theme-handsome.handsome-color-mint .handsome-color-menu-trigger {
+  color: #657670;
+}
+
+.theme-handsome.handsome-color-mint .handsome-color-menu-trigger:hover,
+.theme-handsome.handsome-color-mint
+  .handsome-color-menu-trigger[aria-expanded="true"] {
+  background: rgb(99 143 131 / 11%);
+  color: #405b53;
+}
+
+.theme-handsome.handsome-color-mint .handsome-search {
+  border-color: #dce6e1;
+  background: #eaf2ee;
+}
+
+.theme-handsome.handsome-color-mint .handsome-search:focus-within {
+  border-color: #b9cec5;
+  background: #fff;
+}
+
+.theme-handsome.handsome-color-mint .handsome-search svg,
+.theme-handsome.handsome-color-mint .handsome-search input,
+.theme-handsome.handsome-color-mint .handsome-search input::placeholder {
+  color: #75847f;
+}
+
+.theme-handsome.handsome-color-mint .handsome-header-progress {
+  background: rgb(99 143 131 / 12%);
+}
+
+.theme-handsome.handsome-color-mint .handsome-header-progress-bar {
+  background: #78aa9d;
+  box-shadow: 0 0 8px rgb(120 170 157 / 35%);
+}
+
+.theme-handsome.handsome-color-mint .handsome-sidebar {
+  background:
+    radial-gradient(circle at 18% 0%, rgb(255 255 255 / 78%), transparent 35%),
+    var(--handsome-sidebar);
+  color: #5f706b;
+}
+
+.theme-handsome.handsome-color-mint .handsome-nav a:first-child,
+.theme-handsome.handsome-color-mint .handsome-nav a:hover,
+.theme-handsome.handsome-color-mint .handsome-sidebar-footer a:hover {
+  background: rgb(99 143 131 / 10%);
+  color: #4f6961;
+}
+
+.theme-handsome.handsome-color-mint .handsome-sidebar-dock {
+  border-color: rgb(99 143 131 / 12%);
+  background: rgb(255 255 255 / 68%);
+  box-shadow: 0 5px 18px rgb(72 101 92 / 5%);
+}
+
+.theme-handsome.handsome-color-mint .handsome-workspace,
+.theme-handsome.handsome-color-mint .handsome-content-grid {
+  background: #f5f9f6;
+}
+
+.theme-handsome.handsome-color-mint .handsome-blog-header,
+.theme-handsome.handsome-color-mint .post-detail-header {
+  border-color: transparent;
+  background: #f5f9f6;
+}
+
+.theme-handsome.handsome-color-mint .handsome-blog-header h1,
+.theme-handsome.handsome-color-mint .handsome-main-content .post-title a {
+  color: #344640;
+}
+
+.theme-handsome.handsome-color-mint .handsome-blog-description,
+.theme-handsome.handsome-color-mint .handsome-main-content .post-content,
+.theme-handsome.handsome-color-mint .handsome-main-content .post-meta {
+  color: #7b8985;
+}
+
+.theme-handsome.handsome-color-mint .handsome-main-content .post,
+.theme-handsome.handsome-color-mint .handsome-main-content .post-near {
+  border-color: var(--handsome-border);
+  background: var(--handsome-surface);
+  box-shadow: 0 8px 24px rgb(61 88 79 / 4%);
+}
+
+.theme-handsome.handsome-color-mint .handsome-main-content .post-detail {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-handsome.handsome-color-mint .handsome-main-content .post-card .post-meta {
+  border-color: #e1e9e5;
+  background: #f6f9f7;
+}
+
+.theme-handsome.handsome-color-mint .handsome-sidebar-tabs {
+  border-color: #e1e9e5;
+  background: #f1f6f3;
+}
+
+.theme-handsome.handsome-color-mint .post-detail-header .post-meta {
+  border: 0;
+  background: transparent;
+}
+
+.theme-handsome.handsome-color-mint .handsome-sidebar-tab-indicator {
+  background: #fff;
+  box-shadow: 0 2px 7px rgb(61 88 79 / 6%);
 }
 
 @media (max-width: 1080px) {

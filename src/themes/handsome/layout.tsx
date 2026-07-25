@@ -19,12 +19,18 @@ export function HandsomeThemeLayout({
   children,
 }: ThemeLayoutProps<HandsomeThemeConfig>) {
   return (
-    <div className="theme-handsome">
+    <div
+      className={
+        config.colorScheme === "mint"
+          ? "theme-handsome handsome-color-mint"
+          : "theme-handsome"
+      }
+    >
       {customStyle}
       {previewBar}
       <div className="handsome-topbar">
         <div className="handsome-topbar-sidebar" aria-hidden="true" />
-        <Header />
+        <Header colorScheme={config.colorScheme} />
       </div>
       <Sidebar name={name} logoUrl={config.logoUrl} user={user} />
       <div className="handsome-workspace">

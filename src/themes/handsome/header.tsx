@@ -6,9 +6,17 @@ import {
   Search,
   TrendingUp,
 } from "lucide-react";
+import {
+  ColorSchemeMenu,
+  type HandsomeColorScheme,
+} from "@/themes/handsome/color-scheme-menu";
 import { HeaderScrollProgress } from "@/themes/handsome/header-scroll-progress";
 
-export function Header() {
+export function Header({
+  colorScheme,
+}: {
+  colorScheme: HandsomeColorScheme;
+}) {
   return (
     <header className="handsome-header">
       <button className="handsome-mobile-menu" type="button" aria-label="打开菜单">
@@ -19,6 +27,7 @@ export function Header() {
         <span><Activity aria-hidden="true" /></span>
         <span><TrendingUp aria-hidden="true" /></span>
         <span><Moon aria-hidden="true" /></span>
+        <ColorSchemeMenu initialScheme={colorScheme} />
       </div>
       <div className="handsome-header-actions">
         <form className="handsome-search" action="/" role="search">
