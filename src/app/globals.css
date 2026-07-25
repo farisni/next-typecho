@@ -1535,6 +1535,18 @@ html[data-paper-theme="dark"] body {
 
   .theme-paper .paper-post-list > .post-card .post-title {
     font-size: 13px;
+    text-align: left;
+  }
+
+  .paper-archive-pinned li,
+  .paper-archive-year li {
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .paper-archive-pinned a,
+  .paper-archive-year a {
+    text-align: left;
   }
 
   .paper-footer {
