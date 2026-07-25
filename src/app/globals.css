@@ -861,6 +861,12 @@ html[data-paper-theme="dark"] body {
   font-weight: 600;
 }
 
+.paper-date-month {
+  display: inline-block;
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", "PingFang SC", "Microsoft YaHei", sans-serif;
+  font-weight: 500;
+}
+
 .paper-pinned a,
 .theme-paper .paper-post-list > .post-card .post-title a {
   color: #343434;

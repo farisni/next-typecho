@@ -5,13 +5,21 @@ import { listTaxonomies } from "@/lib/repositories/taxonomies";
 export const dynamic = "force-dynamic";
 
 function formatPaperDate(date: Date | null) {
-  if (!date) return "-- --- ----";
-  return new Intl.DateTimeFormat("en-GB", {
+  if (!date) return { day: "--", month: "---", year: "----" };
+  const parts = new Intl.DateTimeFormat("zh-CN", {
     day: "numeric",
-    month: "short",
+    month: "numeric",
     year: "numeric",
     timeZone: "Asia/Shanghai",
-  }).format(date);
+  }).formatToParts(date);
+  const value = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+  const month = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"][Number(value("month")) - 1];
+  return { day: value("day"), month, year: value("year") };
+}
+
+function PaperDate({ date }: { date: Date | null }) {
+  const formatted = formatPaperDate(date);
+  return <time><span>{formatted.day}</span> <span className="paper-date-month">{formatted.month}</span> <span>{formatted.year}</span></time>;
 }
 
 function groupPostsByYear(posts: ReturnType<typeof listAllPublishedPosts>) {
@@ -62,7 +70,7 @@ export default async function PostsPage() {
             <ul>
               {pinnedPosts.map((post) => (
                 <li key={post.slug}>
-                  <time>{formatPaperDate(post.publishedAt)}</time>
+                  <PaperDate date={post.publishedAt} />
                   <Link href={`/posts/${post.slug}`}>{post.title}</Link>
                 </li>
               ))}
@@ -75,7 +83,7 @@ export default async function PostsPage() {
               <ul>
                 {yearPosts.map((post) => (
                   <li key={post.slug}>
-                    <time>{formatPaperDate(post.publishedAt)}</time>
+                    <PaperDate date={post.publishedAt} />
                     <Link href={`/posts/${post.slug}`}>{post.title}</Link>
                   </li>
                 ))}

@@ -27,12 +27,20 @@ function formatHandsomePostDate(date: Date) {
 }
 
 function formatPaperPostDate(date: Date) {
-  return new Intl.DateTimeFormat("en-GB", {
+  const parts = new Intl.DateTimeFormat("zh-CN", {
     day: "numeric",
-    month: "short",
+    month: "numeric",
     year: "numeric",
     timeZone: "Asia/Shanghai",
-  }).format(date);
+  }).formatToParts(date);
+  const value = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
+  const month = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"][Number(value("month")) - 1];
+  return { day: value("day"), month, year: value("year") };
+}
+
+function PaperDate({ date }: { date: Date }) {
+  const formatted = formatPaperPostDate(date);
+  return <time><span>{formatted.day}</span> <span className="paper-date-month">{formatted.month}</span> <span>{formatted.year}</span></time>;
 }
 
 export function PostCard({ post }: PostCardProps) {
@@ -51,11 +59,9 @@ export function PostCard({ post }: PostCardProps) {
           <li>
             <Clock3 className="post-meta-icon" aria-hidden="true" />
             <span className="post-meta-label">时间: </span>
-            <time>
-              <span className="post-date-default">{formatPostDate(post.publishedAt)}</span>
-              <span className="post-date-handsome">{formatHandsomePostDate(post.publishedAt)}</span>
-              <span className="post-date-paper">{formatPaperPostDate(post.publishedAt)}</span>
-            </time>
+            <span className="post-date-default">{formatPostDate(post.publishedAt)}</span>
+            <span className="post-date-handsome">{formatHandsomePostDate(post.publishedAt)}</span>
+            <span className="post-date-paper"><PaperDate date={post.publishedAt} /></span>
           </li>
         )}
         <li>
