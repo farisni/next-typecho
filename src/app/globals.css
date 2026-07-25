@@ -4721,7 +4721,7 @@ a {
 
 .handsome-main-content .post,
 .handsome-main-content .post-near {
-  margin: 0 0 20px;
+  margin: -8px 0 20px;
   padding: 28px 30px;
   border: 1px solid var(--handsome-border);
   border-radius: 9px;
@@ -5025,9 +5025,9 @@ a {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  min-height: 88px;
+  min-height: 72px;
   margin: 0 0 20px;
-  padding: 20px 18px;
+  padding: 12px 36px;
   border: 0;
   border-radius: 0;
   background: transparent;
@@ -5042,8 +5042,8 @@ a {
 .theme-handsome .post-near span {
   display: inline-flex;
   align-items: center;
-  min-height: 40px;
-  padding: 0 18px;
+  min-height: 36px;
+  padding: 0 14px;
   border: 1px solid var(--handsome-border);
   border-radius: 999px;
   background: var(--handsome-surface);
