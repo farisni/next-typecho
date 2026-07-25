@@ -11,6 +11,14 @@ import {
   type HandsomeThemeConfig,
 } from "@/themes/handsome/definition";
 import { HandsomeThemeLayout } from "@/themes/handsome/layout";
+import {
+  type LiteThemeConfig,
+} from "@/themes/lite/definition";
+import { LiteThemeLayout } from "@/themes/lite/layout";
+import {
+  type PaperThemeConfig,
+} from "@/themes/paper/definition";
+import { PaperThemeLayout } from "@/themes/paper/layout";
 import type { ThemeConfig, ThemeSlug } from "@/lib/themes/registry";
 import type { ThemeLayoutProps } from "@/themes/types";
 
@@ -37,10 +45,26 @@ const HandsomeRenderer: RegisteredThemeLayout = (props) => (
   />
 );
 
+const LiteRenderer: RegisteredThemeLayout = (props) => (
+  <LiteThemeLayout
+    {...props}
+    config={props.config as LiteThemeConfig}
+  />
+);
+
+const PaperRenderer: RegisteredThemeLayout = (props) => (
+  <PaperThemeLayout
+    {...props}
+    config={props.config as PaperThemeConfig}
+  />
+);
+
 const themeRenderers = {
   default: DefaultRenderer,
   "classic-22": Classic22Renderer,
   handsome: HandsomeRenderer,
+  lite: LiteRenderer,
+  paper: PaperRenderer,
 } satisfies Record<ThemeSlug, RegisteredThemeLayout>;
 
 export function getThemeRenderer(slug: ThemeSlug): RegisteredThemeLayout {

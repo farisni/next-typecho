@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="640" viewBox="0 0 960 640">
+  <rect width="960" height="640" fill="#fafafa"/>
+  <g transform="translate(210 82)">
+    <path d="M8 8h28v22H24v42H8V48H0V28h8z" fill="#9ca3af"/>
+    <text x="58" y="32" font-family="monospace" font-size="26" font-weight="700" fill="#171717">Paper</text>
+    <text x="58" y="58" font-family="monospace" font-size="14" font-weight="700" fill="#df2947">Home  |  About  |  Blog  |  Notes</text>
+    <text x="0" y="150" font-family="monospace" font-size="28" font-weight="700" fill="#171717">Hello World!</text>
+    <text x="0" y="204" font-family="monospace" font-size="14" fill="#404040">A quiet place for notes, code and everyday writing.</text>
+    <text x="0" y="290" font-family="monospace" font-size="22" font-weight="700" fill="#171717">Pinned Posts</text>
+    <text x="0" y="332" font-family="monospace" font-size="14" font-weight="700" fill="#475569">25 Jul 2026</text>
+    <text x="146" y="332" font-family="monospace" font-size="14" text-decoration="underline" fill="#262626">Welcome to the Paper theme</text>
+    <text x="0" y="412" font-family="monospace" font-size="22" font-weight="700" fill="#df2947">Posts</text>
+    <text x="0" y="454" font-family="monospace" font-size="14" font-weight="700" fill="#475569">24 Jul 2026</text>
+    <text x="146" y="454" font-family="monospace" font-size="14" text-decoration="underline" fill="#262626">Building a calm writing space</text>
+  </g>
+</svg>
