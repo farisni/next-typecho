@@ -1,5 +1,4 @@
 import type { ComponentProps, ReactNode } from "react";
-import { Hash } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
@@ -67,7 +66,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
 
       return (
         <Tag id={id} {...props}>
-          <Hash className="markdown-heading-icon" aria-hidden="true" />
+          <span className="markdown-heading-icon" aria-hidden="true">#</span>
           {children}
         </Tag>
       );
