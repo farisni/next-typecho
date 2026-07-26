@@ -18,6 +18,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import {
   Area,
   AreaChart,
@@ -495,6 +496,21 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
   const open = activePanel !== null;
 
   useEffect(() => {
+    if (!open) return;
+
+    const closeOnScroll = () => setActivePanel(null);
+
+    window.addEventListener("wheel", closeOnScroll, { passive: true });
+    window.addEventListener("scroll", closeOnScroll, { passive: true });
+    window.addEventListener("touchmove", closeOnScroll, { passive: true });
+    return () => {
+      window.removeEventListener("wheel", closeOnScroll);
+      window.removeEventListener("scroll", closeOnScroll);
+      window.removeEventListener("touchmove", closeOnScroll);
+    };
+  }, [open]);
+
+  useEffect(() => {
     const userAgent = window.navigator.userAgent;
     const browserCores = window.navigator.hardwareConcurrency ?? 0;
     const connection = (
@@ -694,9 +710,19 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
         ) : null}
       </TabsSubtle>
 
+      <AnimatePresence mode="wait">
       {activePanel === "system" ? (
-        <TooltipProvider>
-          <section className="lite-system-data-panel" role="dialog" aria-label="站点运行数据">
+        <motion.section
+          key="system-panel"
+          className="lite-system-data-panel"
+          role="dialog"
+          aria-label="站点运行数据"
+          initial={{ x: "-50%", y: -6, opacity: 0 }}
+          animate={{ x: "-50%", y: 0, opacity: 1 }}
+          exit={{ x: "-50%", y: -12, opacity: 0 }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <TooltipProvider>
           <div className="lite-data-column">
             <h2>运行状态</h2>
             <MetricRow
@@ -735,19 +761,25 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
             <InfoRow icon={Server} label="当前域名" value={visitor.domain} />
           </div>
 
-          </section>
-        </TooltipProvider>
+          </TooltipProvider>
+        </motion.section>
       ) : null}
 
       {activePanel === "traffic" && canViewTraffic ? (
-        <section
+        <motion.section
+          key="traffic-panel"
           className="lite-system-data-panel lite-traffic-data-panel"
           role="dialog"
           aria-label="网站流量统计"
+          initial={{ x: "-50%", y: -6, opacity: 0 }}
+          animate={{ x: "-50%", y: 0, opacity: 1 }}
+          exit={{ x: "-50%", y: -12, opacity: 0 }}
+          transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
         >
           <TrafficDashboard summary={traffic} />
-        </section>
+        </motion.section>
       ) : null}
+      </AnimatePresence>
     </div>
   );
 }
