@@ -23,6 +23,14 @@ export type CommentActionState = {
 
 const initialError: CommentActionState = { ok: false, message: "评论提交失败" };
 const COOKIE_MAX_AGE = 30 * 24 * 60 * 60;
+const MIN_GUEST_COMMENT_INTERVAL_SECONDS = 60;
+const DUPLICATE_COMMENT_WINDOW_MS = 24 * 60 * 60 * 1000;
+const MAX_COMMENT_LINKS = 1;
+
+function countCommentLinks(value: string) {
+  // 这里只识别最常见的公开链接形式，规则保持简单，避免误伤普通文字。
+  return value.match(/\b(?:https?:\/\/|www\.)\S+/gi)?.length ?? 0;
+}
 
 function normalizeUrl(value: string) {
   if (!value) return "";
@@ -107,21 +115,11 @@ export async function submitComment(
         throw new Error("评论来源页错误");
       }
     }
+    // company 是页面中不可见的蜜罐字段；正常访客不会填写，自动表单通常会填写。
     if (settings.commentsAntiSpam && input.company) throw new Error("评论提交失败");
 
     const currentUser = await getCurrentUser();
     const ip = requestIp(requestHeaders);
-    if (!currentUser && settings.commentsPostInterval > 0 && ip) {
-      const latest = get<{ createdAt: number }>(
-        `SELECT created_at AS createdAt FROM comments
-         WHERE post_id = ? AND ip = ? ORDER BY created_at DESC LIMIT 1`,
-        post.id,
-        ip,
-      );
-      if (latest && Date.now() - latest.createdAt < settings.commentsPostInterval * 1000) {
-        throw new Error("您的发言过于频繁，请稍候再次发布");
-      }
-    }
 
     let parentId: string | null = null;
     let replyToId: string | null = null;
@@ -164,6 +162,50 @@ export async function submitComment(
         author,
       );
       if (protectedName) throw new Error("该称呼已被注册，请登录后再次提交");
+    }
+
+    if (!currentUser) {
+      // 频率限制覆盖全站，而不是只限制同一篇文章，防止机器人轮换文章绕过限制。
+      const intervalSeconds = Math.max(
+        settings.commentsPostInterval,
+        settings.commentsAntiSpam ? MIN_GUEST_COMMENT_INTERVAL_SECONDS : 0,
+      );
+      if (intervalSeconds > 0) {
+        const latest = get<{ createdAt: number }>(
+          `SELECT created_at AS createdAt FROM comments
+           WHERE ((? <> '' AND ip = ?) OR (? <> '' AND mail = ?))
+           ORDER BY created_at DESC LIMIT 1`,
+          ip,
+          ip,
+          mail,
+          mail,
+        );
+        if (latest && Date.now() - latest.createdAt < intervalSeconds * 1000) {
+          throw new Error("您的发言过于频繁，请稍候再次发布");
+        }
+      }
+
+      if (settings.commentsAntiSpam) {
+        // 正文只允许一个外链；个人主页字段不计入，避免影响正常访客填写主页。
+        if (countCommentLinks(input.text) > MAX_COMMENT_LINKS) {
+          throw new Error("评论内容最多包含 1 个链接");
+        }
+
+        // 同一来源 24 小时内提交完全相同的正文，直接视为重复评论。
+        const duplicate = get<{ id: string }>(
+          `SELECT id FROM comments
+           WHERE text = ? AND created_at >= ?
+             AND ((? <> '' AND ip = ?) OR (? <> '' AND mail = ?))
+           LIMIT 1`,
+          input.text,
+          Date.now() - DUPLICATE_COMMENT_WINDOW_MS,
+          ip,
+          ip,
+          mail,
+          mail,
+        );
+        if (duplicate) throw new Error("请勿重复提交相同评论");
+      }
     }
 
     let status: "approved" | "waiting" = "approved";
