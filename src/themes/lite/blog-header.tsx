@@ -8,7 +8,6 @@ const headerSong: Song = {
     name: "2014 i/O",
     image: "/images/shanyin-road-summer-2014-cover.jpg",
   },
-  src: "/audio/shanyin-road-summer-2014.mp3",
   duration: 313,
 };
 
