@@ -204,7 +204,7 @@ a {
   width: 100%;
   padding: 5px 30px 5px 5px;
   border: 1px solid #e9e9e9;
-  border-radius: 2px;
+  border-radius: 0;
   background: #fff;
   color: #444;
   font: inherit;
@@ -3960,7 +3960,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
 .typecho-uiw-editor .w-md-editor-preview::-webkit-scrollbar-thumb {
   min-height: 32px;
   border: 2px solid transparent;
-  border-radius: 999px;
+  border-radius: 2px;
   background: #bbb;
   background-clip: padding-box;
 }
@@ -10077,14 +10077,40 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
 }
 
 .post-comments .comment-visitor-fields label {
+  position: relative;
   justify-content: center;
   padding: 0 20px;
 }
 
 .post-comments .comment-visitor-fields input {
   height: 56px;
+  padding-right: 58px;
   color: #45464a;
   font-size: 15px;
+}
+
+.post-comments .comment-input-clear {
+  position: absolute;
+  top: 50%;
+  right: 28px;
+  display: inline-flex;
+  height: 24px;
+  padding: 0 7px;
+  align-items: center;
+  border: 1px solid #d8d9dd;
+  border-radius: 3px;
+  background: #f7f7f8;
+  color: #777a80;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 1;
+  transform: translateY(-50%);
+}
+
+.post-comments .comment-input-clear:hover {
+  border-color: #b9bbc0;
+  background: #fff;
+  color: #45464a;
 }
 
 .post-comments .comment-visitor-fields input::placeholder {
@@ -10147,6 +10173,13 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment-visitor-fields input::placeholder,
 .theme-paper[data-paper-theme="dark"] .post-comments .comment-visitor-fields input::placeholder {
   color: #d1d2d5;
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment-input-clear,
+.theme-paper[data-paper-theme="dark"] .post-comments .comment-input-clear {
+  border-color: #4b4e55;
+  background: #2f3238;
+  color: #c7c9ce;
 }
 
 @media (max-width: 760px) {

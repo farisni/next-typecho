@@ -183,8 +183,18 @@ export function CommentsClient(props: CommentsClientProps) {
   const [replyTo, setReplyTo] = useState<PublicComment | null>(null);
   const [commentBoxOpen, setCommentBoxOpen] = useState(props.commentsOpen);
   const [allCommentsVisible, setAllCommentsVisible] = useState(false);
+  const [visitorValues, setVisitorValues] = useState({
+    author: props.remembered.author,
+    mail: props.remembered.mail,
+    url: props.remembered.url,
+  });
   const [state, formAction, pending] = useActionState(submitComment, initialState);
   const formRef = useRef<HTMLFormElement>(null);
+  const visitorInputRefs = {
+    author: useRef<HTMLInputElement>(null),
+    mail: useRef<HTMLInputElement>(null),
+    url: useRef<HTMLInputElement>(null),
+  };
   const router = useRouter();
   const totalCommentCount = countCommentTree(props.comments);
   const visibleComments = allCommentsVisible
@@ -217,6 +227,14 @@ export function CommentsClient(props: CommentsClientProps) {
     const end = textarea.selectionEnd;
     textarea.setRangeText(value, start, end, "end");
     textarea.focus();
+  }
+
+  function clearVisitorField(field: keyof typeof visitorValues) {
+    const input = visitorInputRefs[field].current;
+    if (!input) return;
+    input.value = "";
+    setVisitorValues((values) => ({ ...values, [field]: "" }));
+    input.focus();
   }
 
   function insertCommentImage() {
@@ -260,15 +278,65 @@ export function CommentsClient(props: CommentsClientProps) {
           <div className="comment-visitor-fields">
             <label data-required="true">
               <span className="sr-only">昵称</span>
-              <input name="author" defaultValue={props.remembered.author} required maxLength={150} placeholder="昵称 *" />
+              <input
+                ref={visitorInputRefs.author}
+                name="author"
+                defaultValue={props.remembered.author}
+                required
+                maxLength={150}
+                placeholder="昵称 *"
+                onInput={(event) => {
+                  const value = event.currentTarget.value;
+                  setVisitorValues((values) => ({ ...values, author: value }));
+                }}
+              />
+              {visitorValues.author && (
+                <button className="comment-input-clear" type="button" aria-label="清空昵称" title="清空昵称" onClick={() => clearVisitorField("author")}>
+                  清空
+                </button>
+              )}
             </label>
             <label data-required={props.settings.requireMail || undefined}>
               <span className="sr-only">邮箱</span>
-              <input name="mail" type="email" defaultValue={props.remembered.mail} required={props.settings.requireMail} maxLength={150} placeholder={props.settings.requireMail ? "邮箱 *" : "邮箱"} />
+              <input
+                ref={visitorInputRefs.mail}
+                name="mail"
+                type="email"
+                defaultValue={props.remembered.mail}
+                required={props.settings.requireMail}
+                maxLength={150}
+                placeholder={props.settings.requireMail ? "邮箱 *" : "邮箱"}
+                onInput={(event) => {
+                  const value = event.currentTarget.value;
+                  setVisitorValues((values) => ({ ...values, mail: value }));
+                }}
+              />
+              {visitorValues.mail && (
+                <button className="comment-input-clear" type="button" aria-label="清空邮箱" title="清空邮箱" onClick={() => clearVisitorField("mail")}>
+                  清空
+                </button>
+              )}
             </label>
             <label data-required={props.settings.requireUrl || undefined}>
               <span className="sr-only">网址</span>
-              <input name="url" type="text" defaultValue={props.remembered.url} required={props.settings.requireUrl} maxLength={255} placeholder={props.settings.requireUrl ? "网址 *" : "网址（可选）"} />
+              <input
+                ref={visitorInputRefs.url}
+                name="url"
+                type="text"
+                defaultValue={props.remembered.url}
+                required={props.settings.requireUrl}
+                maxLength={255}
+                placeholder={props.settings.requireUrl ? "网址 *" : "网址（可选）"}
+                onInput={(event) => {
+                  const value = event.currentTarget.value;
+                  setVisitorValues((values) => ({ ...values, url: value }));
+                }}
+              />
+              {visitorValues.url && (
+                <button className="comment-input-clear" type="button" aria-label="清空网址" title="清空网址" onClick={() => clearVisitorField("url")}>
+                  清空
+                </button>
+              )}
             </label>
           </div>
         )}

@@ -8,6 +8,7 @@ import { requireAdministrator } from "@/lib/auth/session";
 import { get, run, transaction } from "@/lib/db";
 import { renderMarkdownToHtml } from "@/lib/markdown/render-post-html";
 import { bulkManagePostRecords } from "@/lib/posts/admin-service";
+import { refreshSearchCache } from "@/lib/search-cache";
 import { postSchema } from "@/lib/validation/post";
 
 function parsePostForm(formData: FormData) {
@@ -30,6 +31,7 @@ function parsePostForm(formData: FormData) {
 }
 
 function refreshContentPages() {
+  refreshSearchCache();
   // Server Action 修改数据库后，显式让相关 Server Component 重新获取数据。
   revalidatePath("/", "layout");
   revalidatePath("/admin/posts");
