@@ -217,18 +217,6 @@ export function Header({ user }: { user: HeaderUser }) {
                     </CommandItem>
                   )}
                 </CommandGroup>
-                <CommandGroup heading="站内搜索">
-                  <CommandItem
-                    className="lite-command-search-all items-center gap-2.5 [&>svg:last-child]:hidden"
-                    onSelect={submitSearch}
-                  >
-                    <Search className="size-5 shrink-0" aria-hidden="true" />
-                    <div className="flex min-w-0 flex-1 items-baseline gap-2">
-                      <span className="truncate font-medium text-foreground">搜索 “{searchQuery.trim()}”</span>
-                      <span className="truncate text-sm text-muted-foreground">查看全部结果</span>
-                    </div>
-                  </CommandItem>
-                </CommandGroup>
               </>
             ) : (
               <CommandGroup heading="站点">

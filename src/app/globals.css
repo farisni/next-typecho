@@ -8204,11 +8204,6 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-account-men
   border-radius: 12px;
 }
 
-.theme-lite .lite-command-dialog .lite-command-search-all {
-  min-height: 40px;
-  padding-block: 5px;
-}
-
 .theme-lite .lite-command-dialog [data-slot="command-item"] > svg:first-child {
   width: 20px;
   height: 20px;
