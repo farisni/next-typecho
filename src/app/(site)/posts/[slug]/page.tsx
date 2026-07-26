@@ -6,13 +6,13 @@ import {
   FolderOpen,
   Home,
   MessageCircle,
-  ThumbsUp,
   Share2,
   Star,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
 import { PaperTableOfContents } from "@/components/site/article-toc";
 import { DonationDialog } from "@/components/site/donation-dialog";
+import { PostLikeButton } from "@/components/site/post-like-button";
 import { Separator } from "@/components/ui/separator";
 import { PostComments } from "@/components/site/post-comments";
 import { formatPostDate } from "@/lib/format-date";
@@ -120,7 +120,7 @@ export default async function PostPage({
             <div className="post-support">
               <div className="post-support-actions">
                 <DonationDialog />
-                <button className="post-support-like" type="button"><ThumbsUp aria-hidden="true" />赞&nbsp;3</button>
+                <PostLikeButton />
               </div>
               <p>如果觉得我的文章对你有用，请随意赞赏</p>
             </div>
