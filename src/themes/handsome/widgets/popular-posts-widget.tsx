@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { MessageCircle, Newspaper } from "lucide-react";
-import { SidebarTabs } from "@/themes/handsome/widgets/sidebar-tabs";
+import { SidebarTabsClient } from "@/themes/handsome/widgets/sidebar-tabs-client";
 
 type PopularPost = {
   title: string;
@@ -12,7 +12,7 @@ const commentCounts = [523, 212, 202, 196, 179];
 export function PopularPostsWidget({ posts }: { posts: PopularPost[] }) {
   return (
     <section className="handsome-popular-widget" aria-label="热门文章">
-      <SidebarTabs />
+      <SidebarTabsClient />
       <ul className="handsome-popular-list">
         {posts.slice(0, 5).map((post, index) => (
           <li key={post.slug}>

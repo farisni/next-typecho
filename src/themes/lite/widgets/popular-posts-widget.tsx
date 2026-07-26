@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { SidebarTabs } from "@/themes/lite/widgets/sidebar-tabs";
+import { SidebarTabsClient } from "@/themes/lite/widgets/sidebar-tabs-client";
 
 type PopularPost = {
   title: string;
@@ -9,7 +9,7 @@ type PopularPost = {
 export function PopularPostsWidget({ posts }: { posts: PopularPost[] }) {
   return (
     <section className="handsome-popular-widget" aria-label="热门文章">
-      <SidebarTabs />
+      <SidebarTabsClient />
       <ul className="handsome-popular-list">
         {posts.slice(0, 5).map((post, index) => (
           <li key={post.slug}>

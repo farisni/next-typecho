@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { Gift, MessageSquare, ThumbsUp } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -19,16 +18,10 @@ const tabs: TabConfig[] = [
 ];
 
 export function SidebarTabs() {
-  const [activeTab, setActiveTab] = useState<TabKey>("popular");
-
   return (
-    <Tabs
-      value={activeTab}
-      onValueChange={(value) => setActiveTab(value as TabKey)}
-      aria-label="侧栏内容类型"
-    >
+    <Tabs defaultValue="popular" aria-label="侧栏内容类型">
       <div className="handsome-sidebar-tabs-wrap">
-        <TabsList>
+        <TabsList variant="default" suppressHydrationWarning>
           {tabs.map(({ label, icon: Icon, value }) => (
             <TabsTrigger value={value} key={label} aria-label={label}>
               <Icon aria-hidden="true" />

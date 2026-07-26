@@ -12,7 +12,7 @@ export function Pagination({ page, totalPages }: PaginationProps) {
 
   return (
     <ol className="page-navigator" aria-label="分页">
-      <li className={hasPrevious ? undefined : "page-spacer"}>
+      <li className={hasPrevious ? undefined : "is-disabled"}>
         {hasPrevious ? <Link href={`?page=${page - 1}`}>« 前一页</Link> : <span aria-hidden="true">« 前一页</span>}
       </li>
       {Array.from({ length: totalPages }, (_, index) => index + 1).map((number) => (
