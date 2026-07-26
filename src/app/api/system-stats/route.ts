@@ -1,17 +1,17 @@
-import process from "node:process";
 import { cpus, loadavg } from "node:os";
+import process from "node:process";
 import si from "systeminformation";
 import { getSearchCacheStats } from "@/lib/search-cache";
 
 export async function GET() {
   const [load, memory, fileSystems, osInfo, defaultNetworkInterface] =
     await Promise.all([
-    si.currentLoad(),
-    si.mem(),
-    si.fsSize(),
-    si.osInfo(),
-    si.networkInterfaceDefault(),
-  ]);
+      si.currentLoad(),
+      si.mem(),
+      si.fsSize(),
+      si.osInfo(),
+      si.networkInterfaceDefault(),
+    ]);
   const network = defaultNetworkInterface
     ? await si.networkStats(defaultNetworkInterface)
     : [];
@@ -39,7 +39,6 @@ export async function GET() {
     }),
     { rxBytes: 0, txBytes: 0, rxSec: 0, txSec: 0 },
   );
-  const uptime = si.time().uptime;
 
   return Response.json(
     {
@@ -74,7 +73,7 @@ export async function GET() {
         five: loadFive ?? 0,
         fifteen: loadFifteen ?? 0,
       },
-      uptime,
+      uptime: si.time().uptime,
       platform: `${osInfo.distro || osInfo.platform} ${osInfo.release} ${osInfo.arch}`,
       runtime: process.version,
       serverTime: new Date().toISOString(),
