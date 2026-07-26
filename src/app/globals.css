@@ -7954,6 +7954,10 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .lite-brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
   max-width: 100%;
   overflow: hidden;
   color: #111;
@@ -7964,6 +7968,31 @@ body:has(.theme-lite) {
   text-overflow: ellipsis;
   text-transform: uppercase;
   white-space: nowrap;
+}
+
+.theme-lite .lite-brand-mark {
+  display: flex;
+  width: 148px;
+  height: 40px;
+  flex: 0 0 148px;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.theme-lite .lite-brand-mark img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  opacity: 0.88;
+  mix-blend-mode: multiply;
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-brand-mark img {
+  filter: invert(1);
+  opacity: 0.8;
+  mix-blend-mode: screen;
 }
 
 .theme-lite .handsome-header {

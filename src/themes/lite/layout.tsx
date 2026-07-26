@@ -28,7 +28,12 @@ export function LiteThemeLayout({
       {previewBar}
       <div className="handsome-topbar">
         <div className="handsome-topbar-sidebar">
-          <span className="lite-brand">{name}</span>
+          <span className="lite-brand">
+            <span className="lite-brand-mark" aria-hidden="true">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/images/lite-brand-mountains.webp" alt="" />
+            </span>
+          </span>
         </div>
         <Header />
       </div>
