@@ -378,7 +378,7 @@ function TrafficTrend({ days }: { days: TrafficDay[] }) {
         <AreaChart
           accessibilityLayer
           data={recentDays}
-          margin={{ top: 6, right: 8, left: -18, bottom: 0 }}
+          margin={{ top: 6, right: 8, left: 2, bottom: 0 }}
         >
           <defs>
             <linearGradient id="trafficPageViews" x1="0" x2="0" y1="0" y2="1">
@@ -402,7 +402,7 @@ function TrafficTrend({ days }: { days: TrafficDay[] }) {
             allowDecimals={false}
             axisLine={false}
             tickLine={false}
-            width={34}
+            width={42}
           />
           <ChartTooltip
             cursor={false}

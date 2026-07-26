@@ -1,11 +1,8 @@
+"use client";
+
 import { cn } from "@/lib/utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger
-} from "@/components/ui/tooltip";
-import { HTMLAttributes, ReactNode } from "react";
+import { HTMLAttributes, ReactNode, useState } from "react";
+import { createPortal } from "react-dom";
 
 export type HeatmapValue = {
   date: string; // YYYY-MM-DD
@@ -243,6 +240,12 @@ function ValueIndicator({
 }
 
 export default function Heatmap(props: HeatmapProps) {
+  const [activeTooltip, setActiveTooltip] = useState<{
+    day: string;
+    value: number;
+    left: number;
+    top: number;
+  } | null>(null);
   const {
     data,
     startDate,
@@ -343,10 +346,20 @@ export default function Heatmap(props: HeatmapProps) {
     }
   };
 
+  const showTooltip = (element: HTMLElement, day: string, value: number) => {
+    const rect = element.getBoundingClientRect();
+    setActiveTooltip({
+      day,
+      value,
+      left: rect.left + rect.width / 2,
+      top: rect.top - 7,
+    });
+  };
+
   return (
     <div
       role="grid"
-      className={cn("grid", className)}
+      className={cn("relative grid", className)}
       aria-label="Activity Heatmap"
       style={{
         gap,
@@ -367,13 +380,12 @@ export default function Heatmap(props: HeatmapProps) {
         </div>
       ))}
 
-      <TooltipProvider>
-        {weeks.map((week, weekIdx) =>
-          week.map((day, dayIdx) => {
+      {weeks.map((week, weekIdx) =>
+        week.map((day, dayIdx) => {
             if (!day) {
               return (
                 <div
-                  key={dayIdx}
+                  key={`empty-${weekIdx}-${dayIdx}`}
                   style={{ gridColumn: weekIdx + 2, gridRow: dayIdx + 2 }}
                 />
               );
@@ -382,44 +394,70 @@ export default function Heatmap(props: HeatmapProps) {
             const thisDateValue = valueByDate.get(day) ?? 0;
             const safeValue = Math.max(0, thisDateValue);
             const thisColor = getCellColor(safeValue);
-            const dateForDisplay = new Date(day + "T00:00:00");
-
             return (
-              <Tooltip key={dayIdx}>
-                <TooltipTrigger
-                  render={
-                    <ValueIndicator
-                      style={{ gridColumn: weekIdx + 2, gridRow: dayIdx + 2 }}
-                      tabIndex={0}
-                      aria-label={`${day}: ${safeValue} event${safeValue !== 1 ? "s" : ""}`}
-                      id={`heatmap-cell-${day}`}
-                      cellSize={cellSize}
-                      displayStyle={displayStyle}
-                      value={safeValue}
-                      maxValue={maxValue}
-                      color={thisColor}
-                    />
-                  }
-                />
-                <TooltipContent>
-                  <div className="text-xs">
-                    <div>
-                      {dateDisplayFunction
-                        ? dateDisplayFunction(dateForDisplay)
-                        : dateForDisplay.toDateString()}
-                    </div>
-                    <div className="text-muted-foreground">
-                      {valueDisplayFunction
-                        ? valueDisplayFunction(safeValue)
-                        : `${safeValue} event${safeValue !== 1 ? "s" : ""}`}
-                    </div>
-                  </div>
-                </TooltipContent>
-              </Tooltip>
+              <ValueIndicator
+                key={day}
+                style={{ gridColumn: weekIdx + 2, gridRow: dayIdx + 2 }}
+                tabIndex={safeValue > 0 ? 0 : -1}
+                aria-label={`${day}: ${safeValue} event${safeValue !== 1 ? "s" : ""}`}
+                id={`heatmap-cell-${day}`}
+                cellSize={cellSize}
+                displayStyle={displayStyle}
+                value={safeValue}
+                maxValue={maxValue}
+                color={thisColor}
+                onMouseEnter={
+                  safeValue > 0
+                    ? (event) =>
+                        showTooltip(event.currentTarget, day, safeValue)
+                    : undefined
+                }
+                onMouseLeave={
+                  safeValue > 0 ? () => setActiveTooltip(null) : undefined
+                }
+                onFocus={
+                  safeValue > 0
+                    ? (event) =>
+                        showTooltip(event.currentTarget, day, safeValue)
+                    : undefined
+                }
+                onBlur={
+                  safeValue > 0 ? () => setActiveTooltip(null) : undefined
+                }
+              />
             );
           })
-        )}
-      </TooltipProvider>
+      )}
+
+      {activeTooltip && typeof document !== "undefined"
+        ? createPortal(
+            <div
+              role="tooltip"
+              className="pointer-events-none fixed z-50 w-max max-w-xs -translate-x-1/2 -translate-y-full select-none rounded-md bg-foreground px-3 py-1.5 text-xs text-background"
+              style={{
+                left: activeTooltip.left,
+                top: activeTooltip.top,
+              }}
+            >
+              <div>
+                {dateDisplayFunction
+                  ? dateDisplayFunction(
+                      new Date(`${activeTooltip.day}T00:00:00`),
+                    )
+                  : new Date(
+                      `${activeTooltip.day}T00:00:00`,
+                    ).toDateString()}
+              </div>
+              <div className="text-background/70">
+                {valueDisplayFunction
+                  ? valueDisplayFunction(activeTooltip.value)
+                  : `${activeTooltip.value} event${activeTooltip.value !== 1 ? "s" : ""}`}
+              </div>
+              <span className="absolute -bottom-1 left-1/2 size-2 -translate-x-1/2 rotate-45 bg-foreground" />
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 }
