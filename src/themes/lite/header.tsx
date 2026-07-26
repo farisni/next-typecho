@@ -120,7 +120,7 @@ export function Header({ user }: { user: HeaderUser }) {
           <Menu aria-hidden="true" />
         </button>
         <div className="handsome-header-dashboard">
-          <SystemDataPanel />
+          <SystemDataPanel canViewTraffic={Boolean(user)} />
         </div>
         <span className="lite-header-spacer" />
         <div className="handsome-header-actions">

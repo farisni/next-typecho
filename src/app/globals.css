@@ -46,6 +46,7 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
+  --color-heatmap-zero: var(--heatmap-zero);
 }
 
 * {
@@ -829,7 +830,6 @@ html[data-paper-theme="dark"] .theme-lite .post-content .hljs-punctuation,
 .theme-preview-bar form {
   margin: 0;
 }
-
 
 /* Paper theme */
 html[data-paper-theme="light"] {
@@ -7107,7 +7107,6 @@ html[data-paper-theme="dark"] .theme-lite .handsome-sidebar-tabs-wrap [data-slot
   box-shadow: none;
 }
 
-
 .handsome-popular-list {
   display: flex;
   margin: 14px 0 0;
@@ -7389,7 +7388,6 @@ html[data-paper-theme="dark"] .theme-lite .handsome-sidebar-tabs-wrap [data-slot
   font-size: 14px;
   font-weight: 500;
 }
-
 
 .handsome-footer {
   display: flex;
@@ -7853,6 +7851,7 @@ html[data-paper-theme="dark"] .theme-lite .handsome-sidebar-tabs-wrap [data-slot
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --heatmap-zero: rgb(221, 221, 221);
 }
 
 .dark {
@@ -7887,6 +7886,7 @@ html[data-paper-theme="dark"] .theme-lite .handsome-sidebar-tabs-wrap [data-slot
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+  --heatmap-zero: rgb(51, 51, 51);
 }
 
 @layer base {
@@ -8585,6 +8585,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
     0 6px 10px -7px rgb(41 48 61 / 16%);
   color: #767b84;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  row-gap: 22px;
   transform: translateX(-50%);
   z-index: 30;
 }
@@ -8685,6 +8686,195 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
 
 .theme-lite .lite-data-info-row strong {
   max-width: 64%;
+}
+
+.theme-lite .lite-traffic-dashboard {
+  min-width: 0;
+  padding: 20px 22px 0;
+  border-top: 1px solid #f0f1f3;
+  grid-column: 1 / -1;
+}
+
+.theme-lite .lite-system-data-panel.lite-traffic-data-panel {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.theme-lite .lite-traffic-data-panel .lite-traffic-dashboard {
+  padding-top: 0;
+  border-top: 0;
+}
+
+.theme-lite .lite-traffic-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.theme-lite .lite-traffic-header h2 {
+  margin: 0;
+  color: #555b65;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.theme-lite .lite-traffic-header p {
+  margin: 4px 0 0;
+  color: #a0a5ac;
+  font-size: 12px;
+}
+
+.theme-lite .lite-traffic-totals {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.theme-lite .lite-traffic-totals span {
+  display: grid;
+  gap: 2px;
+  color: #9a9fa6;
+  font-size: 10px;
+  text-align: right;
+}
+
+.theme-lite .lite-traffic-totals strong {
+  color: #4f5660;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.theme-lite .lite-traffic-charts {
+  display: grid;
+  grid-template-columns: minmax(420px, 1.08fr) minmax(0, 1fr);
+  gap: 14px;
+}
+
+.theme-lite .lite-traffic-chart,
+.theme-lite .lite-traffic-loading {
+  min-width: 0;
+  padding: 14px 16px;
+  border: 1px solid #f0f1f3;
+  border-radius: 10px;
+  background: #fafafa;
+}
+
+.theme-lite .lite-traffic-loading {
+  display: grid;
+  min-height: 170px;
+  place-items: center;
+  color: #9ca1a8;
+  font-size: 12px;
+}
+
+.theme-lite .lite-traffic-chart-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 13px;
+}
+
+.theme-lite .lite-traffic-chart-heading strong {
+  color: #5c626b;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.theme-lite .lite-traffic-chart-heading span {
+  color: #a4a9af;
+  font-size: 10px;
+}
+
+.theme-lite .lite-traffic-heatmap-scroll {
+  overflow-x: auto;
+  padding: 2px 0 4px;
+}
+
+.theme-lite .lite-traffic-heatmap {
+  width: max-content;
+  min-width: 100%;
+  justify-content: center;
+}
+
+.theme-lite .lite-traffic-legend {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 4px;
+  margin-top: 10px;
+  color: #a4a9af;
+  font-size: 9px;
+}
+
+.theme-lite .lite-traffic-legend i {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: #eceeed;
+}
+
+.theme-lite .lite-traffic-legend .is-level-1 {
+  background: #d9eddf;
+}
+
+.theme-lite .lite-traffic-legend .is-level-2 {
+  background: #9fd5ad;
+}
+
+.theme-lite .lite-traffic-legend .is-level-3 {
+  background: #55b879;
+}
+
+.theme-lite .lite-traffic-legend .is-level-4 {
+  background: #248a51;
+}
+
+.theme-lite .lite-traffic-trend {
+  width: 100%;
+  height: 142px;
+  margin-top: 32px;
+  aspect-ratio: auto;
+}
+
+.theme-lite .lite-traffic-card {
+  border-color: transparent;
+  background: #fdfdfc;
+}
+
+.theme-lite .lite-traffic-charts > * {
+  border: 0 !important;
+  box-shadow: none !important;
+  background: #fdfdfc;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-dashboard {
+  border-color: rgb(255 255 255 / 8%);
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-header h2,
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-totals strong,
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-chart-heading strong {
+  color: #d7deeb;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-chart,
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-loading {
+  border-color: rgb(255 255 255 / 8%);
+  background: #252b35;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-legend i {
+  background: #343b46;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-traffic-tooltip {
+  border-color: rgb(255 255 255 / 10%);
+  background: #252b35;
+  color: #d7deeb;
 }
 
 .theme-lite .handsome-scroll-progress {
@@ -9938,6 +10128,29 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
     padding-top: 18px;
     border-top: 1px solid #f0f1f3;
     border-left: 0;
+  }
+
+  .theme-lite .lite-traffic-dashboard {
+    padding: 18px 10px 0;
+  }
+
+  .theme-lite .lite-traffic-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .theme-lite .lite-traffic-totals {
+    width: 100%;
+    justify-content: space-between;
+    gap: 10px;
+  }
+
+  .theme-lite .lite-traffic-totals span {
+    text-align: left;
+  }
+
+  .theme-lite .lite-traffic-charts {
+    grid-template-columns: minmax(0, 1fr);
   }
 
   .theme-lite .handsome-blog-header {

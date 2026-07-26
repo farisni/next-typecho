@@ -169,6 +169,34 @@ export const installationState = sqliteTable("installation_state", {
   version: integer("version").notNull().default(1),
 });
 
+export const trafficDaily = sqliteTable(
+  "traffic_daily",
+  {
+    date: text("date").notNull(),
+    path: text("path").notNull(),
+    pageViews: integer("page_views").notNull().default(0),
+    updatedAt: integer("updated_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.date, table.path] }),
+    index("traffic_daily_date_idx").on(table.date),
+  ],
+);
+
+export const trafficVisitors = sqliteTable(
+  "traffic_visitors",
+  {
+    date: text("date").notNull(),
+    path: text("path").notNull(),
+    visitorHash: text("visitor_hash").notNull(),
+    createdAt: integer("created_at", { mode: "timestamp_ms" }).notNull(),
+  },
+  (table) => [
+    primaryKey({ columns: [table.date, table.path, table.visitorHash] }),
+    index("traffic_visitors_date_idx").on(table.date),
+  ],
+);
+
 export const categoryRelations = relations(categories, ({ many }) => ({ posts: many(posts) }));
 export const tagRelations = relations(tags, ({ many }) => ({ postTags: many(postsToTags) }));
 export const postRelations = relations(posts, ({ one, many }) => ({

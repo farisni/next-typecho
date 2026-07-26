@@ -18,7 +18,27 @@ import {
   Wifi,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import {
+  Area,
+  AreaChart,
+  CartesianGrid,
+  XAxis,
+  YAxis,
+} from "recharts";
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+  type ChartConfig,
+} from "@/components/ui/chart";
+import Heatmap from "@/components/8starlabs-ui/heatmap";
 import { TabsSubtle, TabsSubtleItem } from "@/components/ui/tabs-subtle";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 
 type RuntimeStats = {
   cpu: number;
@@ -45,6 +65,37 @@ type VisitorData = {
   domain: string;
   timezone: string;
 };
+
+type TrafficDay = {
+  date: string;
+  pageViews: number;
+  visitors: number;
+};
+
+type TrafficSummary = {
+  days: TrafficDay[];
+  totals: {
+    pageViews: number;
+    visitors: number;
+    todayPageViews: number;
+    todayVisitors: number;
+  };
+  topPaths: Array<{
+    path: string;
+    pageViews: number;
+  }>;
+};
+
+const trafficChartConfig = {
+  pageViews: {
+    label: "页面浏览",
+    color: "#5e75df",
+  },
+  visitors: {
+    label: "独立访客",
+    color: "#42a777",
+  },
+} satisfies ChartConfig;
 
 const initialStats: RuntimeStats = {
   cpu: 0,
@@ -175,12 +226,187 @@ function formatUptime(totalSeconds: number) {
   return `${days} 天 ${hours} 时 ${minutes} 分`;
 }
 
-export function SystemDataPanel() {
+function TrafficHeatmap({ days }: { days: TrafficDay[] }) {
+  const firstDay = days[0]?.date ?? new Date().toISOString().slice(0, 10);
+  const lastDay = days.at(-1)?.date ?? firstDay;
+
+  return (
+    <div className="lite-traffic-chart lite-traffic-heatmap-card">
+      <div className="lite-traffic-chart-heading">
+        <strong>近 120 天访问热力</strong>
+        <span>近 {days.length} 天</span>
+      </div>
+      <div className="lite-traffic-heatmap-scroll">
+        <Heatmap
+          className="lite-traffic-heatmap"
+          colorMode="discrete"
+          colorScale={["#eceeed", "#d9eddf", "#9fd5ad", "#55b879", "#248a51"]}
+          data={days.map((day) => ({
+            date: day.date,
+            value: day.pageViews,
+          }))}
+          startDate={new Date(`${firstDay}T00:00:00`)}
+          endDate={new Date(`${lastDay}T00:00:00`)}
+          cellSize={16}
+          gap={4}
+          daysOfTheWeek="MWF"
+          displayStyle="squares"
+          dateDisplayFunction={(date) =>
+            date.toLocaleDateString("zh-CN", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          }
+          valueDisplayFunction={(value) => `${value} 次页面浏览`}
+        />
+      </div>
+      <div className="lite-traffic-legend" aria-hidden="true">
+        <span>少</span>
+        {[0, 1, 2, 3, 4].map((level) => (
+          <i className={`is-level-${level}`} key={level} />
+        ))}
+        <span>多</span>
+      </div>
+    </div>
+  );
+}
+
+function TrafficTrend({ days }: { days: TrafficDay[] }) {
+  const recentDays = days.slice(-30).map((day) => ({
+    ...day,
+    label: day.date.slice(5).replace("-", "/"),
+  }));
+
+  return (
+    <div className="lite-traffic-chart lite-traffic-trend-card">
+      <div className="lite-traffic-chart-heading">
+        <strong>访问趋势</strong>
+        <span>近 30 天 PV / UV</span>
+      </div>
+      <ChartContainer
+        config={trafficChartConfig}
+        className="lite-traffic-trend"
+      >
+        <AreaChart
+          accessibilityLayer
+          data={recentDays}
+          margin={{ top: 6, right: 8, left: -18, bottom: 0 }}
+        >
+          <defs>
+            <linearGradient id="trafficPageViews" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="5%" stopColor="var(--color-pageViews)" stopOpacity={0.3} />
+              <stop offset="95%" stopColor="var(--color-pageViews)" stopOpacity={0.02} />
+            </linearGradient>
+            <linearGradient id="trafficVisitors" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="5%" stopColor="var(--color-visitors)" stopOpacity={0.22} />
+              <stop offset="95%" stopColor="var(--color-visitors)" stopOpacity={0.01} />
+            </linearGradient>
+          </defs>
+          <CartesianGrid vertical={false} />
+          <XAxis
+            axisLine={false}
+            dataKey="label"
+            interval={5}
+            tickLine={false}
+            tickMargin={8}
+          />
+          <YAxis
+            allowDecimals={false}
+            axisLine={false}
+            tickLine={false}
+            width={34}
+          />
+          <ChartTooltip
+            cursor={false}
+            content={
+              <ChartTooltipContent
+                className="lite-traffic-tooltip"
+                indicator="line"
+                labelFormatter={(_, payload) =>
+                  String(payload[0]?.payload?.date ?? "")
+                }
+              />
+            }
+          />
+          <Area
+            dataKey="pageViews"
+            fill="url(#trafficPageViews)"
+            stroke="var(--color-pageViews)"
+            strokeWidth={2}
+            type="monotone"
+          />
+          <Area
+            dataKey="visitors"
+            fill="url(#trafficVisitors)"
+            stroke="var(--color-visitors)"
+            strokeWidth={2}
+            type="monotone"
+          />
+        </AreaChart>
+      </ChartContainer>
+    </div>
+  );
+}
+
+function TrafficDashboard({ summary }: { summary: TrafficSummary | null }) {
+  const totals = summary?.totals;
+  return (
+    <section className="lite-traffic-dashboard" aria-label="网站流量统计">
+      <div className="lite-traffic-header">
+        <div>
+          <h2>访问统计</h2>
+          <p>异步采集，15 秒批量写入，不阻塞页面访问</p>
+        </div>
+        <TooltipProvider>
+          <div className="lite-traffic-totals">
+            <Tooltip>
+              <TooltipTrigger render={<span />}>
+                <strong>{totals?.todayPageViews ?? 0}</strong>今日 PV
+              </TooltipTrigger>
+              <TooltipContent>PV：页面浏览量</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<span />}>
+                <strong>{totals?.todayVisitors ?? 0}</strong>今日 UV
+              </TooltipTrigger>
+              <TooltipContent>UV：独立访客数</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<span />}>
+                <strong>{totals?.pageViews ?? 0}</strong>120 天 PV
+              </TooltipTrigger>
+              <TooltipContent>PV：页面浏览量</TooltipContent>
+            </Tooltip>
+            <Tooltip>
+              <TooltipTrigger render={<span />}>
+                <strong>{totals?.visitors ?? 0}</strong>120 天 UV
+              </TooltipTrigger>
+              <TooltipContent>UV：独立访客数</TooltipContent>
+            </Tooltip>
+          </div>
+        </TooltipProvider>
+      </div>
+      {summary ? (
+        <div className="lite-traffic-charts">
+          <TrafficHeatmap days={summary.days} />
+          <TrafficTrend days={summary.days} />
+        </div>
+      ) : (
+        <div className="lite-traffic-loading">正在读取访问统计…</div>
+      )}
+    </section>
+  );
+}
+
+export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean }) {
   const rootRef = useRef<HTMLDivElement>(null);
-  const [open, setOpen] = useState(false);
+  const [activePanel, setActivePanel] = useState<"system" | "traffic" | null>(null);
   const [now, setNow] = useState("--");
   const [stats, setStats] = useState<RuntimeStats>(initialStats);
   const [visitor, setVisitor] = useState<VisitorData>(initialVisitor);
+  const [traffic, setTraffic] = useState<TrafficSummary | null>(null);
+  const open = activePanel !== null;
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent;
@@ -201,7 +427,7 @@ export function SystemDataPanel() {
   }, []);
 
   useEffect(() => {
-    if (!open) return;
+    if (activePanel !== "system") return;
 
     const updateClock = () => {
       setNow(
@@ -287,16 +513,37 @@ export function SystemDataPanel() {
       window.clearInterval(clockTimer);
       window.clearInterval(statsTimer);
     };
-  }, [open]);
+  }, [activePanel]);
+
+  useEffect(() => {
+    if (activePanel !== "traffic" || !canViewTraffic) return;
+
+    const updateTraffic = async () => {
+      try {
+        const response = await fetch("/api/analytics/summary?days=120", {
+          cache: "no-store",
+        });
+        if (response.ok) setTraffic((await response.json()) as TrafficSummary);
+      } catch {
+        // 流量统计读取失败不影响系统状态面板。
+      }
+    };
+
+    void updateTraffic();
+    const timer = window.setInterval(() => {
+      void updateTraffic();
+    }, 60_000);
+    return () => window.clearInterval(timer);
+  }, [activePanel, canViewTraffic]);
 
   useEffect(() => {
     if (!open) return;
 
     const closeOnOutsideClick = (event: PointerEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+      if (!rootRef.current?.contains(event.target as Node)) setActivePanel(null);
     };
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") setActivePanel(null);
     };
 
     document.addEventListener("pointerdown", closeOnOutsideClick);
@@ -311,24 +558,42 @@ export function SystemDataPanel() {
     <div ref={rootRef} className="lite-system-data">
       <TabsSubtle
         className="lite-system-data-tabs"
-        selectedIndex={open ? 0 : -1}
+        selectedIndex={
+          activePanel === "system" ? 0 : activePanel === "traffic" && canViewTraffic ? 1 : -1
+        }
         onSelect={() => undefined}
         activeLabel
-        aria-label="站点仪表盘"
+        aria-label="站点数据菜单"
       >
         <TabsSubtleItem
-          className={open ? "lite-system-data-tab is-open" : "lite-system-data-tab"}
+          className={activePanel === "system" ? "lite-system-data-tab is-open" : "lite-system-data-tab"}
           icon={Activity}
           label="仪表盘"
           index={0}
           aria-label="仪表盘"
           aria-haspopup="dialog"
-          aria-expanded={open}
-          onClick={() => setOpen((value) => !value)}
+          aria-expanded={activePanel === "system"}
+          onClick={() =>
+            setActivePanel((current) => current === "system" ? null : "system")
+          }
         />
+        {canViewTraffic ? (
+          <TabsSubtleItem
+            className={activePanel === "traffic" ? "lite-system-data-tab is-open" : "lite-system-data-tab"}
+            icon={Globe2}
+            label="访问统计"
+            index={1}
+            aria-label="访问统计"
+            aria-haspopup="dialog"
+            aria-expanded={activePanel === "traffic"}
+            onClick={() =>
+              setActivePanel((current) => current === "traffic" ? null : "traffic")
+            }
+          />
+        ) : null}
       </TabsSubtle>
 
-      {open ? (
+      {activePanel === "system" ? (
         <section className="lite-system-data-panel" role="dialog" aria-label="站点运行数据">
           <div className="lite-data-column">
             <h2>运行状态</h2>
@@ -361,6 +626,17 @@ export function SystemDataPanel() {
             <InfoRow icon={LockKeyhole} label="连接类型" value="HTTPS" />
             <InfoRow icon={Server} label="当前域名" value={visitor.domain} />
           </div>
+
+        </section>
+      ) : null}
+
+      {activePanel === "traffic" && canViewTraffic ? (
+        <section
+          className="lite-system-data-panel lite-traffic-data-panel"
+          role="dialog"
+          aria-label="网站流量统计"
+        >
+          <TrafficDashboard summary={traffic} />
         </section>
       ) : null}
     </div>

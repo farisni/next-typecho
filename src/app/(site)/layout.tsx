@@ -1,4 +1,5 @@
 import { ThemeSiteShell } from "@/components/themes/theme-site-shell";
+import { TrafficTracker } from "@/components/site/traffic-tracker";
 import { getCurrentUser } from "@/lib/auth/session";
 import { requireInstallation } from "@/lib/bootstrap/install-guard";
 import { getSiteSettings } from "@/lib/repositories/settings";
@@ -21,6 +22,7 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       theme={theme}
       boxModel={settings.boxModel}
     >
+      <TrafficTracker />
       {children}
     </ThemeSiteShell>
   );
