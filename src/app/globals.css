@@ -8325,7 +8325,7 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-togg
 
 .theme-lite .lite-system-data-panel {
   position: fixed;
-  top: 50px;
+  top: var(--handsome-topbar-height);
   left: calc(50% + (var(--lite-sidebar-width) / 2));
   display: grid;
   width: min(
@@ -8337,7 +8337,10 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-togg
   padding: 22px 24px 26px;
   border: 0;
   background: #fff;
-  box-shadow: none;
+  box-shadow:
+    -3px 4px 8px -6px rgb(41 48 61 / 14%),
+    3px 4px 8px -6px rgb(41 48 61 / 14%),
+    0 6px 10px -7px rgb(41 48 61 / 16%);
   color: #767b84;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   transform: translateX(-50%);
