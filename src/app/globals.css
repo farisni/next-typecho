@@ -10651,10 +10651,11 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
   height: 24px;
   padding: 0 7px;
   align-items: center;
-  border: 1px solid #d8d9dd;
+  border: 1px solid rgb(69 72 78 / 12%);
   border-radius: 3px;
   background: #f7f7f8;
   color: #777a80;
+  box-shadow: none;
   cursor: pointer;
   font-size: 12px;
   line-height: 1;
@@ -10662,9 +10663,10 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
 }
 
 .post-comments .comment-input-clear:hover {
-  border-color: #b9bbc0;
+  border-color: rgb(69 72 78 / 20%);
   background: #fff;
   color: #45464a;
+  box-shadow: none;
 }
 
 .post-comments .comment-visitor-fields input::placeholder {
@@ -10731,7 +10733,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment-input-clear,
 .theme-paper[data-paper-theme="dark"] .post-comments .comment-input-clear {
-  border-color: #4b4e55;
+  border-color: rgb(255 255 255 / 12%);
   background: #2f3238;
   color: #c7c9ce;
 }
