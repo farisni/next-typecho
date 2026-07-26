@@ -8649,7 +8649,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
   overflow: hidden;
   padding: 2px 7px;
   border-radius: 3px;
-  background: #65749a;
+  background: #555c6d;
   color: #f3f4f6;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 11px;
@@ -8700,7 +8700,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
 .theme-lite .lite-load-values span {
   padding: 2px 7px;
   border-radius: 3px;
-  background: #65749a;
+  background: #555c6d;
   color: #f3f4f6;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
   font-size: 11px;

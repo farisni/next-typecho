@@ -161,7 +161,15 @@ function OverflowTooltip({
   return (
     <Tooltip>
       <TooltipTrigger render={element}>{value}</TooltipTrigger>
-      {overflow ? <TooltipContent>{value}</TooltipContent> : null}
+      {overflow ? (
+        <TooltipContent
+          sideOffset={10}
+          className="lite-reversed-tooltip bg-background text-foreground"
+          arrowClassName="!bg-background !fill-background"
+        >
+          {value}
+        </TooltipContent>
+      ) : null}
     </Tooltip>
   );
 }
