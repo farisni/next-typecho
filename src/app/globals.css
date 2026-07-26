@@ -863,6 +863,38 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-header {
   background: #252b35;
 }
 
+html[data-paper-theme="dark"] .theme-lite .handsome-search,
+html[data-paper-theme="dark"] .theme-lite .handsome-search svg,
+html[data-paper-theme="dark"] .theme-lite .lite-system-data-tab,
+html[data-paper-theme="dark"] .theme-lite .paper-theme-toggle,
+html[data-paper-theme="dark"] .theme-lite .lite-account-menu-trigger,
+.theme-lite[data-paper-theme="dark"] .handsome-search,
+.theme-lite[data-paper-theme="dark"] .handsome-search svg,
+.theme-lite[data-paper-theme="dark"] .lite-system-data-tab,
+.theme-lite[data-paper-theme="dark"] .paper-theme-toggle,
+.theme-lite[data-paper-theme="dark"] .lite-account-menu-trigger {
+  background: transparent;
+  color: #aeb8c5;
+}
+
+html[data-paper-theme="dark"] .theme-lite .handsome-search:hover,
+html[data-paper-theme="dark"] .theme-lite .handsome-search:hover svg,
+html[data-paper-theme="dark"] .theme-lite .lite-system-data-tab:hover,
+html[data-paper-theme="dark"] .theme-lite .lite-system-data-tab.is-open,
+html[data-paper-theme="dark"] .theme-lite .paper-theme-toggle:hover,
+html[data-paper-theme="dark"] .theme-lite .lite-account-menu-trigger:hover,
+html[data-paper-theme="dark"] .theme-lite .lite-account-menu-trigger[data-popup-open],
+.theme-lite[data-paper-theme="dark"] .handsome-search:hover,
+.theme-lite[data-paper-theme="dark"] .handsome-search:hover svg,
+.theme-lite[data-paper-theme="dark"] .lite-system-data-tab:hover,
+.theme-lite[data-paper-theme="dark"] .lite-system-data-tab.is-open,
+.theme-lite[data-paper-theme="dark"] .paper-theme-toggle:hover,
+.theme-lite[data-paper-theme="dark"] .lite-account-menu-trigger:hover,
+.theme-lite[data-paper-theme="dark"] .lite-account-menu-trigger[data-popup-open] {
+  background: transparent;
+  color: #eef2f6;
+}
+
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-sidebar,
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-workspace,
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-content-grid,
@@ -875,6 +907,28 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-popular-widge
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-article-toc,
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-panel {
   background: #232831;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-category-header h1,
+html[data-paper-theme="dark"] .theme-lite .lite-category-header h1 span,
+html[data-paper-theme="dark"] .theme-lite .lite-category-header h1 .lite-category-name,
+.theme-lite[data-paper-theme="dark"] .lite-category-header h1,
+.theme-lite[data-paper-theme="dark"] .lite-category-header h1 span,
+.theme-lite[data-paper-theme="dark"] .lite-category-header h1 .lite-category-name {
+  color: #eef2f6;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-category-breadcrumb,
+.theme-lite[data-paper-theme="dark"] .lite-category-breadcrumb {
+  background: #232831;
+  color: #aeb8c5;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-category-breadcrumb a,
+html[data-paper-theme="dark"] .theme-lite .lite-category-breadcrumb svg,
+.theme-lite[data-paper-theme="dark"] .lite-category-breadcrumb a,
+.theme-lite[data-paper-theme="dark"] .lite-category-breadcrumb svg {
+  color: inherit;
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content > .post,
@@ -6979,6 +7033,25 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
 
 .handsome-sidebar-tabs-wrap > [data-slot="tabs-list"] [data-slot="tabs-trigger"][data-active] {
   background: #fff;
+}
+
+html[data-paper-theme="dark"] .theme-lite .handsome-sidebar-tabs-wrap > [data-slot="tabs-list"],
+.theme-lite[data-paper-theme="dark"] .handsome-sidebar-tabs-wrap > [data-slot="tabs-list"] {
+  background: #2a3039;
+  color: #aeb8c5;
+}
+
+html[data-paper-theme="dark"] .theme-lite .handsome-sidebar-tabs-wrap [data-slot="tabs-trigger"],
+.theme-lite[data-paper-theme="dark"] .handsome-sidebar-tabs-wrap [data-slot="tabs-trigger"] {
+  color: #aeb8c5;
+}
+
+html[data-paper-theme="dark"] .theme-lite .handsome-sidebar-tabs-wrap [data-slot="tabs-trigger"][data-active],
+.theme-lite[data-paper-theme="dark"] .handsome-sidebar-tabs-wrap [data-slot="tabs-trigger"][data-active] {
+  border-color: rgb(255 255 255 / 8%);
+  background: #363d48;
+  color: #eef2f6;
+  box-shadow: none;
 }
 
 
