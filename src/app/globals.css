@@ -9780,7 +9780,7 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-togg
 
 .post-comments .comment-replies-toggle {
   display: inline-flex;
-  margin: 0 0 6px 62px;
+  margin: -6px 0 2px 62px;
   padding: 7px 12px;
   border: 0;
   border-radius: 18px;
@@ -10303,13 +10303,13 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
 .post-comments .comment-item > article {
   position: relative;
   min-height: 58px;
-  padding: 20px 84px 24px 0;
+  padding: 16px 84px 16px 0;
   border: 0;
   gap: 16px;
 }
 
 .post-comments .comment-list > .comment-item + .comment-item {
-  margin-top: 18px;
+  margin-top: 12px;
 }
 
 .post-comments .comment-avatar {
@@ -10340,7 +10340,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
 
 .post-comments .comment-markdown,
 .post-comments .comment-plain-text {
-  margin-top: 10px;
+  margin-top: 8px;
   color: #4f5054;
   font-size: 16px;
   line-height: 1.7;
@@ -10369,6 +10369,11 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments .comment
   margin-left: 68px;
   padding-left: 18px;
   border-left: 0;
+}
+
+.post-comments .comment-children .comment-item > article {
+  padding-top: 12px;
+  padding-bottom: 12px;
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-comments,
