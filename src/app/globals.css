@@ -8189,10 +8189,14 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-brand-mark img {
   mix-blend-mode: screen;
 }
 
+.theme-lite.theme-handsome {
+  --handsome-topbar-height: 56px;
+}
+
 .theme-lite .handsome-header {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr) auto;
-  height: 44px;
+  height: var(--handsome-topbar-height);
   padding: 0 16px;
   border: 0;
   background: #fff;
@@ -8213,6 +8217,35 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-brand-mark img {
   gap: 12px;
   justify-content: flex-start;
   min-width: 0;
+}
+
+.theme-lite .lite-topbar-music-player {
+  display: flex;
+  width: 266px;
+  height: 42px;
+  min-width: 0;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.theme-lite .lite-topbar-music-player .lite-apple-music-player-compact {
+  display: flex;
+  width: calc(100% / 1.12);
+  height: 36px;
+  min-width: 0;
+  padding: 4px 5px 4px 6px;
+  align-items: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 38%);
+  box-shadow: none;
+  transform: scale(1.12);
+  transform-origin: center right;
+}
+
+.theme-lite .lite-topbar-music-player .lite-apple-music-player-compact button {
+  color: currentColor;
 }
 
 .theme-lite .handsome-header-actions > .handsome-search,
@@ -9143,7 +9176,7 @@ html[data-paper-theme="dark"] .theme-lite .handsome-identity-copy > span.handsom
 .theme-lite .handsome-blog-header {
   display: grid;
   position: relative;
-  grid-template-columns: minmax(0, 1fr) minmax(460px, 512px);
+  grid-template-columns: minmax(0, 1fr);
   align-items: center;
   gap: 32px;
   height: auto;
@@ -9160,23 +9193,6 @@ html[data-paper-theme="dark"] .theme-lite .handsome-identity-copy > span.handsom
   width: auto;
   max-width: none;
   margin: 0;
-}
-
-.theme-lite .lite-blog-music-player {
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  min-width: 0;
-  width: 100%;
-}
-
-.theme-lite .lite-blog-music-player > .lite-apple-music-player {
-  min-width: 0;
-  width: 100%;
-  max-width: 512px;
-  box-sizing: border-box;
-  transform: scale(0.8);
-  transform-origin: center right;
 }
 
 .theme-lite .handsome-blog-header h1 {
@@ -9205,11 +9221,11 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
 }
 
 @media (max-width: 1120px) {
-  .theme-lite .handsome-blog-header {
-    grid-template-columns: minmax(0, 1fr);
+  .theme-lite.theme-handsome {
+    --handsome-topbar-height: 44px;
   }
 
-  .theme-lite .lite-blog-music-player {
+  .theme-lite .lite-topbar-music-player {
     display: none;
   }
 }
@@ -10173,6 +10189,10 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   align-items: center;
   justify-content: flex-start;
     gap: 12px;
+  }
+
+  .theme-lite .lite-topbar-music-player {
+    display: none;
   }
 
   .theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) {

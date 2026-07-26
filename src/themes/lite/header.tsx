@@ -24,8 +24,20 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import MusicPlayerApple from "@/components/music-player-apple";
+import type { Song } from "@/hooks/use-music-player";
 import { HeaderScrollProgress } from "@/themes/lite/header-scroll-progress";
 import { LiteThemeToggle } from "@/themes/lite/theme-toggle";
+
+const headerSong: Song = {
+  name: "山阴路的夏天",
+  artists: ["李志"],
+  album: {
+    name: "2014 i/O",
+    image: "/images/shanyin-road-summer-2014-cover.jpg",
+  },
+  duration: 313,
+};
 
 const SystemDataPanel = dynamic(
   () => import("@/themes/lite/system-data-panel").then((module) => module.SystemDataPanel),
@@ -124,6 +136,9 @@ export function Header({ user }: { user: HeaderUser }) {
         </div>
         <span className="lite-header-spacer" />
         <div className="handsome-header-actions">
+          <div className="lite-topbar-music-player">
+            <MusicPlayerApple song={headerSong} compact />
+          </div>
           <button
             className="handsome-search"
             type="button"

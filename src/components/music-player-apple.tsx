@@ -17,7 +17,13 @@ import {
 import { useMusicPlayer } from "@/hooks/use-music-player";
 import type { Song } from "@/hooks/use-music-player";
 
-export default function MusicPlayerApple({ song }: { song: Song }) {
+export default function MusicPlayerApple({
+  song,
+  compact = false,
+}: {
+  song: Song;
+  compact?: boolean;
+}) {
   const {
     isPlaying,
     duration,
@@ -31,6 +37,49 @@ export default function MusicPlayerApple({ song }: { song: Song }) {
     toggleShuffle,
     toggleRepeat,
   } = useMusicPlayer({ song });
+
+  if (compact) {
+    return (
+      <div className="lite-apple-music-player lite-apple-music-player-compact">
+        {song.album.image ? (
+          <img
+            src={song.album.image}
+            alt=""
+            className="size-7 shrink-0 rounded object-cover"
+          />
+        ) : (
+          <div
+            className="flex size-7 shrink-0 items-center justify-center rounded bg-muted"
+            aria-hidden="true"
+          >
+            <MusicIcon />
+          </div>
+        )}
+        <div className="min-w-0 flex-1 leading-tight">
+          <p className="truncate text-xs font-bold">{song.name}</p>
+          <p className="truncate text-[10px] text-muted-foreground">
+            {song.artists.join(", ")}
+          </p>
+        </div>
+        <div className="flex shrink-0 items-center gap-0.5">
+          <Button variant="ghost" size="icon-xs" aria-label="上一首">
+            <SkipBackIcon />
+          </Button>
+          <Button
+            variant="ghost"
+            size="icon-xs"
+            onClick={togglePlayPause}
+            aria-label={isPlaying ? "暂停" : "播放"}
+          >
+            {isPlaying ? <PauseIcon /> : <PlayIcon />}
+          </Button>
+          <Button variant="ghost" size="icon-xs" aria-label="下一首">
+            <SkipForwardIcon />
+          </Button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="lite-apple-music-player flex w-full flex-col gap-2.5 rounded-xl bg-popover p-4">
