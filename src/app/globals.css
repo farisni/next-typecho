@@ -9148,7 +9148,7 @@ html[data-paper-theme="dark"] .theme-lite .handsome-identity-copy > span.handsom
   gap: 32px;
   height: auto;
   min-height: var(--lite-page-header-height);
-  padding: 41px 40px;
+  padding: 10px 40px;
   box-sizing: border-box;
   border: 0;
   background: #fff;
@@ -9175,18 +9175,8 @@ html[data-paper-theme="dark"] .theme-lite .handsome-identity-copy > span.handsom
   width: 100%;
   max-width: 512px;
   box-sizing: border-box;
-  border: 1px solid rgba(15, 23, 42, 0.06);
-  box-shadow: 0 6px 20px rgba(15, 23, 42, 0.045);
-  transform: scale(0.85);
+  transform: scale(0.8);
   transform-origin: center right;
-}
-
-html[data-paper-theme="dark"]
-  .theme-lite
-  .lite-blog-music-player
-  > .lite-apple-music-player {
-  border-color: rgba(255, 255, 255, 0.08);
-  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
 }
 
 .theme-lite .handsome-blog-header h1 {
