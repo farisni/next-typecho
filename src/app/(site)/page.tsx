@@ -17,7 +17,7 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
   return (
     <>
       {search && (
-        <section className="post lite-search-summary" aria-label="搜索结果">
+        <section className="lite-search-summary" aria-label="搜索结果">
           <h2 className="post-title">搜索：{search}</h2>
           <p>找到 {result.total} 篇相关文章</p>
         </section>
