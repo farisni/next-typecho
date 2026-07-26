@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Command as CommandIcon, FileText, Home, Menu, Search } from "lucide-react";
+import { FileText, Home, Menu, Search } from "lucide-react";
 import {
   Command,
   CommandDialog,
@@ -48,11 +48,10 @@ export function Header() {
             className="handsome-search"
             type="button"
             aria-label="搜索文章"
+            title="搜索文章"
             onClick={() => setCommandOpen(true)}
           >
             <Search aria-hidden="true" />
-            <span>搜索文章</span>
-            <kbd aria-hidden="true"><CommandIcon />K</kbd>
           </button>
           <LiteThemeToggle />
         </div>

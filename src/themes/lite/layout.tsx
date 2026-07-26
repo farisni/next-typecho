@@ -31,7 +31,7 @@ export function LiteThemeLayout({
           <span className="lite-brand">
             <span className="lite-brand-mark" aria-hidden="true">
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/images/lite-brand-mountains.webp" alt="" />
+              <img className="lite-brand-image" src="/images/lite-brand-mountains.webp" alt="" />
             </span>
           </span>
         </div>
