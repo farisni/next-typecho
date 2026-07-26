@@ -401,9 +401,43 @@ a {
 }
 
 .post-content pre {
+  position: relative;
   max-height: 400px;
+  padding-top: 36px;
   padding: 8px;
   overflow: auto;
+}
+
+.post-content pre.has-code-copy {
+  padding-top: 36px;
+}
+
+.post-content .code-copy-button {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: inline-flex;
+  min-width: 44px;
+  height: 24px;
+  padding: 0 8px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(120 125 132 / 28%);
+  border-radius: 4px;
+  background: rgb(255 255 255 / 72%);
+  color: #68717b;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 12px;
+  line-height: 1;
+  transition: border-color 160ms ease, background-color 160ms ease, color 160ms ease;
+}
+
+.post-content .code-copy-button:hover,
+.post-content .code-copy-button.is-copied {
+  border-color: rgb(91 117 139 / 45%);
+  background: #fff;
+  color: #3f566c;
 }
 
 .post-content pre code {
@@ -8101,8 +8135,8 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-brand-mark img {
 }
 
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-search:hover,
-html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-trigger:hover,
-html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-trigger.is-open,
+html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-tab:hover,
+html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-tab.is-open,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-toggle:hover,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-account-menu-trigger:hover,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-account-menu-trigger[data-popup-open] {
@@ -8118,7 +8152,7 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-account-men
 }
 
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-search svg,
-html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-trigger,
+html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-tab,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-toggle,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-account-menu-trigger {
   color: #858b91;
@@ -8349,54 +8383,49 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
   align-items: stretch;
 }
 
-.theme-lite .lite-system-data-trigger {
-  display: flex;
-  width: 52px;
+.theme-lite .lite-system-data-tabs {
   height: 44px;
+  margin: 0;
   padding: 0;
+}
+
+.theme-lite .lite-system-data-tabs [class~="bg-active"] {
+  background: #f1f2f4;
+}
+
+.theme-lite .lite-system-data-tab {
+  display: flex;
+  min-width: 48px;
   border: 0;
-  border-radius: 0;
   background: transparent;
   color: #818181;
   cursor: pointer;
   align-items: center;
   justify-content: center;
-  gap: 5px;
 }
 
-.theme-lite .lite-system-data-trigger:hover,
-.theme-lite .lite-system-data-trigger.is-open {
-  background: #f1f2f4;
+.theme-lite .lite-system-data-tab:hover,
+.theme-lite .lite-system-data-tab.is-open {
   color: #343944;
 }
 
-.theme-lite .lite-system-data-trigger svg:first-child {
+.theme-lite .lite-system-data-tab svg {
   width: 19px;
   height: 19px;
   stroke-width: 1.8;
 }
 
-.theme-lite .lite-system-data-trigger svg:last-child {
-  width: 12px;
-  height: 12px;
-  transition: transform 160ms ease;
-}
-
-.theme-lite .lite-system-data-trigger.is-open svg:last-child {
-  transform: rotate(180deg);
-}
-
-.theme-lite .handsome-topbar:has(.lite-system-data-trigger.is-open) {
+.theme-lite .handsome-topbar:has(.lite-system-data-tab.is-open) {
   box-shadow: none;
 }
 
-.theme-lite .handsome-topbar:has(.lite-system-data-trigger.is-open) .handsome-topbar-sidebar {
+.theme-lite .handsome-topbar:has(.lite-system-data-tab.is-open) .handsome-topbar-sidebar {
   position: relative;
   box-shadow: none;
   z-index: 1;
 }
 
-.theme-lite .handsome-topbar:has(.lite-system-data-trigger.is-open) .handsome-topbar-sidebar::after {
+.theme-lite .handsome-topbar:has(.lite-system-data-tab.is-open) .handsome-topbar-sidebar::after {
   position: absolute;
   right: 0;
   bottom: -10px;
@@ -9084,6 +9113,68 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
   height: 15px;
 }
 
+.theme-lite .handsome-main-content .post-near {
+  min-height: 0;
+  margin: 22px 0 30px;
+  padding: 16px 28px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.theme-lite .handsome-main-content .post-near a,
+.theme-lite .handsome-main-content .post-near span {
+  min-height: 0;
+  padding: 0;
+  gap: 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #929aa3;
+  font-size: 15px;
+  text-decoration: none;
+  transition: color 300ms ease-in-out;
+}
+
+.theme-lite .handsome-main-content .post-near a:hover {
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+  color: #4f5965;
+}
+
+.theme-lite .handsome-main-content .post-near .post-near-arrow {
+  display: block;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 auto;
+  pointer-events: none;
+}
+
+.theme-lite .handsome-main-content .post-near .post-card-arrow-line {
+  transform: translateX(16px) scaleX(0);
+  transition: transform 300ms ease-in-out;
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.theme-lite .handsome-main-content .post-near .post-card-arrow-tip {
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.theme-lite .handsome-main-content .post-near .post-near-arrow-previous {
+  transform: rotate(180deg);
+}
+
+.theme-lite .handsome-main-content .post-near a:hover .post-card-arrow-line {
+  transform: translateX(4px) scaleX(1);
+}
+
 .theme-lite .handsome-main-content .post-card:not(:first-child) {
   isolation: isolate;
   border: 0;
@@ -9577,13 +9668,17 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
   position: relative;
   top: 0;
   width: calc(100% + 48px);
-  min-height: 72px;
-  margin: 0 -24px;
+  min-height: 0;
+  margin: 22px -24px 30px;
   padding: 14px 48px;
   border: 0;
-  border-top: 1px solid #eef0f2;
-  background: #fff;
+  border-radius: 0;
+  background: transparent;
   box-shadow: none;
+}
+
+.theme-lite .handsome-main-content .post-near a:hover .post-card-arrow-tip {
+  transform: translateX(4px);
 }
 
 @media (max-width: 1280px) {
@@ -9687,11 +9782,6 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-account-menu-item
 
   .theme-lite .lite-admin-link {
     display: none;
-  }
-
-  .theme-lite .lite-system-data-trigger {
-    width: 48px;
-    height: 44px;
   }
 
   .theme-lite .handsome-search:hover {

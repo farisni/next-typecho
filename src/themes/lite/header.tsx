@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { FileText, Home, LogIn, LogOut, Menu, Search, Settings, UserRound } from "lucide-react";
+import { Activity, FileText, Home, LogIn, LogOut, Menu, Search, Settings, UserRound } from "lucide-react";
 import { logoutFromSite } from "@/actions/auth";
 import {
   Command,
@@ -25,7 +26,20 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { HeaderScrollProgress } from "@/themes/lite/header-scroll-progress";
 import { LiteThemeToggle } from "@/themes/lite/theme-toggle";
-import { SystemDataPanel } from "@/themes/lite/system-data-panel";
+
+const SystemDataPanel = dynamic(
+  () => import("@/themes/lite/system-data-panel").then((module) => module.SystemDataPanel),
+  {
+    ssr: false,
+    loading: () => (
+      <div className="lite-system-data" aria-hidden="true">
+        <span className="lite-system-data-tab lite-system-data-placeholder">
+          <Activity />
+        </span>
+      </div>
+    ),
+  },
+);
 
 type HeaderUser = {
   displayName: string;

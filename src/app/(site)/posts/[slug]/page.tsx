@@ -10,6 +10,7 @@ import {
   Star,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
+import { CodeCopyEnhancer } from "@/components/markdown/code-copy-enhancer";
 import { PaperTableOfContents } from "@/components/site/article-toc";
 import { DonationDialog } from "@/components/site/donation-dialog";
 import { PostLikeButton } from "@/components/site/post-like-button";
@@ -19,6 +20,24 @@ import { formatPostDate } from "@/lib/format-date";
 import { getAdjacentPosts, getPublishedPostBySlug } from "@/lib/repositories/posts";
 
 export const dynamic = "force-dynamic";
+
+function PostNearArrow({ direction }: { direction: "previous" | "next" }) {
+  return (
+    <svg
+      className={`post-near-arrow post-near-arrow-${direction}`}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+    >
+      <line className="post-card-arrow-line" x1="5" y1="12" x2="19" y2="12" />
+      <polyline className="post-card-arrow-tip" points="12 5 19 12 12 19" />
+    </svg>
+  );
+}
 
 export default async function PostPage({
   params,
@@ -104,6 +123,7 @@ export default async function PostPage({
           ) : (
             <MarkdownContent content={post.content} />
           )}
+          <CodeCopyEnhancer />
           <p className="tags">标签: {post.tags.length ? post.tags.map((tag, index) => <span key={tag.id}>{index > 0 && ", "}<Link href={`/tags/${tag.slug}`}>{tag.name}</Link></span>) : "none"}</p>
           <div className="post-ending">
             <p className="post-reference">代码参考了 <Link href="/">小刘同学</Link> 的文章。</p>
@@ -141,19 +161,27 @@ export default async function PostPage({
         <li className="post-near-previous">
           {nearby.previous ? (
             <Link href={`/posts/${nearby.previous.slug}`} aria-label={`上一篇：${nearby.previous.title}`}>
+              <PostNearArrow direction="previous" />
               上一篇
             </Link>
           ) : (
-            <span aria-disabled="true">上一篇</span>
+            <span aria-disabled="true">
+              <PostNearArrow direction="previous" />
+              上一篇
+            </span>
           )}
         </li>
         <li className="post-near-next">
           {nearby.next ? (
             <Link href={`/posts/${nearby.next.slug}`} aria-label={`下一篇：${nearby.next.title}`}>
               下一篇
+              <PostNearArrow direction="next" />
             </Link>
           ) : (
-            <span aria-disabled="true">下一篇</span>
+            <span aria-disabled="true">
+              下一篇
+              <PostNearArrow direction="next" />
+            </span>
           )}
         </li>
       </ul>

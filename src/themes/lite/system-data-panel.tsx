@@ -2,7 +2,6 @@
 
 import {
   Activity,
-  ChevronDown,
   Clock3,
   Cpu,
   Database,
@@ -19,6 +18,7 @@ import {
   Wifi,
 } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { TabsSubtle, TabsSubtleItem } from "@/components/ui/tabs-subtle";
 
 type RuntimeStats = {
   cpu: number;
@@ -309,17 +309,24 @@ export function SystemDataPanel() {
 
   return (
     <div ref={rootRef} className="lite-system-data">
-      <button
-        className={open ? "lite-system-data-trigger is-open" : "lite-system-data-trigger"}
-        type="button"
-        aria-label="查看运行数据"
-        aria-haspopup="dialog"
-        aria-expanded={open}
-        onClick={() => setOpen((value) => !value)}
+      <TabsSubtle
+        className="lite-system-data-tabs"
+        selectedIndex={open ? 0 : -1}
+        onSelect={() => undefined}
+        activeLabel
+        aria-label="站点仪表盘"
       >
-        <Activity aria-hidden="true" />
-        <ChevronDown aria-hidden="true" />
-      </button>
+        <TabsSubtleItem
+          className={open ? "lite-system-data-tab is-open" : "lite-system-data-tab"}
+          icon={Activity}
+          label="仪表盘"
+          index={0}
+          aria-label="仪表盘"
+          aria-haspopup="dialog"
+          aria-expanded={open}
+          onClick={() => setOpen((value) => !value)}
+        />
+      </TabsSubtle>
 
       {open ? (
         <section className="lite-system-data-panel" role="dialog" aria-label="站点运行数据">
