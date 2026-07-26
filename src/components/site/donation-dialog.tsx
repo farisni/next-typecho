@@ -50,12 +50,18 @@ export function DonationDialog() {
           value={method}
           onValueChange={(value) => setMethod(value as DonationMethod)}
         >
-          <TabsList className="donation-method-tabs" variant="line">
-            <TabsTrigger value="alipay">
-              <WalletCards aria-hidden="true" />支付宝
+          <TabsList className="donation-method-tabs">
+            <TabsTrigger value="alipay" data-method-option="alipay">
+              <span className="donation-method-icon" aria-hidden="true">
+                <WalletCards />
+              </span>
+              <span>支付宝</span>
             </TabsTrigger>
-            <TabsTrigger value="wechat">
-              <MessageCircle aria-hidden="true" />微信
+            <TabsTrigger value="wechat" data-method-option="wechat">
+              <span className="donation-method-icon" aria-hidden="true">
+                <MessageCircle />
+              </span>
+              <span>微信</span>
             </TabsTrigger>
           </TabsList>
           <TabsContent value={method}>

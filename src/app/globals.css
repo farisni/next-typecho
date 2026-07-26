@@ -6373,52 +6373,105 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
 }
 
 .donation-method-tabs {
+  position: relative;
   display: grid;
+  width: min(280px, 100%);
   grid-template-columns: 1fr 1fr;
+  align-self: center;
   height: auto;
-  margin: 16px 0 0;
-  padding: 4px;
-  overflow: hidden;
+  margin: 18px auto 0;
+  padding: 6px;
+  gap: 0;
   border: 0;
   border-radius: 11px;
-  background: #f2f3f5;
+  background: #f1f2f4;
+  isolation: isolate;
+}
+
+.donation-method-tabs::before {
+  position: absolute;
+  top: 6px;
+  bottom: 6px;
+  left: 6px;
+  width: calc((100% - 12px) / 2);
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgb(35 52 72 / 10%);
+  content: "";
+  z-index: -1;
+  transition: transform 180ms ease;
+}
+
+.donation-tabs[data-method="wechat"] .donation-method-tabs::before {
+  transform: translateX(100%);
+}
+
+.donation-method-tabs button::after {
+  display: none;
+  content: none;
 }
 
 .donation-method-tabs button {
+  position: relative;
+  z-index: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 7px;
-  min-height: 36px;
-  padding: 0 14px;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 16px;
   border: 0;
   border-radius: 8px;
   background: transparent;
   color: #777d84;
   font-size: 14px;
   cursor: pointer;
+  box-shadow: none;
   transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
 
-.donation-method-tabs button.is-active {
-  background: #fff;
-  color: #34373c;
-  box-shadow: 0 2px 8px rgb(35 52 72 / 10%);
+.donation-method-tabs .donation-method-icon {
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0;
+  background: transparent;
+  color: #858b92;
+  transition: color 160ms ease;
 }
 
-.donation-method-tabs [data-active] {
-  background: #fff;
-  color: #34373c;
-  box-shadow: 0 2px 8px rgb(35 52 72 / 10%);
+.donation-method-tabs button[data-active][data-method-option="alipay"] {
+  background: transparent;
+  color: #31363c;
+  box-shadow: none;
 }
 
-.donation-method-tabs button:hover:not(.is-active) {
-  color: #34373c;
+.donation-method-tabs button[data-active][data-method-option="alipay"] .donation-method-icon {
+  background: transparent;
+  color: #1677ff;
+}
+
+.donation-method-tabs button[data-active][data-method-option="wechat"] {
+  background: transparent;
+  color: #31363c;
+  box-shadow: none;
+}
+
+.donation-method-tabs button[data-active][data-method-option="wechat"] .donation-method-icon {
+  background: transparent;
+  color: #07a957;
+}
+
+.donation-method-tabs button:hover:not([data-active]) {
+  color: #4f555c;
 }
 
 .donation-method-tabs svg {
-  width: 18px;
-  height: 18px;
+  width: 19px;
+  height: 19px;
 }
 
 .donation-method-panel {
