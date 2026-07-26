@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Clock3, FolderOpen, MessageSquare, UserRound } from "lucide-react";
+import { MessageSquare } from "lucide-react";
 import { ClickablePostCard } from "@/components/site/clickable-post-card";
 import { formatPostDate } from "@/lib/format-date";
 
@@ -53,27 +53,42 @@ export function PostCard({ post }: PostCardProps) {
     >
       <h2 className="post-title">
         <Link href={`/posts/${post.slug}`}>{post.title}</Link>
+        <svg
+          className="post-card-arrow"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          aria-hidden="true"
+        >
+          <line className="post-card-arrow-line" x1="5" y1="12" x2="19" y2="12" />
+          <polyline className="post-card-arrow-tip" points="12 5 19 12 12 19" />
+        </svg>
       </h2>
       <ul className="post-meta">
-        <li>
-          <UserRound className="post-meta-icon" aria-hidden="true" />
-          <span className="post-meta-label">作者: </span>
-          <span>管理员</span>
+        <li className="post-card-category">
+          {post.category ? (
+            <Link className="post-card-category-tag" href={`/categories/${post.category.slug}`}>
+              <span className="post-card-category-hash">#</span>
+              {post.category.name}
+            </Link>
+          ) : (
+            <span className="post-card-category-tag">
+              <span className="post-card-category-hash">#</span>
+              未分类
+            </span>
+          )}
         </li>
         {post.publishedAt && (
           <li>
-            <Clock3 className="post-meta-icon" aria-hidden="true" />
             <span className="post-meta-label">时间: </span>
             <span className="post-date-default">{formatPostDate(post.publishedAt)}</span>
             <span className="post-date-handsome">{formatHandsomePostDate(post.publishedAt)}</span>
             <span className="post-date-paper"><PaperDate date={post.publishedAt} /></span>
           </li>
         )}
-        <li>
-          <FolderOpen className="post-meta-icon" aria-hidden="true" />
-          <span className="post-meta-label">分类: </span>
-          {post.category ? <Link href={`/categories/${post.category.slug}`}>{post.category.name}</Link> : "未分类"}
-        </li>
         <li>
           <MessageSquare className="post-meta-icon" aria-hidden="true" />
           <Link href={`/posts/${post.slug}#comments`}>

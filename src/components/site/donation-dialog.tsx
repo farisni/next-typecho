@@ -41,10 +41,15 @@ export function DonationDialog() {
             <X aria-hidden="true" />
           </DialogClose>
         </div>
-        <DialogDescription className="sr-only">
-          选择支付宝或微信扫码赞赏作者。
+        <DialogDescription className="donation-dialog-description">
+          选择支付方式，扫码支持作者
         </DialogDescription>
-        <Tabs value={method} onValueChange={(value) => setMethod(value as DonationMethod)}>
+        <Tabs
+          className="donation-tabs"
+          data-method={method}
+          value={method}
+          onValueChange={(value) => setMethod(value as DonationMethod)}
+        >
           <TabsList className="donation-method-tabs" variant="line">
             <TabsTrigger value="alipay">
               <WalletCards aria-hidden="true" />支付宝
@@ -54,7 +59,7 @@ export function DonationDialog() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value={method}>
-            <div className="donation-method-panel">
+            <div className="donation-method-panel" data-method={method}>
               <div className="donation-qr-placeholder">
                 <div className="donation-qr-placeholder-mark" aria-hidden="true">
                   <Icon aria-hidden="true" />

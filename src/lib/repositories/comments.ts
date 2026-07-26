@@ -19,6 +19,15 @@ export type PublicComment = {
   children: PublicComment[];
 };
 
+export type LatestComment = {
+  id: string;
+  author: string;
+  text: string;
+  postTitle: string;
+  postSlug: string;
+  createdLabel: string;
+};
+
 type RawComment = {
   id: string;
   postId: string;
@@ -64,6 +73,33 @@ function hydrateComment(row: RawComment): PublicComment {
     isOwner: Boolean(row.authorId),
     children: [],
   };
+}
+
+export function listLatestComments(limit = 5): LatestComment[] {
+  const safeLimit = Math.min(Math.max(1, Math.trunc(limit)), 20);
+  return all<{
+    id: string;
+    author: string;
+    text: string;
+    postTitle: string;
+    postSlug: string;
+    createdAt: number;
+  }>(
+    `SELECT cm.id, cm.author, cm.text, cm.created_at AS createdAt,
+            p.title AS postTitle, p.slug AS postSlug
+     FROM comments cm
+     JOIN posts p ON p.id = cm.post_id
+     WHERE cm.status = 'approved'
+       AND p.status = 'published'
+       AND p.published_at <= ?
+     ORDER BY cm.created_at DESC
+     LIMIT ?`,
+    Date.now(),
+    safeLimit,
+  ).map((comment) => ({
+    ...comment,
+    createdLabel: formatCommentDate(comment.createdAt),
+  }));
 }
 
 function sortCommentTree(comments: PublicComment[], direction: "ASC" | "DESC") {

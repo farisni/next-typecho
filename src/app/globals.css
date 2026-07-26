@@ -6066,13 +6066,13 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
 }
 
 .donation-dialog {
-  width: min(380px, calc(100vw - 24px));
-  max-width: 380px;
+  width: min(360px, calc(100vw - 24px));
+  max-width: 360px;
   gap: 0;
   overflow: hidden;
-  padding: 0;
+  padding: 20px 22px 24px;
   border: 1px solid #e4e7eb;
-  border-radius: 14px;
+  border-radius: 18px;
   background: #fff;
   box-shadow: 0 22px 60px rgb(35 52 72 / 18%);
 }
@@ -6082,141 +6082,166 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 60px;
-  padding: 12px 44px;
+  min-height: 36px;
+  padding: 0 38px;
 }
 
 .donation-dialog-header h2 {
   margin: 0;
-  color: #4b4f55;
-  font-size: 24px;
-  font-weight: 700;
+  color: #34373c;
+  font-size: 21px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
 }
 
 .donation-dialog-close {
   position: absolute;
   top: 50%;
-  right: 22px;
+  right: -4px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 32px;
-  height: 32px;
+  width: 30px;
+  height: 30px;
   margin: 0;
   padding: 0;
-  border: 2px solid #d7dadd;
-  border-radius: 50%;
+  border: 0;
+  border-radius: 8px;
   background: transparent;
-  color: #c2c6ca;
+  color: #989da3;
   transform: translateY(-50%);
   cursor: pointer;
+  transition: background-color 160ms ease, color 160ms ease;
 }
 
 .donation-dialog-close:hover {
-  border-color: #aeb4ba;
-  color: #7e858c;
+  background: #f0f1f3;
+  color: #50545a;
 }
 
 .donation-dialog-close svg {
-  width: 17px;
-  height: 17px;
+  width: 18px;
+  height: 18px;
+}
+
+.donation-dialog-description {
+  margin: 4px 0 0;
+  color: #9a9fa5;
+  font-size: 12px;
+  line-height: 1.6;
+  text-align: center;
 }
 
 .donation-method-tabs {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  margin: 4px 22px 0;
+  height: auto;
+  margin: 16px 0 0;
+  padding: 4px;
   overflow: hidden;
-  border: 2px solid #cf6046;
-  border-radius: 10px;
+  border: 0;
+  border-radius: 11px;
+  background: #f2f3f5;
 }
 
 .donation-method-tabs button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  min-height: 38px;
-  padding: 0 18px;
+  gap: 7px;
+  min-height: 36px;
+  padding: 0 14px;
   border: 0;
-  border-right: 1px solid #cf6046;
-  background: #fff;
-  color: #cf6046;
-  font-size: 15px;
+  border-radius: 8px;
+  background: transparent;
+  color: #777d84;
+  font-size: 14px;
   cursor: pointer;
-  transition: background-color 160ms ease, color 160ms ease;
-}
-
-.donation-method-tabs button:last-child {
-  border-right: 0;
+  transition: background-color 160ms ease, color 160ms ease, box-shadow 160ms ease;
 }
 
 .donation-method-tabs button.is-active {
-  background: #cf6046;
-  color: #fff;
+  background: #fff;
+  color: #34373c;
+  box-shadow: 0 2px 8px rgb(35 52 72 / 10%);
 }
 
 .donation-method-tabs [data-active] {
-  background: #cf6046;
-  color: #fff;
+  background: #fff;
+  color: #34373c;
+  box-shadow: 0 2px 8px rgb(35 52 72 / 10%);
 }
 
 .donation-method-tabs button:hover:not(.is-active) {
-  background: #fff7f4;
+  color: #34373c;
 }
 
 .donation-method-tabs svg {
-  width: 24px;
-  height: 24px;
+  width: 18px;
+  height: 18px;
 }
 
 .donation-method-panel {
   display: grid;
   place-items: center;
-  min-height: 236px;
-  padding: 22px 16px 28px;
+  min-height: 224px;
+  padding: 20px 0 0;
 }
 
 .donation-qr-placeholder {
-  display: grid;
-  place-items: center;
-  width: 180px;
-  height: 180px;
+  display: flex;
+  width: 192px;
+  height: 192px;
+  box-sizing: border-box;
+  padding: 20px 14px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 8px;
   border: 1px solid #edf0f2;
+  border-radius: 14px;
   background:
-    linear-gradient(45deg, #f0f2f4 25%, transparent 25%, transparent 75%, #f0f2f4 75%),
-    linear-gradient(45deg, #f0f2f4 25%, transparent 25%, transparent 75%, #f0f2f4 75%);
+    linear-gradient(45deg, #f2f4f6 25%, transparent 25%, transparent 75%, #f2f4f6 75%),
+    linear-gradient(45deg, #f2f4f6 25%, transparent 25%, transparent 75%, #f2f4f6 75%);
   background-position: 0 0, 8px 8px;
   background-size: 16px 16px;
-  color: #8b9298;
+  color: #747a81;
   text-align: center;
 }
 
 .donation-qr-placeholder-mark {
   display: grid;
   place-items: center;
-  width: 58px;
-  height: 58px;
-  border-radius: 12px;
+  width: 52px;
+  height: 52px;
+  border-radius: 14px;
   background: #fff;
-  color: #cf6046;
+  color: #1677ff;
   box-shadow: 0 4px 12px rgb(35 52 72 / 10%);
 }
 
+.donation-method-panel[data-method="wechat"] .donation-qr-placeholder-mark {
+  color: #07b75b;
+}
+
 .donation-qr-placeholder-mark svg {
-  width: 30px;
-  height: 30px;
+  width: 27px;
+  height: 27px;
 }
 
 .donation-qr-placeholder strong {
-  margin-top: -86px;
-  font-size: 16px;
+  margin: 2px 0 0;
+  color: #555b62;
+  font-size: 15px;
   font-weight: 600;
 }
 
 .donation-qr-placeholder span {
-  margin-top: -110px;
-  font-size: 12px;
+  max-width: 150px;
+  margin: 0;
+  color: #9ba0a6;
+  font-size: 11px;
+  line-height: 1.5;
 }
 
 .theme-handsome .post-support-actions button {
@@ -8464,20 +8489,98 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .handsome-main-content .post-card .post-title {
+  display: flex;
   margin: 0 0 14px;
   font-family: "LXGW WenKai", "PingFang SC", sans-serif;
   font-size: 21px;
   font-weight: 500;
   line-height: 1.5;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
 }
 
 .theme-lite .handsome-main-content .post-card .post-title a {
+  min-width: 0;
   color: #444;
   text-decoration: none;
 }
 
 .theme-lite .handsome-main-content .post-card .post-title a:hover {
   color: #111;
+}
+
+.theme-lite .handsome-main-content .post-card .post-card-category-tag {
+  display: inline-flex;
+  color: #959da6;
+  text-decoration: none;
+  align-items: baseline;
+}
+
+.theme-lite .handsome-main-content .post-card a.post-card-category-tag:hover {
+  color: #d67655;
+}
+
+.theme-lite .handsome-main-content .post-card .post-card-category-hash {
+  margin-right: 3px;
+  color: #b2b8bf;
+  font-size: 1.06em;
+  transition: color 160ms ease;
+}
+
+.theme-lite .handsome-main-content .post-card a.post-card-category-tag:hover .post-card-category-hash {
+  color: #d67655;
+}
+
+.post-card-arrow {
+  display: none;
+}
+
+.theme-lite .handsome-main-content .post-card .post-card-arrow {
+  display: block;
+  width: 16px;
+  height: 16px;
+  margin: 4px 0;
+  flex: 0 0 auto;
+  color: #929aa3;
+  pointer-events: none;
+  transition: color 300ms ease-in-out;
+}
+
+.theme-lite .handsome-main-content .post-card .post-card-arrow-line {
+  transform: translateX(16px) scaleX(0);
+  transition: transform 300ms ease-in-out;
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.theme-lite .handsome-main-content .post-card .post-card-arrow-tip {
+  transform: translateX(0);
+  transition: transform 300ms ease-in-out;
+  transform-box: view-box;
+  transform-origin: 0 0;
+}
+
+.theme-lite .handsome-main-content .post-card:hover .post-card-arrow,
+.theme-lite .handsome-main-content .post-card:focus-visible .post-card-arrow {
+  color: #4f5965;
+}
+
+.theme-lite .handsome-main-content .post-card:hover .post-card-arrow-line,
+.theme-lite .handsome-main-content .post-card:focus-visible .post-card-arrow-line {
+  transform: translateX(4px) scaleX(1);
+}
+
+.theme-lite .handsome-main-content .post-card:hover .post-card-arrow-tip,
+.theme-lite .handsome-main-content .post-card:focus-visible .post-card-arrow-tip {
+  transform: translateX(4px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-lite .handsome-main-content .post-card .post-card-arrow-line,
+  .theme-lite .handsome-main-content .post-card .post-card-arrow-tip {
+    transition: none;
+  }
 }
 
 .theme-lite .handsome-main-content .post-card .post-content {
@@ -8563,7 +8666,7 @@ body:has(.theme-lite) {
 
 .theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) {
   padding-right: 30px;
-  padding-left: 42%;
+  padding-left: 46%;
 }
 
 .theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) .post-title,
@@ -8635,7 +8738,48 @@ body:has(.theme-lite) {
   grid-template-columns: 24px minmax(0, 1fr);
   gap: 6px;
   padding: 13px 0;
-  border-bottom: 1px solid #f2f2f2;
+  border-bottom: 0;
+}
+
+.theme-lite .lite-latest-comment-list li {
+  grid-template-columns: 26px minmax(0, 1fr);
+  align-items: baseline;
+  gap: 10px;
+  padding: 11px 0;
+  border-bottom: 0;
+}
+
+.theme-lite .lite-latest-comment-list .lite-post-rank {
+  display: block;
+  line-height: 1.75;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+}
+
+.theme-lite .lite-latest-comment-meta {
+  display: block;
+  overflow: hidden;
+  margin-top: 3px;
+  color: #a1a7ad;
+  font-size: 11px;
+  line-height: 1.5;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.theme-lite .lite-sidebar-tab-compact .handsome-popular-list {
+  margin-top: 9px;
+}
+
+.theme-lite .lite-sidebar-tab-compact .handsome-popular-list li {
+  padding-block: 9px;
+}
+
+.theme-lite .lite-sidebar-empty {
+  margin: 28px 0 6px;
+  color: #a1a7ad;
+  font-size: 13px;
+  text-align: center;
 }
 
 .theme-lite .handsome-article-toc {
@@ -8768,6 +8912,11 @@ body:has(.theme-lite) {
   border: 0;
   background: transparent;
   box-shadow: none;
+}
+
+.theme-lite .handsome-content-grid:has(.post-detail) .handsome-footer {
+  margin-top: 0;
+  padding-block: 10px 14px;
 }
 
 .theme-lite .handsome-main-content:has(.post-detail) {
