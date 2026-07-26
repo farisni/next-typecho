@@ -7,6 +7,7 @@ import {
   Info,
 } from "lucide-react";
 import type { AuthUser } from "@/lib/auth/session";
+import { get } from "@/lib/db";
 import { getSidebarContent } from "@/lib/repositories/posts";
 
 export function Sidebar({
@@ -19,6 +20,9 @@ export function Sidebar({
   user: AuthUser | null;
 }) {
   const { categories } = getSidebarContent();
+  const ownerEmail = get<{ email: string }>(
+    "SELECT email FROM users WHERE role = 'administrator' ORDER BY created_at ASC LIMIT 1",
+  )?.email.trim();
 
   return (
     <aside className="handsome-sidebar" aria-label="博客导航">
@@ -38,7 +42,7 @@ export function Sidebar({
         </span>
         <span className="handsome-identity-copy">
           <strong>{user?.displayName || "Faris"}</strong>
-          <span>Developer &amp; Blogger</span>
+          {ownerEmail ? <span className="handsome-profile-email">{ownerEmail}</span> : null}
         </span>
       </Link>
 

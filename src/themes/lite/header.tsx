@@ -221,7 +221,9 @@ export function Header({ user }: { user: HeaderUser }) {
                             {post.excerpt || post.categoryName || `/posts/${post.slug}`}
                           </span>
                         </div>
-                        <span className="lite-command-type rounded-lg border border-border bg-background px-2 py-0.5 font-mono text-[11px] text-muted-foreground">POST</span>
+                        <span className="lite-command-type rounded-lg border border-border bg-background px-2 py-0.5 font-mono text-[11px] text-muted-foreground">
+                          {post.categoryName || "未分类"}
+                        </span>
                       </CommandItem>
                     ))
                   ) : (

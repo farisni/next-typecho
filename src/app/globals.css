@@ -8970,12 +8970,28 @@ html[data-paper-theme="dark"] .theme-lite .lite-traffic-tooltip {
 
 .theme-lite .handsome-identity-copy strong {
   color: #555;
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 18px;
+  font-weight: 700;
 }
 
 .theme-lite .handsome-identity-copy > span {
   display: none;
+}
+
+.theme-lite .handsome-identity-copy > span.handsome-profile-email {
+  display: block;
+  position: relative;
+  top: 10px;
+  color: #7e8c94;
+  font-size: 14px;
+  line-height: 1.3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+html[data-paper-theme="dark"] .theme-lite .handsome-identity-copy > span.handsome-profile-email {
+  color: #aeb8c5;
 }
 
 .theme-lite .lite-nav {
