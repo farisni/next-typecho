@@ -809,8 +809,9 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-nav svg {
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list small {
-  background: #2a3444;
+  background: transparent;
   color: #c6d0dd;
+  font-size: 12px;
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-nav > a,
@@ -6748,6 +6749,11 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
   border-radius: 0.375rem;
 }
 
+.handsome-sidebar-tabs-wrap > [data-slot="tabs-list"] [data-slot="tabs-trigger"][data-active] {
+  background: #fff;
+}
+
+
 .handsome-popular-list {
   display: flex;
   margin: 14px 0 0;
@@ -8033,8 +8039,8 @@ body:has(.theme-lite) {
 
 .theme-lite .handsome-avatar-wrap,
 .theme-lite .handsome-avatar-wrap img {
-  width: 104px;
-  height: 104px;
+  width: 86px;
+  height: 86px;
 }
 
 .theme-lite .handsome-profile-status {
@@ -8150,11 +8156,11 @@ body:has(.theme-lite) {
 
 .theme-lite .lite-category-list small {
   min-width: 25px;
-  padding: 2px 7px;
+  padding: 0 4px;
   border-radius: 999px;
-  background: #d3dee0;
-  color: #fff;
-  font-size: 11px;
+  background: transparent;
+  color: #777;
+  font-size: 12px;
   text-align: center;
 }
 
