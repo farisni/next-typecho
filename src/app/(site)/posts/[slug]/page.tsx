@@ -126,9 +126,9 @@ export default async function PostPage({
           <CodeCopyEnhancer />
           <p className="tags">标签: {post.tags.length ? post.tags.map((tag, index) => <span key={tag.id}>{index > 0 && ", "}<Link href={`/tags/${tag.slug}`}>{tag.name}</Link></span>) : "none"}</p>
           <div className="post-ending">
-            <p className="post-reference">代码参考了 <Link href="/">小刘同学</Link> 的文章。</p>
+            <p className="post-reference" hidden>代码参考了 <Link href="/">小刘同学</Link> 的文章。</p>
             <div className="post-ending-rule" aria-hidden="true" />
-            <section className="post-download" aria-labelledby="post-download-title">
+            <section className="post-download" aria-labelledby="post-download-title" hidden>
               <h2 id="post-download-title">爱心下载</h2>
               <p>我找了四个爱心svg，有需要的话可以下载使用：</p>
               <div className="post-download-gate">此处内容需要评论回复后（审核通过）方可阅读。</div>
