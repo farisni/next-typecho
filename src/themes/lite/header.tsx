@@ -1,25 +1,22 @@
 import {
   Menu,
   Search,
-  KeyRound,
 } from "lucide-react";
-import type { HandsomeColorScheme } from "@/themes/lite/color-scheme-menu";
 import { HeaderScrollProgress } from "@/themes/lite/header-scroll-progress";
+import { LiteThemeToggle } from "@/themes/lite/theme-toggle";
 import { SystemDataPanel } from "@/themes/lite/system-data-panel";
 
-export function Header({
-  colorScheme,
-}: {
-  colorScheme: HandsomeColorScheme;
-}) {
+export function Header() {
   return (
     <header className="handsome-header">
       <button className="handsome-mobile-menu" type="button" aria-label="打开菜单">
         <Menu aria-hidden="true" />
       </button>
-      <span className="lite-header-spacer" data-color-scheme={colorScheme} />
-      <div className="handsome-header-actions">
+      <div className="handsome-header-dashboard">
         <SystemDataPanel />
+      </div>
+      <span className="lite-header-spacer" />
+      <div className="handsome-header-actions">
         <form className="handsome-search" action="/" role="search">
           <Search aria-hidden="true" />
           <label className="sr-only" htmlFor="handsome-search-input">搜索文章</label>
@@ -30,9 +27,7 @@ export function Header({
             placeholder="搜索文章"
           />
         </form>
-        <a className="lite-admin-link" href="/admin" aria-label="进入后台">
-          <KeyRound aria-hidden="true" />
-        </a>
+        <LiteThemeToggle />
       </div>
       <HeaderScrollProgress />
     </header>

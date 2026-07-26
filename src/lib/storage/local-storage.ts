@@ -1,9 +1,13 @@
 import { randomUUID } from "node:crypto";
 import { mkdir, writeFile } from "node:fs/promises";
 import path from "node:path";
+import sharp from "sharp";
 import type { ImageStorage, StoredImage } from "@/lib/storage/storage";
+import { getUploadDirectory } from "@/lib/storage/upload-directory";
 
 const MAX_IMAGE_SIZE = 5 * 1024 * 1024;
+const MAX_IMAGE_DIMENSION = 1920;
+const WEBP_QUALITY = 82;
 const MIME_EXTENSIONS: Record<string, string> = {
   "image/jpeg": ".jpg",
   "image/png": ".png",
@@ -19,12 +23,33 @@ export class LocalImageStorage implements ImageStorage {
       throw new Error("图片大小必须在 5 MB 以内");
     }
 
-    const key = `${randomUUID()}${extension}`;
-    const uploadDirectory = path.join(process.cwd(), "public", "uploads");
+    const originalBuffer = Buffer.from(await file.arrayBuffer());
+    const shouldPreserveAnimation = file.type === "image/gif";
+    const imageBuffer = shouldPreserveAnimation
+      ? originalBuffer
+      : await sharp(originalBuffer)
+          .rotate()
+          .resize({
+            width: MAX_IMAGE_DIMENSION,
+            height: MAX_IMAGE_DIMENSION,
+            fit: "inside",
+            withoutEnlargement: true,
+          })
+          .webp({ quality: WEBP_QUALITY })
+          .toBuffer();
+    const outputExtension = shouldPreserveAnimation ? extension : ".webp";
+    const outputMimeType = shouldPreserveAnimation ? file.type : "image/webp";
+    const key = `${randomUUID()}${outputExtension}`;
+    const uploadDirectory = getUploadDirectory();
     await mkdir(uploadDirectory, { recursive: true });
-    await writeFile(path.join(uploadDirectory, key), Buffer.from(await file.arrayBuffer()));
+    await writeFile(path.join(uploadDirectory, key), imageBuffer);
 
-    return { url: `/uploads/${key}`, key, size: file.size, mimeType: file.type };
+    return {
+      url: `/uploads/${key}`,
+      key,
+      size: imageBuffer.byteLength,
+      mimeType: outputMimeType,
+    };
   }
 }
 

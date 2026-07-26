@@ -14,7 +14,6 @@ export const handsomeRightSidebarBlocks = [
 export type LiteRightSidebarBlock = (typeof handsomeRightSidebarBlocks)[number];
 
 export type LiteThemeConfig = {
-  colorScheme: "default" | "mint";
   logoUrl: string;
   rightSidebarBlocks: LiteRightSidebarBlock[];
 };
@@ -33,7 +32,6 @@ const logoUrlSchema = z
   }, "请填写一个合法的 HTTP 或 HTTPS 图片地址");
 
 export const liteThemeConfigSchema = z.object({
-  colorScheme: z.enum(["default", "mint"]).default("default"),
   logoUrl: logoUrlSchema,
   rightSidebarBlocks: z.array(z.enum(handsomeRightSidebarBlocks)),
 });
@@ -47,22 +45,11 @@ export const liteThemeDefinition = {
   description: "固定侧栏与三栏内容布局的现代博客主题",
   screenshotPath: "/themes/lite/screenshot.svg",
   defaults: {
-    colorScheme: "default",
     logoUrl: "",
     rightSidebarBlocks: [...handsomeRightSidebarBlocks],
   },
   configSchema: liteThemeConfigSchema,
   settings: [
-    {
-      kind: "select",
-      name: "colorScheme",
-      label: "主题色系",
-      description: "选择 Lite 的整体界面配色。",
-      options: [
-        { value: "default", label: "默认深顶栏" },
-        { value: "mint", label: "薄荷青灰" },
-      ],
-    },
     {
       kind: "url",
       name: "logoUrl",

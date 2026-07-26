@@ -20,10 +20,7 @@ export function LiteThemeLayout({
 }: ThemeLayoutProps<LiteThemeConfig>) {
   // Lite 固定使用当前本地的紧凑结构；boxModel 仅保留给 Handsome 主题，
   // 避免后台切换 0/1 时改变 Lite 的页面网格。
-  const themeClassName =
-    config.colorScheme === "mint"
-      ? "theme-lite theme-handsome handsome-color-mint handsome-box-model"
-      : "theme-lite theme-handsome handsome-box-model";
+  const themeClassName = "theme-lite theme-handsome handsome-box-model";
 
   return (
     <div className={themeClassName}>
@@ -33,7 +30,7 @@ export function LiteThemeLayout({
         <div className="handsome-topbar-sidebar">
           <span className="lite-brand">{name}</span>
         </div>
-        <Header colorScheme={config.colorScheme} />
+        <Header />
       </div>
       <Sidebar name={name} logoUrl={config.logoUrl} user={user} />
       <div className="handsome-workspace">

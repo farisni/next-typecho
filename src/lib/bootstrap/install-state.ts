@@ -7,6 +7,7 @@ import {
   getDatabasePath,
   getMigrationsPath,
 } from "@/lib/bootstrap/migrations";
+import { getUploadDirectory } from "@/lib/storage/upload-directory";
 
 export type InstallationStatus = "needs-schema" | "needs-administrator" | "installed";
 
@@ -81,7 +82,7 @@ export function inspectInstallationState(): InstallationState {
 
 export function checkInstallEnvironment(): EnvironmentCheck[] {
   const databasePath = getDatabasePath();
-  const uploadsPath = path.join(process.cwd(), "public", "uploads");
+  const uploadsPath = getUploadDirectory();
   const nodeMajor = Number(process.versions.node.split(".")[0]);
   const checks: EnvironmentCheck[] = [
     {
@@ -114,9 +115,9 @@ export function checkInstallEnvironment(): EnvironmentCheck[] {
   try {
     mkdirSync(uploadsPath, { recursive: true });
     accessSync(uploadsPath, constants.R_OK | constants.W_OK);
-    checks.push({ label: "上传目录权限", description: "public/uploads 可读写", ok: true });
+    checks.push({ label: "上传目录权限", description: `${uploadsPath} 可读写`, ok: true });
   } catch {
-    checks.push({ label: "上传目录权限", description: "public/uploads 无法写入", ok: false });
+    checks.push({ label: "上传目录权限", description: `${uploadsPath} 无法写入`, ok: false });
   }
 
   return checks;

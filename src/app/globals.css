@@ -7747,32 +7747,80 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .handsome-header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
   height: 44px;
-  padding: 0 26px 0 36px;
+  padding: 0 16px;
   border: 0;
   background: #fff;
+  align-items: center;
 }
 
 .theme-lite .lite-header-spacer {
-  flex: 1;
+  grid-column: 2;
+  min-width: 24px;
 }
 
 .theme-lite .handsome-header-actions {
+  grid-column: 3;
+  display: flex;
+  width: auto;
+  margin-left: 0;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-start;
+  min-width: 0;
+}
+
+.theme-lite .handsome-header-dashboard {
+  grid-column: 1;
+  display: flex;
+  align-items: center;
+}
+
+.theme-lite .handsome-header-dashboard .lite-system-data {
+  margin-right: 0;
+}
+
+.theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) > .lite-header-spacer {
+  display: none;
+}
+
+.theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) > .handsome-header-actions {
+  grid-column: 1;
+  display: grid;
   width: 100%;
-  justify-content: space-between;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+}
+
+.theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) > .handsome-header-actions > .handsome-header-dashboard {
+  grid-column: 1;
+}
+
+.theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) > .handsome-header-actions > .handsome-header-tools {
+  grid-column: 3;
+}
+
+.theme-lite .handsome-header-actions .handsome-search {
+  margin-left: 0;
 }
 
 .theme-lite .handsome-search {
-  width: 270px;
-  height: 38px;
-  margin-left: 24px;
+  width: 190px;
+  height: 34px;
+  margin-left: 0;
   border: 0;
   background: #f5f5f5;
   box-shadow: inset 0 0 0 1px rgb(0 0 0 / 3%);
+  border-radius: 9999px;
 }
 
 .theme-lite .handsome-search input {
-  font-size: 14px;
+  font-size: 13px;
 }
 
 .theme-lite .paper-theme-toggle {
@@ -7806,7 +7854,6 @@ body:has(.theme-lite) {
   display: grid;
   width: 38px;
   height: 38px;
-  margin-left: auto;
   place-items: center;
   color: #777;
   text-decoration: none;
@@ -7818,6 +7865,8 @@ body:has(.theme-lite) {
 }
 
 .theme-lite .lite-system-data {
+  order: 0;
+  margin-right: 12px;
   position: relative;
   display: flex;
   height: 44px;
@@ -8932,7 +8981,7 @@ body:has(.theme-lite) {
 
   .theme-lite .handsome-header {
     display: grid;
-    grid-template-columns: 36px minmax(0, 1fr) auto;
+    grid-template-columns: 36px auto minmax(0, 1fr) auto;
     height: 44px;
     min-height: 44px;
     padding: 0 12px;
@@ -8941,42 +8990,57 @@ body:has(.theme-lite) {
 
   .theme-lite .lite-header-spacer {
     display: block;
+    grid-column: 3;
   }
 
   .theme-lite .handsome-mobile-menu {
+    grid-column: 1;
     width: 36px;
     height: 36px;
   }
 
+  .theme-lite .handsome-header-dashboard {
+    grid-column: 2;
+  }
+
   .theme-lite .handsome-header-actions {
     position: static;
-    grid-column: 3;
+    grid-column: 4;
     width: auto;
+    max-width: none;
     height: 44px;
     margin-left: 0;
+    display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 4px;
+    justify-content: flex-start;
+    gap: 0;
+  }
+
+  .theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) {
+    grid-template-columns: 36px minmax(0, 1fr);
+  }
+
+  .theme-lite .handsome-header:not(:has(> .handsome-header-dashboard)) > .handsome-header-actions {
+    grid-column: 2;
   }
 
   .theme-lite .handsome-search {
-    order: 2;
-    width: 34px;
-    height: 32px;
+    width: 30px;
+    height: 28px;
     margin-left: 0;
+    border-radius: 9999px;
   }
 
-  .theme-lite .lite-system-data {
-    order: 1;
+  .theme-lite .paper-theme-toggle {
+  }
+
+  .theme-lite .lite-admin-link {
+    display: none;
   }
 
   .theme-lite .lite-system-data-trigger {
     width: 48px;
     height: 44px;
-  }
-
-  .theme-lite .lite-admin-link {
-    display: none;
   }
 
   .theme-lite .handsome-search:hover {
