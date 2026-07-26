@@ -7905,11 +7905,14 @@ body:has(.theme-lite) {
   --lite-shell-width: 1280px;
   --lite-sidebar-width: 230px;
   --lite-page-header-height: 104px;
+  --handsome-topbar-height: 52px;
   --handsome-post-detail-sidebar-offset: calc(26px + var(--lite-page-header-height) + 18px);
   position: relative;
   display: grid;
   grid-template-columns: var(--lite-sidebar-width) minmax(0, 1fr);
-  grid-template-rows: 44px minmax(calc(100vh - 44px), auto);
+  grid-template-rows:
+    var(--handsome-topbar-height)
+    minmax(calc(100vh - var(--handsome-topbar-height)), auto);
   width: min(100%, var(--lite-shell-width));
   min-height: 100vh;
   margin: 0 auto;
@@ -7948,7 +7951,7 @@ body:has(.theme-lite) {
 .theme-lite .handsome-topbar-sidebar {
   display: flex;
   align-items: center;
-  padding: 0 34px;
+  padding: 0 16px;
   border: 0;
   background: #fff;
 }
@@ -7972,9 +7975,9 @@ body:has(.theme-lite) {
 
 .theme-lite .lite-brand-mark {
   display: flex;
-  width: 148px;
-  height: 40px;
-  flex: 0 0 148px;
+  width: 200px;
+  height: 42px;
+  flex: 0 0 200px;
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -7984,7 +7987,8 @@ body:has(.theme-lite) {
   display: block;
   width: 100%;
   height: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  object-position: center 44%;
   opacity: 0.88;
   mix-blend-mode: multiply;
 }
@@ -8575,11 +8579,12 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-brand-mark img {
   min-height: 100vh;
   width: calc(100% - var(--lite-sidebar-width));
   margin-left: var(--lite-sidebar-width);
-  padding-top: 44px;
+  padding-top: var(--handsome-topbar-height);
   background: #f5f6f7;
 }
 
 .theme-lite .handsome-blog-header {
+  position: relative;
   min-height: var(--lite-page-header-height);
   padding: 30px 40px;
   border: 0;
