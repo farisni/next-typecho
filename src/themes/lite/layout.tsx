@@ -35,7 +35,7 @@ export function LiteThemeLayout({
             </span>
           </span>
         </div>
-        <Header />
+        <Header user={user ? { displayName: user.displayName } : null} />
       </div>
       <Sidebar name={name} logoUrl={config.logoUrl} user={user} />
       <div className="handsome-workspace">

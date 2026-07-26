@@ -97,8 +97,41 @@ function paginate(whereSql: string, params: SQLInputValue[], page: number, pageS
 
 const publishedWhere = "p.status = 'published' AND p.published_at <= ?";
 
+function escapeLike(value: string) {
+  return value.replace(/[\\%_]/g, "\\$&");
+}
+
+function buildSearchWhere(search: string) {
+  const words = search.trim().split(/\s+/).filter(Boolean).slice(0, 8);
+  const where = [publishedWhere];
+  const params: SQLInputValue[] = [Date.now()];
+
+  for (const word of words) {
+    const keyword = `%${escapeLike(word)}%`;
+    where.push(`(
+      p.title LIKE ? ESCAPE '\\'
+      OR p.excerpt LIKE ? ESCAPE '\\'
+      OR p.content LIKE ? ESCAPE '\\'
+      OR EXISTS (
+        SELECT 1
+        FROM posts_to_tags pt
+        JOIN tags t ON t.id = pt.tag_id
+        WHERE pt.post_id = p.id AND t.name LIKE ? ESCAPE '\\'
+      )
+    )`);
+    params.push(keyword, keyword, keyword, keyword);
+  }
+
+  return { whereSql: where.join(" AND "), params };
+}
+
 export function listPublishedPosts(page: number, pageSize: number) {
   return paginate(publishedWhere, [Date.now()], page, pageSize);
+}
+
+export function searchPublishedPosts(search: string, page: number, pageSize: number) {
+  const { whereSql, params } = buildSearchWhere(search);
+  return paginate(whereSql, params, page, pageSize);
 }
 
 export function listAllPublishedPosts() {

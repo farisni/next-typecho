@@ -258,17 +258,17 @@ export function CommentsClient(props: CommentsClientProps) {
           </p>
         ) : (
           <div className="comment-visitor-fields">
-            <label>
+            <label data-required="true">
               <span className="sr-only">昵称</span>
-              <input name="author" defaultValue={props.remembered.author} required maxLength={150} placeholder="昵称" />
+              <input name="author" defaultValue={props.remembered.author} required maxLength={150} placeholder="昵称 *" />
             </label>
-            <label>
+            <label data-required={props.settings.requireMail || undefined}>
               <span className="sr-only">邮箱</span>
-              <input name="mail" type="email" defaultValue={props.remembered.mail} required={props.settings.requireMail} maxLength={150} placeholder="邮箱" />
+              <input name="mail" type="email" defaultValue={props.remembered.mail} required={props.settings.requireMail} maxLength={150} placeholder={props.settings.requireMail ? "邮箱 *" : "邮箱"} />
             </label>
-            <label>
+            <label data-required={props.settings.requireUrl || undefined}>
               <span className="sr-only">网址</span>
-              <input name="url" type="text" defaultValue={props.remembered.url} required={props.settings.requireUrl} maxLength={255} placeholder={props.settings.requireUrl ? "网址" : "网址（可选）"} />
+              <input name="url" type="text" defaultValue={props.remembered.url} required={props.settings.requireUrl} maxLength={255} placeholder={props.settings.requireUrl ? "网址 *" : "网址（可选）"} />
             </label>
           </div>
         )}

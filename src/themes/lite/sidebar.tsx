@@ -73,12 +73,6 @@ export function Sidebar({
         </Link>
       </nav>
 
-      <div className="lite-sidebar-account">
-        <Link href={user ? "/admin" : "/login"}>
-          <span>{user ? "进入后台" : "登录"}</span>
-          <ChevronRight aria-hidden="true" />
-        </Link>
-      </div>
     </aside>
   );
 }

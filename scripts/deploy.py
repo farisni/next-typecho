@@ -63,7 +63,7 @@ def should_exclude(relative_path: Path) -> bool:
         return False
     if any(part in {".git", "node_modules", "data"} for part in parts):
         return True
-    if len(parts) >= 2 and parts[:2] in (("public", "uploads"), (".next", "cache")):
+    if len(parts) >= 2 and parts[:2] in (("public", "uploads"), (".next", "cache"), (".next", "dev")):
         return True
     if relative_path.name.startswith(".env"):
         return True
@@ -87,7 +87,11 @@ def make_archive(project_dir: Path) -> Path:
                 file_path = root_path / name
                 relative_path = file_path.relative_to(project_dir)
                 if not should_exclude(relative_path):
-                    output.add(file_path, arcname=relative_path.as_posix(), recursive=False)
+                    try:
+                        output.add(file_path, arcname=relative_path.as_posix(), recursive=False)
+                    except FileNotFoundError:
+                        # Dev/build tooling may remove transient files while the archive is being created.
+                        continue
     return archive
 
 
@@ -364,13 +368,17 @@ def main() -> int:
     try:
         print("[本机] 生成生产构建（webpack）", flush=True)
         run(["pnpm", "exec", "next", "build", "--webpack"], cwd=project_dir)
+        print("[本机] 打包部署文件", flush=True)
         archive = make_archive(project_dir)
         try:
+            print("[本机] 上传部署包", flush=True)
             run([*scp_base(key), str(archive), f"{args.user}@{args.host}:{REMOTE_PACKAGE}"])
         finally:
             archive.unlink(missing_ok=True)
         if args.env_file:
+            print("[本机] 上传生产环境文件", flush=True)
             run([*scp_base(key), str(args.env_file), f"{args.user}@{args.host}:{REMOTE_ENV}"])
+        print("[远端] 执行部署脚本", flush=True)
         run(
             [*ssh_base(args.host, args.user, key), "bash", "-s"],
             input_text=build_remote_script(args, env_file=bool(args.env_file)),
