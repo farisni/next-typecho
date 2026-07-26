@@ -6,6 +6,7 @@ export interface Song {
   name: string;
   artists: Array<string>;
   album: { name: string; image: string };
+  src?: string;
   duration: number; // Duration in seconds
 }
 
@@ -44,73 +45,85 @@ export interface UseMusicPlayerReturn {
 export function useMusicPlayer({
   song,
 }: UseMusicPlayerProps): UseMusicPlayerReturn {
+  const audioRef = React.useRef<HTMLAudioElement | null>(null);
   const [isPlaying, setIsPlaying] = React.useState(false);
   const [currentTime, setCurrentTime] = React.useState(0);
+  const [duration, setDuration] = React.useState(song?.duration ?? 0);
   const [isShuffling, setIsShuffling] = React.useState(false);
   const [repeatMode, setRepeatMode] = React.useState<RepeatMode>("off");
 
-  const songDuration = song?.duration ?? 0;
-
-  // Effect to handle song playback timing
   React.useEffect(() => {
-    if (!isPlaying || songDuration === 0) return;
+    setCurrentTime(0);
+    setDuration(song?.duration ?? 0);
+    setIsPlaying(false);
 
-    const interval = setInterval(() => {
-      setCurrentTime((prevTime) => {
-        if (prevTime < songDuration - 1) {
-          return prevTime + 1;
-        }
-        if (repeatMode === "track") {
-          return 0; // Restart track
-        } else {
-          // For "off" and "context", we'd normally move to next song or stop.
-          // For now, just stop and set to duration.
-          // "context" repeat would be handled by a playlist manager.
-          setIsPlaying(false);
-          return songDuration;
-        }
-      });
-    }, 1000);
+    if (!song?.src) return;
+
+    const audio = new Audio(song.src);
+    audio.preload = "metadata";
+    audioRef.current = audio;
+
+    const handleLoadedMetadata = () => {
+      if (Number.isFinite(audio.duration)) {
+        setDuration(audio.duration);
+      }
+    };
+    const handleTimeUpdate = () => setCurrentTime(audio.currentTime);
+    const handlePlay = () => setIsPlaying(true);
+    const handlePause = () => setIsPlaying(false);
+    const handleEnded = () => {
+      setCurrentTime(audio.duration);
+      setIsPlaying(false);
+    };
+
+    audio.addEventListener("loadedmetadata", handleLoadedMetadata);
+    audio.addEventListener("timeupdate", handleTimeUpdate);
+    audio.addEventListener("play", handlePlay);
+    audio.addEventListener("pause", handlePause);
+    audio.addEventListener("ended", handleEnded);
 
     return () => {
-      clearInterval(interval);
+      audio.pause();
+      audio.removeEventListener("loadedmetadata", handleLoadedMetadata);
+      audio.removeEventListener("timeupdate", handleTimeUpdate);
+      audio.removeEventListener("play", handlePlay);
+      audio.removeEventListener("pause", handlePause);
+      audio.removeEventListener("ended", handleEnded);
+      audioRef.current = null;
     };
-  }, [isPlaying, songDuration, repeatMode]);
+  }, [song?.duration, song?.src]);
 
   React.useEffect(() => {
-    if (song) {
-      setCurrentTime(0); // Reset to beginning when song changes
-      setIsPlaying(true); // 保持注册表原版的自动播放状态展示。
-    } else {
-      // No song, reset state
-      setCurrentTime(0);
-      setIsPlaying(false);
+    if (audioRef.current) {
+      audioRef.current.loop = repeatMode === "track";
     }
-  }, [song]);
+  }, [repeatMode]);
 
   const togglePlayPause = React.useCallback(() => {
-    if (!song) return;
+    const audio = audioRef.current;
+    if (!song || !audio) return;
 
-    if (currentTime >= songDuration && !isPlaying && songDuration > 0) {
-      setCurrentTime(0);
-      setIsPlaying(true);
+    if (audio.paused) {
+      if (currentTime >= duration && duration > 0) {
+        audio.currentTime = 0;
+      }
+      void audio.play().catch(() => setIsPlaying(false));
     } else {
-      setIsPlaying((prevIsPlaying) => !prevIsPlaying);
+      audio.pause();
     }
-  }, [currentTime, songDuration, isPlaying, song]);
+  }, [currentTime, duration, song]);
 
   const handleSliderChangeExternal = (value: number | readonly number[]) => {
-    if (!song) return;
+    const audio = audioRef.current;
+    if (!song || !audio) return;
     const v = typeof value === "number" ? value : value[0];
-    const newTime = Math.floor((v / 100) * songDuration);
+    const newTime = Math.floor((v / 100) * duration);
+    audio.currentTime = newTime;
     setCurrentTime(newTime);
-    if (!isPlaying && newTime < songDuration) {
-      setIsPlaying(true);
-    }
   };
 
   const progressPercentage =
-    songDuration > 0 ? (currentTime / songDuration) * 100 : 0;
+    duration > 0 ? (currentTime / duration) * 100 : 0;
 
   const toggleShuffle = React.useCallback(() => {
     setIsShuffling((prev) => !prev);
@@ -127,10 +140,10 @@ export function useMusicPlayer({
   return {
     isPlaying,
     currentTime,
-    duration: songDuration,
+    duration,
     progressPercentage,
     formattedCurrentTime: formatTime(currentTime),
-    formattedDuration: formatTime(songDuration),
+    formattedDuration: formatTime(duration),
     isShuffling,
     repeatMode,
     togglePlayPause,

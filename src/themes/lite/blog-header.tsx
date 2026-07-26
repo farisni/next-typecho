@@ -2,10 +2,14 @@ import MusicPlayerApple from "@/components/music-player-apple";
 import type { Song } from "@/hooks/use-music-player";
 
 const headerSong: Song = {
-  name: "Dust In The Wind",
-  artists: ["Kansas"],
-  album: { name: "Point of Know Return", image: "/images/avatar.png" },
-  duration: 206,
+  name: "山阴路的夏天",
+  artists: ["李志"],
+  album: {
+    name: "2014 i/O",
+    image: "/images/shanyin-road-summer-2014-cover.jpg",
+  },
+  src: "/audio/shanyin-road-summer-2014.mp3",
+  duration: 313,
 };
 
 export function BlogHeader({

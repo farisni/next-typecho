@@ -33,7 +33,7 @@ export default function MusicPlayerApple({ song }: { song: Song }) {
   } = useMusicPlayer({ song });
 
   return (
-    <div className="lite-apple-music-player flex w-full flex-col gap-2.5 rounded-xl border bg-popover p-4">
+    <div className="lite-apple-music-player flex w-full flex-col gap-2.5 rounded-xl bg-popover p-4">
       <div className="flex min-w-0 items-center gap-4">
         {song.album.image ? (
           <img
@@ -50,7 +50,7 @@ export default function MusicPlayerApple({ song }: { song: Song }) {
           </div>
         )}
         <div className="min-w-0 flex-1">
-          <p className="truncate text-lg font-semibold">{song.name}</p>
+          <p className="truncate text-lg font-extrabold">{song.name}</p>
           <p className="truncate text-sm text-muted-foreground">
             {song.artists.join(", ")}
           </p>
