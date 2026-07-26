@@ -2,35 +2,41 @@
 
 import { useState } from "react";
 import { Gift, MessageSquare, ThumbsUp } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-const tabs = [
-  { label: "热门文章", icon: ThumbsUp },
-  { label: "最新评论", icon: MessageSquare },
-  { label: "推荐内容", icon: Gift },
+type TabKey = "popular" | "comments" | "recommend";
+
+type TabConfig = {
+  label: string;
+  value: TabKey;
+  icon: typeof ThumbsUp;
+};
+
+const tabs: TabConfig[] = [
+  { label: "热门文章", value: "popular", icon: ThumbsUp },
+  { label: "最新评论", value: "comments", icon: MessageSquare },
+  { label: "推荐内容", value: "recommend", icon: Gift },
 ];
 
 export function SidebarTabs() {
-  const [activeTab, setActiveTab] = useState(0);
+  const [activeTab, setActiveTab] = useState<TabKey>("popular");
 
   return (
-    <div className="handsome-sidebar-tabs" aria-label="侧栏内容类型">
-      <span
-        className="handsome-sidebar-tab-indicator"
-        style={{ transform: `translateX(${activeTab * 100}%)` }}
-        aria-hidden="true"
-      />
-      {tabs.map(({ label, icon: Icon }, index) => (
-        <button
-          className={activeTab === index ? "is-active" : undefined}
-          key={label}
-          type="button"
-          aria-label={label}
-          aria-pressed={activeTab === index}
-          onClick={() => setActiveTab(index)}
-        >
-          <Icon aria-hidden="true" />
-        </button>
-      ))}
-    </div>
+    <Tabs
+      value={activeTab}
+      onValueChange={(value) => setActiveTab(value as TabKey)}
+      aria-label="侧栏内容类型"
+    >
+      <div className="handsome-sidebar-tabs-wrap">
+        <TabsList>
+          {tabs.map(({ label, icon: Icon, value }) => (
+            <TabsTrigger value={value} key={label} aria-label={label}>
+              <Icon aria-hidden="true" />
+              <span className="sr-only">{label}</span>
+            </TabsTrigger>
+          ))}
+        </TabsList>
+      </div>
+    </Tabs>
   );
 }

@@ -85,7 +85,9 @@ export function PostSidebar({ children }: PostSidebarProps) {
     <>
       <ul className="typecho-option-tabs post-option-tabs">
         <li className={activeTab === "options" ? "active" : undefined}>
-          <button type="button" onClick={() => setActiveTab("options")}>选项</button>
+          <button type="button" onClick={() => setActiveTab("options")}>
+            选项
+          </button>
         </li>
         <li className={activeTab === "attachments" ? "active" : undefined}>
           <button type="button" onClick={() => setActiveTab("attachments")}>
