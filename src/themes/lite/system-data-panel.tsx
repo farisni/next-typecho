@@ -52,6 +52,7 @@ type RuntimeStats = {
     fifteen: number;
   };
   memoryDetail: string;
+  articleCacheDetail: string;
   diskDetail: string;
   cacheDetail: string;
   uptime: string;
@@ -110,6 +111,7 @@ const initialStats: RuntimeStats = {
   cache: 0,
   load: { one: 0, five: 0, fifteen: 0 },
   memoryDetail: "读取中",
+  articleCacheDetail: "读取中",
   diskDetail: "读取中",
   cacheDetail: "读取中",
   uptime: "读取中",
@@ -544,6 +546,7 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
           cpu: number;
           cpuCores: number;
           memory: { used: number; total: number; percent: number };
+          articleCache: { count: number; bytes: number; builtAt: number };
           disk: {
             used: number;
             available: number;
@@ -577,6 +580,7 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
           cache: data.processMemory.percent,
           load: data.load,
           memoryDetail: `${formatBytes(data.memory.used)} / ${formatBytes(data.memory.total)}`,
+          articleCacheDetail: `${data.articleCache?.count ?? 0} 篇 · ${formatBytes(data.articleCache?.bytes ?? 0)}`,
           diskDetail: `可用 ${formatDiskBytes(data.disk.available)} / 共 ${formatDiskBytes(data.disk.total)}`,
           cacheDetail: `${formatBytes(data.processMemory.used)} / ${formatBytes(data.processMemory.total)}`,
           uptime: formatUptime(data.uptime),
@@ -592,6 +596,7 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
         setStats((current) => ({
           ...current,
           memoryDetail: "读取失败",
+          articleCacheDetail: "读取失败",
           diskDetail: "读取失败",
           cacheDetail: "读取失败",
         }));
@@ -704,6 +709,7 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
             <MetricRow icon={HardDrive} label="磁盘占用" detail={stats.diskDetail} value={stats.disk} tone="yellow" />
             <MetricRow icon={Database} label="Node 堆内存" detail={stats.cacheDetail} value={stats.cache} />
             <LoadAverageRow value={stats.load} current={stats.cpu} />
+            <InfoRow icon={Database} label="文章缓存" value={stats.articleCacheDetail} />
           </div>
 
           <div className="lite-data-column">

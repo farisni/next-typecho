@@ -1,6 +1,7 @@
 import process from "node:process";
 import { cpus, loadavg } from "node:os";
 import si from "systeminformation";
+import { getSearchCacheStats } from "@/lib/search-cache";
 
 export async function GET() {
   const [load, memory, fileSystems, osInfo, defaultNetworkInterface] =
@@ -27,6 +28,7 @@ export async function GET() {
     fileSystems[0];
   const activeMemory = memory.active || memory.used;
   const heap = process.memoryUsage();
+  const articleCache = getSearchCacheStats();
   const [loadOne, loadFive, loadFifteen] = loadavg();
   const networkSummary = network.reduce(
     (summary, item) => ({
@@ -48,6 +50,7 @@ export async function GET() {
         total: memory.total,
         percent: memory.total > 0 ? (activeMemory / memory.total) * 100 : 0,
       },
+      articleCache,
       disk: {
         used: fileSystem ? fileSystem.size - fileSystem.available : 0,
         available: fileSystem?.available ?? 0,

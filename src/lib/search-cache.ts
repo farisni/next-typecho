@@ -17,6 +17,7 @@ type SearchCacheEntry = CachedSearchPost & {
 type SearchCacheState = {
   entries: SearchCacheEntry[];
   builtAt: number;
+  bytes: number;
 };
 
 const globalForSearchCache = globalThis as typeof globalThis & {
@@ -55,12 +56,14 @@ export function rebuildSearchCache() {
   const state = {
     entries,
     builtAt: Date.now(),
+    bytes: Buffer.byteLength(JSON.stringify(entries), "utf8"),
   };
   globalForSearchCache.nextTypechoSearchCache = state;
 
   return {
     count: entries.length,
     builtAt: state.builtAt,
+    bytes: state.bytes,
   };
 }
 
@@ -70,11 +73,23 @@ export function refreshSearchCache() {
 }
 
 function getSearchCache() {
-  if (!globalForSearchCache.nextTypechoSearchCache) {
+  if (
+    !globalForSearchCache.nextTypechoSearchCache ||
+    !Number.isFinite(globalForSearchCache.nextTypechoSearchCache.bytes)
+  ) {
     rebuildSearchCache();
   }
 
   return globalForSearchCache.nextTypechoSearchCache!;
+}
+
+export function getSearchCacheStats() {
+  const state = getSearchCache();
+  return {
+    count: state.entries.length,
+    builtAt: state.builtAt,
+    bytes: state.bytes,
+  };
 }
 
 export function searchCachedPosts(query: string, limit = 8): CachedSearchPost[] {
