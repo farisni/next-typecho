@@ -7940,11 +7940,17 @@ body:has(.theme-lite) {
   box-shadow: 0 2px 10px rgb(0 0 0 / 6%);
 }
 
+.theme-lite.theme-handsome .handsome-topbar,
+.theme-lite.theme-handsome.handsome-box-model .handsome-topbar {
+  box-shadow: none;
+}
+
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-topbar,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-topbar-sidebar,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-header {
-  background: #252b35;
-  color: #e5e9f0;
+  background: #fafafa;
+  color: #6b7075;
+  border-bottom: 0;
 }
 
 .theme-lite .handsome-topbar,
@@ -8003,8 +8009,8 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-header 
 }
 
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-brand-mark img {
-  filter: grayscale(1) contrast(1.12) invert(1);
-  mix-blend-mode: screen;
+  filter: grayscale(1) contrast(1.12);
+  mix-blend-mode: multiply;
 }
 
 .theme-lite .lite-brand-image {
@@ -8101,8 +8107,8 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-search:
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-trigger:hover,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-trigger.is-open,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-toggle:hover {
-  background: #343d4d;
-  color: #fff;
+  background: #f1f2f3;
+  color: #4d5359;
 }
 
 .theme-lite .handsome-search svg {
@@ -8115,7 +8121,7 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-togg
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .handsome-search svg,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .lite-system-data-trigger,
 html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-toggle {
-  color: #dbe2ec;
+  color: #858b91;
 }
 
 .theme-lite .handsome-search > span {
@@ -8312,7 +8318,7 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-togg
   bottom: -10px;
   left: 0;
   height: 10px;
-  background: linear-gradient(to bottom, rgb(0 0 0 / 6%), transparent);
+  background: transparent;
   content: "";
   pointer-events: none;
 }
@@ -8329,9 +8335,9 @@ html:not([data-paper-theme="dark"]) .theme-lite.theme-handsome .paper-theme-togg
   max-height: calc(100vh - 64px);
   overflow: auto;
   padding: 22px 24px 26px;
-  border-bottom: 1px solid #e6e8eb;
+  border: 0;
   background: #fff;
-  box-shadow: 0 12px 30px rgb(41 48 61 / 12%);
+  box-shadow: none;
   color: #767b84;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   transform: translateX(-50%);
