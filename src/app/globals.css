@@ -7719,6 +7719,27 @@ body:has(.theme-handsome.handsome-box-model) {
 }
 
 /* Lite theme */
+@font-face {
+  font-family: "Lite System Latin";
+  src:
+    local("SF Pro Text"),
+    local("Helvetica Neue"),
+    local("Segoe UI"),
+    local("Roboto"),
+    local("Noto Sans"),
+    local("Arial");
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  unicode-range:
+    U+0000-024F,
+    U+1E00-1EFF,
+    U+2000-206F,
+    U+20A0-20CF,
+    U+2100-214F,
+    U+2190-22FF,
+    U+2200-22FF;
+}
 body:has(.theme-lite) {
   background: #e9e9e9;
 }
@@ -7737,7 +7758,7 @@ body:has(.theme-lite) {
   margin: 0 auto;
   background: #fff;
   color: #555;
-  font-family: "LXGW WenKai", "PingFang SC", sans-serif;
+  font-family: "Lite System Latin", "LXGW WenKai", "PingFang SC", sans-serif;
 }
 
 .theme-lite.theme-handsome.handsome-box-model {
@@ -8006,7 +8027,7 @@ body:has(.theme-lite) {
 .theme-lite .lite-data-column h2 {
   margin: 0 0 14px;
   color: #555b65;
-  font-family: "LXGW WenKai", "PingFang SC", sans-serif;
+  font-family: "Lite System Latin", "LXGW WenKai", "PingFang SC", sans-serif;
   font-size: 16px;
   font-weight: 600;
   letter-spacing: 0.04em;
@@ -8491,7 +8512,7 @@ body:has(.theme-lite) {
 .theme-lite .handsome-main-content .post-card .post-title {
   display: flex;
   margin: 0 0 14px;
-  font-family: "LXGW WenKai", "PingFang SC", sans-serif;
+  font-family: "Lite System Latin", "LXGW WenKai", "PingFang SC", sans-serif;
   font-size: 21px;
   font-weight: 500;
   line-height: 1.5;
@@ -8894,6 +8915,7 @@ body:has(.theme-lite) {
   display: -webkit-box;
   overflow: hidden;
   color: #777;
+  font-family: "Lite System Latin", "LXGW WenKai", "PingFang SC", sans-serif;
   font-size: 14px;
   line-height: 1.75;
   text-decoration: none;
@@ -8914,13 +8936,19 @@ body:has(.theme-lite) {
   box-shadow: none;
 }
 
-.theme-lite .handsome-content-grid:has(.post-detail) .handsome-footer {
+.theme-lite:has(.post-detail) .handsome-footer {
   margin-top: 0;
   padding-block: 10px 14px;
+  background: #fff;
 }
 
 .theme-lite .handsome-main-content:has(.post-detail) {
   padding-top: 0;
+  background: linear-gradient(
+    to bottom,
+    #f4f5f6 0 calc(100% - 38px),
+    #fff calc(100% - 38px) 100%
+  );
 }
 
 .theme-lite .post-detail,
@@ -8942,6 +8970,26 @@ body:has(.theme-lite) {
 
 .theme-lite .handsome-content-grid:has(.lite-category-page) .handsome-right-sidebar {
   padding-top: var(--lite-page-header-height);
+}
+
+.theme-lite .handsome-content-grid:has(.lite-category-page) {
+  min-height: calc(100dvh - 44px);
+  align-items: stretch;
+}
+
+.theme-lite .handsome-content-grid:has(.lite-category-page) .lite-content-column,
+.theme-lite .handsome-content-grid:has(.lite-category-page) .handsome-right-sidebar {
+  min-height: 0;
+}
+
+@media (min-width: 1281px) {
+  .theme-lite .handsome-content-grid:has(.lite-category-page) {
+    background: linear-gradient(
+      to right,
+      #f4f5f6 0 calc(100% - 250px),
+      #fff calc(100% - 250px) 100%
+    );
+  }
 }
 
 .theme-lite .handsome-content-grid:has(.post-detail) .handsome-popular-widget {
@@ -8986,7 +9034,7 @@ body:has(.theme-lite) {
   max-width: none;
   margin: 0 0 8px;
   align-self: flex-start;
-  font-family: "LXGW WenKai", "PingFang SC", sans-serif;
+  font-family: "Lite System Latin", "LXGW WenKai", "PingFang SC", sans-serif;
   font-size: 24px;
   font-weight: 500;
   line-height: 1.5;
