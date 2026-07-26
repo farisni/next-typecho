@@ -11,6 +11,7 @@ type PostFormValue = {
   excerpt: string | null;
   content: string;
   status: string;
+  allowComment: boolean;
   categoryId: string | null;
   tags: Taxonomy[];
 };
@@ -64,7 +65,7 @@ export function PostForm({ action, categories, tags, value, preferences }: PostF
             <p><input id="tags" name="tags" type="text" className="w-100" defaultValue={value?.tags.map((tag) => tag.name).join(", ")} autoComplete="off" /></p>
             {tags.filter((tag) => selectedTags.has(tag.id)).map((tag) => <input key={tag.id} type="hidden" name="tagIds" value={tag.id} />)}
           </section>
-          <PostAdvancedOptions preferences={preferences} status={value?.status} />
+          <PostAdvancedOptions preferences={preferences} status={value?.status} allowComment={value?.allowComment} />
         </PostSidebar>
       </aside>
     </form>

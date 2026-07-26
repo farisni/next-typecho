@@ -31,14 +31,23 @@ const items = [
   {
     label: "管理",
     href: "/admin/posts",
-    match: (path: string) => path.startsWith("/admin/posts") && path !== "/admin/posts/new" || path.startsWith("/admin/categories") || path.startsWith("/admin/tags"),
+    match: (path: string) => path.startsWith("/admin/posts") && path !== "/admin/posts/new" || path.startsWith("/admin/categories") || path.startsWith("/admin/tags") || path.startsWith("/admin/comments"),
     children: [
       ["文章", "/admin/posts"],
+      ["评论", "/admin/comments"],
       ["分类", "/admin/categories"],
       ["标签", "/admin/tags"],
     ],
   },
-  { label: "设置", href: "/admin/settings", match: (path: string) => path.startsWith("/admin/settings") },
+  {
+    label: "设置",
+    href: "/admin/settings",
+    match: (path: string) => path.startsWith("/admin/settings"),
+    children: [
+      ["基本", "/admin/settings"],
+      ["评论", "/admin/settings/comments"],
+    ],
+  },
 ];
 
 export function AdminNav({ user }: { user: AuthUser }) {

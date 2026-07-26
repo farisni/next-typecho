@@ -3,7 +3,15 @@
 import { useState } from "react";
 import type { WritingPreferences } from "@/lib/repositories/profile";
 
-export function PostAdvancedOptions({ preferences, status }: { preferences?: WritingPreferences; status?: string }) {
+export function PostAdvancedOptions({
+  preferences,
+  status,
+  allowComment,
+}: {
+  preferences?: WritingPreferences;
+  status?: string;
+  allowComment?: boolean;
+}) {
   const initialVisibility = ["hidden", "private", "waiting"].includes(status ?? "") ? status! : "publish";
   const [visibility, setVisibility] = useState(initialVisibility);
 
@@ -48,7 +56,7 @@ export function PostAdvancedOptions({ preferences, status }: { preferences?: Wri
       <section className="typecho-post-option allow-option">
         <span className="typecho-label">权限控制</span>
         <ul>
-          <li><input id="allowComment" name="allowComment" type="checkbox" value="1" defaultChecked={preferences?.defaultAllowComment ?? true} /><label htmlFor="allowComment">允许评论</label></li>
+          <li><input id="allowComment" name="allowComment" type="checkbox" value="1" defaultChecked={allowComment ?? preferences?.defaultAllowComment ?? true} /><label htmlFor="allowComment">允许评论</label></li>
           <li><input id="allowPing" name="allowPing" type="checkbox" value="1" defaultChecked={preferences?.defaultAllowPing ?? true} /><label htmlFor="allowPing">允许被引用</label></li>
           <li><input id="allowFeed" name="allowFeed" type="checkbox" value="1" defaultChecked={preferences?.defaultAllowFeed ?? true} /><label htmlFor="allowFeed">允许在聚合中出现</label></li>
         </ul>

@@ -265,7 +265,7 @@ export function AdminPostList({
                     <Link href={`/admin/posts/${post.id}/edit`}>{post.title}</Link>
                     {statusLabels[post.status] && <em className="status">{statusLabels[post.status]}</em>}
                   </td>
-                  <td className="kit-hidden-mb post-comments-column"><span className="post-comment-count" title="0 评论">0</span></td>
+                  <td className="kit-hidden-mb post-comments-column"><span className="post-comment-count" title={`${post.commentCount} 评论`}>{post.commentCount}</span></td>
                   <td className="kit-hidden-mb">
                     <Link
                       className="post-author-avatar"

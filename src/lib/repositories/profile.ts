@@ -68,6 +68,9 @@ export function getProfilePageData(userId: string) {
     "SELECT COUNT(*) AS count FROM posts WHERE status = 'published'",
   )?.count ?? 0;
   const categories = get<{ count: number }>("SELECT COUNT(*) AS count FROM categories")?.count ?? 0;
+  const comments = get<{ count: number }>(
+    "SELECT COUNT(*) AS count FROM comments WHERE status = 'approved'",
+  )?.count ?? 0;
 
   return {
     user: {
@@ -75,6 +78,6 @@ export function getProfilePageData(userId: string) {
       lastLoginAt: user.lastLoginAt === null ? null : new Date(user.lastLoginAt),
     },
     preferences: getWritingPreferences(userId),
-    stats: { publishedPosts, comments: 0, categories },
+    stats: { publishedPosts, comments, categories },
   };
 }

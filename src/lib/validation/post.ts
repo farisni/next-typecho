@@ -11,6 +11,7 @@ export const postSchema = z.object({
   excerpt: z.string().trim().max(300).optional(),
   content: z.string().trim().min(1, "请输入文章内容"),
   status: z.enum(["draft", "published", "waiting", "hidden", "private"]),
+  allowComment: z.boolean(),
   categoryId: z.string().optional(),
   tagIds: z.array(z.string()).default([]),
 });

@@ -12,6 +12,7 @@ type PostCardProps = {
     publishedAt: Date | null;
     category: { name: string; slug: string } | null;
     tags: { id: string; name: string; slug: string }[];
+    commentCount: number;
   };
 };
 
@@ -75,7 +76,9 @@ export function PostCard({ post }: PostCardProps) {
         </li>
         <li>
           <MessageSquare className="post-meta-icon" aria-hidden="true" />
-          <Link href={`/posts/${post.slug}#comments`}>暂无评论</Link>
+          <Link href={`/posts/${post.slug}#comments`}>
+            {post.commentCount ? `${post.commentCount} 条评论` : "暂无评论"}
+          </Link>
         </li>
       </ul>
       <div className="post-content">

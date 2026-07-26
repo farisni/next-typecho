@@ -23,6 +23,7 @@ function parsePostForm(formData: FormData) {
     excerpt: formData.get("excerpt") || undefined,
     content: formData.get("content"),
     status,
+    allowComment: formData.get("allowComment") === "1",
     categoryId: formData.get("categoryId") || undefined,
     tagIds: formData.getAll("tagIds"),
   });
@@ -57,9 +58,10 @@ export async function createPost(formData: FormData) {
   transaction(() => {
     run(
       `INSERT INTO posts
-       (id, title, slug, excerpt, content, rendered_content, rendered_content_updated_at, status, published_at, category_id, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       (id, title, slug, excerpt, content, rendered_content, rendered_content_updated_at, status, allow_comment, published_at, category_id, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       id, input.title, input.slug, input.excerpt ?? null, input.content, renderedContent, now, input.status,
+      input.allowComment ? 1 : 0,
       ["published", "hidden", "private"].includes(input.status) ? now : null,
       input.categoryId ?? null, now, now,
     );
@@ -86,9 +88,10 @@ export async function updatePost(postId: string, formData: FormData) {
   transaction(() => {
     run(
       `UPDATE posts SET title = ?, slug = ?, excerpt = ?, content = ?, rendered_content = ?, rendered_content_updated_at = ?,
-       status = ?, published_at = ?, category_id = ?, updated_at = ? WHERE id = ?`,
+       status = ?, allow_comment = ?, published_at = ?, category_id = ?, updated_at = ? WHERE id = ?`,
       input.title, input.slug, input.excerpt ?? null, input.content, renderedContent, now,
       input.status,
+      input.allowComment ? 1 : 0,
       ["published", "hidden", "private"].includes(input.status) ? (current.publishedAt ?? now) : null,
       input.categoryId ?? null, now, postId,
     );

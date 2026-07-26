@@ -12,6 +12,8 @@ type RawPost = {
   content: string;
   renderedContent: string | null;
   status: PostStatus;
+  allowComment: number;
+  commentCount: number;
   publishedAt: number | null;
   createdAt: number;
   updatedAt: number;
@@ -26,6 +28,9 @@ type TaxonomyRow = { id: string; name: string; slug: string };
 const postSelect = `
   SELECT p.id, p.title, p.slug, p.excerpt, p.content, p.status,
          p.rendered_content AS renderedContent,
+         p.allow_comment AS allowComment,
+         (SELECT count(*) FROM comments cm
+          WHERE cm.post_id = p.id AND cm.status = 'approved') AS commentCount,
          p.published_at AS publishedAt, p.created_at AS createdAt,
          p.updated_at AS updatedAt, p.category_id AS categoryId,
          c.name AS categoryName, c.slug AS categorySlug
@@ -61,6 +66,8 @@ function hydrate(rows: RawPost[]) {
     content: row.content,
     renderedContent: row.renderedContent,
     status: row.status,
+    allowComment: Boolean(row.allowComment),
+    commentCount: row.commentCount,
     publishedAt: row.publishedAt === null ? null : new Date(row.publishedAt),
     createdAt: new Date(row.createdAt),
     updatedAt: new Date(row.updatedAt),
@@ -228,8 +235,11 @@ export function getAdjacentPosts(publishedAt: Date) {
 }
 
 export function getSidebarContent() {
-  const recentPosts = all<{ title: string; slug: string }>(
-    `SELECT title, slug FROM posts
+  const recentPosts = all<{ title: string; slug: string; commentCount: number }>(
+    `SELECT title, slug,
+            (SELECT count(*) FROM comments cm
+             WHERE cm.post_id = posts.id AND cm.status = 'approved') AS commentCount
+     FROM posts
      WHERE status = 'published' AND published_at <= ?
      ORDER BY published_at DESC LIMIT 5`,
     Date.now(),

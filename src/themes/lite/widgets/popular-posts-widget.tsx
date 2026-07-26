@@ -4,6 +4,7 @@ import { SidebarTabsClient } from "@/themes/lite/widgets/sidebar-tabs-client";
 type PopularPost = {
   title: string;
   slug: string;
+  commentCount: number;
 };
 
 export function PopularPostsWidget({ posts }: { posts: PopularPost[] }) {

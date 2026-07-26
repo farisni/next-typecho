@@ -1,4 +1,5 @@
 import "dotenv/config";
+import { randomUUID } from "node:crypto";
 import { database, run, transaction } from "../src/lib/db";
 import { hashPassword } from "../src/lib/auth/password";
 
@@ -11,6 +12,9 @@ if (adminPassword.length < 8) throw new Error("ADMIN_PASSWORD 至少需要 8 个
 
 async function main() {
   const adminPasswordHash = await hashPassword(adminPassword);
+  const welcomePostId = randomUUID();
+  const markdownPostId = randomUUID();
+  const nextStepPostId = randomUUID();
 
   transaction(() => {
   database.exec(`
@@ -48,7 +52,7 @@ async function main() {
 
   run(
     "INSERT INTO posts (id, title, slug, excerpt, content, status, published_at, category_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    "post-welcome",
+    welcomePostId,
     "欢迎来到 Next Typecho",
     "welcome-to-next-typecho",
     "这是第一篇示例文章，用来验证发布、分类、标签和 Markdown 渲染流程。",
@@ -61,7 +65,7 @@ async function main() {
   );
   run(
     "INSERT INTO posts (id, title, slug, excerpt, content, status, published_at, category_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    "post-markdown-writing",
+    markdownPostId,
     "使用 Markdown 专注写作",
     "markdown-writing",
     "Markdown 源文便于编辑、迁移和版本管理。",
@@ -74,7 +78,7 @@ async function main() {
   );
   run(
     "INSERT INTO posts (id, title, slug, excerpt, content, status, published_at, category_id, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)",
-    "post-next-step",
+    nextStepPostId,
     "下一阶段计划",
     "next-step",
     "这是一篇草稿，不会出现在公开站点。",
@@ -86,10 +90,10 @@ async function main() {
     now,
   );
 
-  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", "post-welcome", "tag-nextjs");
-  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", "post-welcome", "tag-markdown");
-  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", "post-markdown-writing", "tag-markdown");
-  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", "post-next-step", "tag-nextjs");
+  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", welcomePostId, "tag-nextjs");
+  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", welcomePostId, "tag-markdown");
+  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", markdownPostId, "tag-markdown");
+  run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", nextStepPostId, "tag-nextjs");
   run("INSERT INTO installation_state (id, installed_at, version) VALUES (1, ?, 1)", now);
   });
 

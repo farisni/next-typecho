@@ -14,15 +14,24 @@ import { MarkdownContent } from "@/components/markdown/markdown-content";
 import { PaperTableOfContents } from "@/components/site/article-toc";
 import { DonationDialog } from "@/components/site/donation-dialog";
 import { Separator } from "@/components/ui/separator";
+import { PostComments } from "@/components/site/post-comments";
 import { formatPostDate } from "@/lib/format-date";
 import { getAdjacentPosts, getPublishedPostBySlug } from "@/lib/repositories/posts";
 
 export const dynamic = "force-dynamic";
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function PostPage({
+  params,
+  searchParams,
+}: {
+  params: Promise<{ slug: string }>;
+  searchParams: Promise<{ commentPage?: string }>;
+}) {
   // App Router 的 [slug] 是动态路由段，params 中的 slug 来自当前 URL。
   const { slug } = await params;
   const post = await getPublishedPostBySlug(slug);
+  const { commentPage } = await searchParams;
+  const requestedCommentPage = /^\d+$/.test(commentPage ?? "") ? Number(commentPage) : undefined;
   const nearby = post.publishedAt ? getAdjacentPosts(post.publishedAt) : { previous: undefined, next: undefined };
 
   return (
@@ -45,7 +54,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               </li>
               <li>
                 <MessageCircle className="post-meta-icon" aria-hidden="true" />
-                <Link href="#comments">暂无评论</Link>
+                <Link href="#comments">{post.commentCount ? `${post.commentCount} 条评论` : "暂无评论"}</Link>
               </li>
               <li>
                 <FolderOpen className="post-meta-icon" aria-hidden="true" />
@@ -148,6 +157,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           )}
         </li>
       </ul>
+      <PostComments post={post} page={requestedCommentPage} />
     </>
   );
 }

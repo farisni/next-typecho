@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { index, integer, primaryKey, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import {
+  type AnySQLiteColumn,
+  index,
+  integer,
+  primaryKey,
+  sqliteTable,
+  text,
+} from "drizzle-orm/sqlite-core";
 
 const timestamps = {
   createdAt: integer("created_at", { mode: "timestamp_ms" })
@@ -36,6 +43,7 @@ export const posts = sqliteTable(
     renderedContent: text("rendered_content"),
     renderedContentUpdatedAt: integer("rendered_content_updated_at", { mode: "timestamp_ms" }),
     status: text("status", { enum: ["draft", "published", "waiting", "hidden", "private"] }).notNull().default("draft"),
+    allowComment: integer("allow_comment", { mode: "boolean" }).notNull().default(true),
     publishedAt: integer("published_at", { mode: "timestamp_ms" }),
     categoryId: text("category_id").references(() => categories.id, { onDelete: "set null" }),
     ...timestamps,
@@ -63,6 +71,23 @@ export const siteSettings = sqliteTable("site_settings", {
   activeTheme: text("active_theme").notNull().default("default"),
   postsPerPage: integer("posts_per_page").notNull().default(10),
   boxModel: integer("box_model", { mode: "boolean" }).notNull().default(true),
+  commentsPerPage: integer("comments_per_page").notNull().default(20),
+  commentsOrder: text("comments_order", { enum: ["ASC", "DESC"] }).notNull().default("ASC"),
+  commentsDefaultPage: text("comments_default_page", { enum: ["first", "last"] }).notNull().default("last"),
+  commentsThreaded: integer("comments_threaded", { mode: "boolean" }).notNull().default(true),
+  commentsMaxNestingLevels: integer("comments_max_nesting_levels").notNull().default(5),
+  commentsMarkdown: integer("comments_markdown", { mode: "boolean" }).notNull().default(true),
+  commentsShowUrl: integer("comments_show_url", { mode: "boolean" }).notNull().default(true),
+  commentsUrlNofollow: integer("comments_url_nofollow", { mode: "boolean" }).notNull().default(true),
+  commentsAvatar: integer("comments_avatar", { mode: "boolean" }).notNull().default(true),
+  commentsRequireModeration: integer("comments_require_moderation", { mode: "boolean" }).notNull().default(false),
+  commentsWhitelist: integer("comments_whitelist", { mode: "boolean" }).notNull().default(true),
+  commentsRequireMail: integer("comments_require_mail", { mode: "boolean" }).notNull().default(true),
+  commentsRequireUrl: integer("comments_require_url", { mode: "boolean" }).notNull().default(false),
+  commentsCheckReferer: integer("comments_check_referer", { mode: "boolean" }).notNull().default(true),
+  commentsAntiSpam: integer("comments_anti_spam", { mode: "boolean" }).notNull().default(true),
+  commentsPostInterval: integer("comments_post_interval").notNull().default(60),
+  commentsAutoCloseDays: integer("comments_auto_close_days").notNull().default(0),
   ...timestamps,
 });
 
@@ -96,6 +121,32 @@ export const userPreferences = sqliteTable("user_preferences", {
   ...timestamps,
 });
 
+export const comments = sqliteTable(
+  "comments",
+  {
+    id: text("id").primaryKey().$defaultFn(() => crypto.randomUUID()),
+    postId: text("post_id").notNull().references(() => posts.id, { onDelete: "cascade" }),
+    parentId: text("parent_id").references((): AnySQLiteColumn => comments.id, { onDelete: "set null" }),
+    replyToId: text("reply_to_id").references((): AnySQLiteColumn => comments.id, { onDelete: "set null" }),
+    authorId: text("author_id").references(() => users.id, { onDelete: "set null" }),
+    author: text("author").notNull(),
+    mail: text("mail").notNull().default(""),
+    url: text("url").notNull().default(""),
+    ip: text("ip").notNull().default(""),
+    agent: text("agent").notNull().default(""),
+    text: text("text").notNull(),
+    status: text("status", { enum: ["approved", "waiting", "spam"] }).notNull().default("waiting"),
+    ...timestamps,
+  },
+  (table) => [
+    index("comments_post_status_created_idx").on(table.postId, table.status, table.createdAt),
+    index("comments_parent_id_idx").on(table.parentId),
+    index("comments_reply_to_id_idx").on(table.replyToId),
+    index("comments_mail_status_idx").on(table.mail, table.status),
+    index("comments_ip_created_idx").on(table.ip, table.createdAt),
+  ],
+);
+
 export const sessions = sqliteTable(
   "sessions",
   {
@@ -123,17 +174,38 @@ export const tagRelations = relations(tags, ({ many }) => ({ postTags: many(post
 export const postRelations = relations(posts, ({ one, many }) => ({
   category: one(categories, { fields: [posts.categoryId], references: [categories.id] }),
   postTags: many(postsToTags),
+  comments: many(comments),
 }));
 export const postTagRelations = relations(postsToTags, ({ one }) => ({
   post: one(posts, { fields: [postsToTags.postId], references: [posts.id] }),
   tag: one(tags, { fields: [postsToTags.tagId], references: [tags.id] }),
 }));
-export const userRelations = relations(users, ({ many }) => ({ sessions: many(sessions) }));
+export const userRelations = relations(users, ({ many }) => ({
+  sessions: many(sessions),
+  comments: many(comments),
+}));
 export const sessionRelations = relations(sessions, ({ one }) => ({
   user: one(users, { fields: [sessions.userId], references: [users.id] }),
+}));
+export const commentRelations = relations(comments, ({ one, many }) => ({
+  post: one(posts, { fields: [comments.postId], references: [posts.id] }),
+  authorUser: one(users, { fields: [comments.authorId], references: [users.id] }),
+  parent: one(comments, {
+    fields: [comments.parentId],
+    references: [comments.id],
+    relationName: "commentReplies",
+  }),
+  replies: many(comments, { relationName: "commentReplies" }),
+  replyTarget: one(comments, {
+    fields: [comments.replyToId],
+    references: [comments.id],
+    relationName: "commentReplyTargets",
+  }),
+  targetedReplies: many(comments, { relationName: "commentReplyTargets" }),
 }));
 
 export type Post = typeof posts.$inferSelect;
 export type Category = typeof categories.$inferSelect;
 export type Tag = typeof tags.$inferSelect;
 export type User = typeof users.$inferSelect;
+export type Comment = typeof comments.$inferSelect;

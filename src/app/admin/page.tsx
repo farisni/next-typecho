@@ -2,12 +2,14 @@ import Link from "next/link";
 import { AdminPageTitle } from "@/components/admin/admin-page-title";
 import { listAllPostsForAdmin } from "@/lib/repositories/posts";
 import { listTaxonomies } from "@/lib/repositories/taxonomies";
+import { getCommentDashboardData } from "@/lib/repositories/comments";
 
 export const dynamic = "force-dynamic";
 
 export default async function AdminPage() {
   const [posts, { categories }] = await Promise.all([listAllPostsForAdmin(), listTaxonomies()]);
   const published = posts.filter((post) => post.status === "published");
+  const comments = getCommentDashboardData();
 
   return (
     <>
@@ -15,7 +17,7 @@ export default async function AdminPage() {
       <div className="typecho-dashboard">
         <div className="welcome-board">
           <p>
-            目前有 <em>{published.length}</em> 篇文章，并有 <em>0</em> 条评论在 <em>{categories.length}</em> 个分类中。
+            目前有 <em>{published.length}</em> 篇文章，并有 <em>{comments.total}</em> 条评论在 <em>{categories.length}</em> 个分类中。
             <br />
             <span className="quick-start-hint">点击下面的链接快速开始：</span>
           </p>
@@ -33,7 +35,14 @@ export default async function AdminPage() {
           </section>
           <section className="latest-link">
             <h3>最近得到的回复</h3>
-            <ul><li>暂时没有回复</li></ul>
+            <ul>
+              {comments.recent.length ? comments.recent.map((comment) => (
+                <li key={comment.id}>
+                  <span>{comment.author}</span>
+                  <Link href={`/posts/${comment.postSlug}#comment-${comment.id}`}>{comment.text.slice(0, 36)}</Link>
+                </li>
+              )) : <li>暂时没有回复</li>}
+            </ul>
           </section>
           <section className="latest-link">
             <h3>系统信息</h3>

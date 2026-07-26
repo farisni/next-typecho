@@ -25,6 +25,7 @@ export type EnvironmentCheck = {
 
 const requiredTables = [
   "categories",
+  "comments",
   "posts",
   "posts_to_tags",
   "sessions",
