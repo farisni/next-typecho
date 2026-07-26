@@ -37,6 +37,39 @@ type CommentsClientProps = {
 };
 
 const initialState: CommentActionState = { ok: false, message: "" };
+const INITIAL_VISIBLE_COMMENTS = 10;
+
+function countCommentTree(comments: PublicComment[]): number {
+  return comments.reduce(
+    (total, comment) => total + 1 + countCommentTree(comment.children),
+    0,
+  );
+}
+
+function limitCommentTree(
+  comments: PublicComment[],
+  limit: number,
+): { comments: PublicComment[]; count: number } {
+  const visibleComments: PublicComment[] = [];
+  let count = 0;
+
+  for (const comment of comments) {
+    if (count >= limit) break;
+
+    count += 1;
+    const visibleChildren = limitCommentTree(
+      comment.children,
+      Math.max(0, limit - count),
+    );
+    count += visibleChildren.count;
+    visibleComments.push({
+      ...comment,
+      children: visibleChildren.comments,
+    });
+  }
+
+  return { comments: visibleComments, count };
+}
 
 function CommentBody({ text, markdown }: { text: string; markdown: boolean }) {
   if (!markdown) return <p className="comment-plain-text">{text}</p>;
@@ -66,7 +99,7 @@ function CommentItem({
   replyToId: string | null;
   replyEditor: ReactNode;
 }) {
-  const [repliesOpen, setRepliesOpen] = useState(false);
+  const [repliesOpen, setRepliesOpen] = useState(true);
   const author = settings.showUrl && comment.url
     ? (
         <a
@@ -149,9 +182,18 @@ function CommentItem({
 export function CommentsClient(props: CommentsClientProps) {
   const [replyTo, setReplyTo] = useState<PublicComment | null>(null);
   const [commentBoxOpen, setCommentBoxOpen] = useState(props.commentsOpen);
+  const [allCommentsVisible, setAllCommentsVisible] = useState(false);
   const [state, formAction, pending] = useActionState(submitComment, initialState);
   const formRef = useRef<HTMLFormElement>(null);
   const router = useRouter();
+  const totalCommentCount = countCommentTree(props.comments);
+  const visibleComments = allCommentsVisible
+    ? props.comments
+    : limitCommentTree(props.comments, INITIAL_VISIBLE_COMMENTS).comments;
+  const hiddenCommentCount = Math.max(
+    0,
+    totalCommentCount - INITIAL_VISIBLE_COMMENTS,
+  );
 
   useEffect(() => {
     if (!state.ok || !state.revision) return;
@@ -281,7 +323,7 @@ export function CommentsClient(props: CommentsClientProps) {
 
       {props.comments.length > 0 && (
         <ol className="comment-list">
-          {props.comments.map((comment) => (
+          {visibleComments.map((comment) => (
             <CommentItem
               key={comment.id}
               comment={comment}
@@ -294,6 +336,19 @@ export function CommentsClient(props: CommentsClientProps) {
             />
           ))}
         </ol>
+      )}
+
+      {hiddenCommentCount > 0 && (
+        <button
+          type="button"
+          className="comment-list-toggle"
+          aria-expanded={allCommentsVisible}
+          onClick={() => setAllCommentsVisible((visible) => !visible)}
+        >
+          {allCommentsVisible
+            ? "收起评论"
+            : `查看更多（${hiddenCommentCount}）`}
+        </button>
       )}
 
       {props.totalPages > 1 && (

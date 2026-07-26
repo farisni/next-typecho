@@ -9,6 +9,7 @@ import type {
 import { commands } from "@uiw/react-md-editor";
 import { Eye, ExternalLink, Maximize2, Minimize2, PenLine, Redo2, Save, Send, Undo2 } from "lucide-react";
 import dynamic from "next/dynamic";
+import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import remarkMath from "remark-math";
 import { uploadImage } from "@/actions/upload-image";
@@ -373,7 +374,10 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
           extraCommands={isFullscreen ? [fullscreenActionsCommand] : []}
           previewOptions={{
             remarkPlugins: [remarkMath, remarkHighlight],
-            rehypePlugins: [rehypeKatex],
+            rehypePlugins: [
+              [rehypeHighlight, { detect: false, plainText: ["mermaid"] }],
+              rehypeKatex,
+            ],
             components: { code: MarkdownPreviewCode },
           }}
           textareaProps={{

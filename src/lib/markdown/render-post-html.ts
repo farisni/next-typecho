@@ -6,6 +6,7 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
+import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
@@ -121,6 +122,7 @@ export function renderMarkdownToHtml(content: string) {
       .use(rehypeKatex)
       .use(decorateHeadings)
       .use(rehypeSanitize)
+      .use(rehypeHighlight, { detect: false, plainText: ["mermaid"] })
       .use(rehypeStringify)
       .processSync(content)
       .toString();

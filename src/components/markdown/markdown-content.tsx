@@ -1,5 +1,6 @@
 import type { ComponentProps, ReactNode } from "react";
 import ReactMarkdown from "react-markdown";
+import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
@@ -80,7 +81,11 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
       {/* 不启用 rehype-raw，并额外经过 sanitize，原始 HTML 不会成为可执行 DOM。 */}
       <ReactMarkdown
         remarkPlugins={[remarkGfm, remarkMath, remarkHighlight]}
-        rehypePlugins={[rehypeSanitize, rehypeKatex]}
+        rehypePlugins={[
+          rehypeSanitize,
+          [rehypeHighlight, { detect: false, plainText: ["mermaid"] }],
+          rehypeKatex,
+        ]}
         components={{
           code: MarkdownCode,
           h1: createHeading("h1"),

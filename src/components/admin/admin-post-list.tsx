@@ -23,6 +23,7 @@ type AdminPostItem = {
   status: PostStatus;
   category: { id: string; name: string } | null;
   dateLabel: string;
+  commentCount: number;
 };
 
 type Category = { id: string; name: string };

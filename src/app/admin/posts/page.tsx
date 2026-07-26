@@ -92,6 +92,7 @@ export default async function AdminPostsPage({ searchParams }: { searchParams: P
           status: post.status,
           category: post.category ? { id: post.category.id, name: post.category.name } : null,
           dateLabel: post.status === "draft" ? `保存于 ${relativeDate(post.updatedAt)}` : relativeDate(post.publishedAt ?? post.updatedAt),
+          commentCount: post.commentCount,
         }))}
         categories={categories.map(({ id, name }) => ({ id, name }))}
         status={status}
