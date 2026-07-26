@@ -9167,9 +9167,11 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
 
 .theme-lite .handsome-blog-description {
   display: inline;
+  position: relative;
+  top: 4px;
   margin-top: 8px;
   color: #999;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .theme-lite .lite-blog-description {
