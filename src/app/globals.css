@@ -6221,6 +6221,14 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
   overflow-wrap: anywhere;
 }
 
+.theme-handsome .post-attribution a {
+  text-decoration: none;
+}
+
+.theme-handsome .post-attribution a:hover {
+  text-decoration: underline;
+}
+
 .handsome-main-content .post-near {
   list-style: none;
 }

@@ -191,15 +191,29 @@ fi
 if [ -f /etc/nginx/conf.d/savor-manager.conf ]; then
   cp /etc/nginx/conf.d/savor-manager.conf "/etc/nginx/conf.d/savor-manager.conf.bak.$(date +%Y%m%d%H%M%S)"
 fi
-install -d -m 750 /var/cache/nginx/next_typecho
-install -d -m 750 /var/cache/nginx
 cat > /etc/nginx/conf.d/savor-manager.conf <<'NGINX'
-proxy_cache_path /var/cache/nginx/next_typecho levels=1:2 keys_zone=next_typecho_static:20m max_size=1g inactive=1d use_temp_path=off;
+upstream next_typecho {{
+    server 127.0.0.1:8000;
+    keepalive 16;
+}}
 
 map $http_upgrade $connection_upgrade_next_typecho {{
     default upgrade;
-    ""      close;
+    ""      "";
 }}
+
+gzip on;
+gzip_vary on;
+gzip_min_length 1024;
+gzip_comp_level 5;
+gzip_types
+    text/plain
+    text/css
+    application/json
+    application/javascript
+    application/xml
+    image/svg+xml;
+
 server {{
     listen 443 ssl;
     listen [::]:443 ssl;
@@ -211,7 +225,8 @@ server {{
     if ($host = "{args.apex_domain}") {{
         return 301 https://{args.domain}$request_uri;
     }}
-    client_max_body_size 1m;
+    client_max_body_size 10m;
+    client_body_timeout 30s;
     location ^~ /_next/static/ {{
         alias /opt/next-typecho/current/.next/static/;
         access_log off;
@@ -250,7 +265,7 @@ server {{
     }}
 
     location @next_proxy {{
-        proxy_pass http://127.0.0.1:8000;
+        proxy_pass http://next_typecho;
         proxy_http_version 1.1;
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
@@ -258,14 +273,10 @@ server {{
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection $connection_upgrade_next_typecho;
-        proxy_connect_timeout 10s;
+        proxy_connect_timeout 3s;
         proxy_send_timeout 70s;
         proxy_read_timeout 70s;
         proxy_buffering off;
-        proxy_cache next_typecho_static;
-        proxy_cache_methods GET HEAD;
-        proxy_cache_valid 200 301 302 304 10m;
-        add_header X-Static-Cache $upstream_cache_status always;
     }}
 
     location / {{
