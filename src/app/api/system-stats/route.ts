@@ -1,4 +1,5 @@
 import process from "node:process";
+import { cpus, loadavg } from "node:os";
 import si from "systeminformation";
 
 export async function GET() {
@@ -26,6 +27,7 @@ export async function GET() {
     fileSystems[0];
   const activeMemory = memory.active || memory.used;
   const heap = process.memoryUsage();
+  const [loadOne, loadFive, loadFifteen] = loadavg();
   const networkSummary = network.reduce(
     (summary, item) => ({
       rxBytes: summary.rxBytes + Math.max(item.rx_bytes, 0),
@@ -40,6 +42,7 @@ export async function GET() {
   return Response.json(
     {
       cpu: load.currentLoad,
+      cpuCores: Math.max(cpus().length, 1),
       memory: {
         used: activeMemory,
         total: memory.total,
@@ -63,7 +66,11 @@ export async function GET() {
         ...networkSummary,
         interface: defaultNetworkInterface || "未知接口",
       },
-      load: Math.min(load.avgLoad, 100),
+      load: {
+        one: loadOne ?? 0,
+        five: loadFive ?? 0,
+        fifteen: loadFifteen ?? 0,
+      },
       uptime,
       platform: `${osInfo.distro || osInfo.platform} ${osInfo.release} ${osInfo.arch}`,
       runtime: process.version,

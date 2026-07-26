@@ -17,7 +17,7 @@ import {
   Server,
   Wifi,
 } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import {
   Area,
   AreaChart,
@@ -42,10 +42,15 @@ import {
 
 type RuntimeStats = {
   cpu: number;
+  cpuCores: number;
   memory: number;
   disk: number;
   cache: number;
-  load: number;
+  load: {
+    one: number;
+    five: number;
+    fifteen: number;
+  };
   memoryDetail: string;
   diskDetail: string;
   cacheDetail: string;
@@ -99,10 +104,11 @@ const trafficChartConfig = {
 
 const initialStats: RuntimeStats = {
   cpu: 0,
+  cpuCores: 0,
   memory: 0,
   disk: 0,
   cache: 0,
-  load: 0,
+  load: { one: 0, five: 0, fifteen: 0 },
   memoryDetail: "读取中",
   diskDetail: "读取中",
   cacheDetail: "读取中",
@@ -123,6 +129,43 @@ const initialVisitor: VisitorData = {
   timezone: "--",
 };
 
+function OverflowTooltip({
+  value,
+  variant,
+}: {
+  value: string;
+  variant: "small" | "strong";
+}) {
+  const elementRef = useRef<HTMLElement | null>(null);
+  const [overflow, setOverflow] = useState(false);
+
+  useLayoutEffect(() => {
+    const element = elementRef.current;
+    if (!element) return;
+
+    const measure = () => setOverflow(element.scrollWidth > element.clientWidth);
+    measure();
+
+    if (typeof ResizeObserver === "undefined") return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [value]);
+
+  const element = variant === "small" ? (
+    <small ref={(node) => { elementRef.current = node; }}>{value}</small>
+  ) : (
+    <strong ref={(node) => { elementRef.current = node; }}>{value}</strong>
+  );
+
+  return (
+    <Tooltip>
+      <TooltipTrigger render={element}>{value}</TooltipTrigger>
+      {overflow ? <TooltipContent>{value}</TooltipContent> : null}
+    </Tooltip>
+  );
+}
+
 function MetricRow({
   icon: Icon,
   label,
@@ -142,7 +185,7 @@ function MetricRow({
         <span className="lite-data-label">
           <Icon aria-hidden="true" />
           <span>{label}</span>
-          {detail ? <small>{detail}</small> : null}
+          {detail ? <OverflowTooltip value={detail} variant="small" /> : null}
         </span>
         <strong>{value.toFixed(value < 1 ? 2 : 1)}%</strong>
       </div>
@@ -171,16 +214,49 @@ function InfoRow({
         <Icon aria-hidden="true" />
         <span>{label}</span>
       </span>
-      <strong>{value}</strong>
+      <OverflowTooltip value={value} variant="strong" />
+    </div>
+  );
+}
+
+function LoadAverageRow({
+  value,
+  current,
+}: {
+  value: RuntimeStats["load"];
+  current: number;
+}) {
+  return (
+    <div className="lite-data-metric lite-load-metric">
+      <div className="lite-data-row">
+        <span className="lite-data-label">
+          <Gauge aria-hidden="true" />
+          <span>系统负载</span>
+          <strong className="lite-load-values" aria-label="1 分钟、5 分钟、15 分钟平均负载">
+            <span title="1 分钟平均负载">{value.one.toFixed(2)}</span>
+            <span title="5 分钟平均负载">{value.five.toFixed(2)}</span>
+            <span title="15 分钟平均负载">{value.fifteen.toFixed(2)}</span>
+          </strong>
+        </span>
+        <strong className="lite-load-current">{current.toFixed(1)}%</strong>
+      </div>
+      <span className="lite-data-progress" aria-hidden="true">
+        <span style={{ width: `${Math.max(1, Math.min(current, 100))}%` }} />
+      </span>
     </div>
   );
 }
 
 function detectBrowser(userAgent: string) {
-  if (userAgent.includes("Edg/")) return "Microsoft Edge";
-  if (userAgent.includes("Chrome/")) return "Google Chrome";
-  if (userAgent.includes("Firefox/")) return "Firefox";
-  if (userAgent.includes("Safari/")) return "Safari";
+  const matchVersion = (pattern: RegExp) => userAgent.match(pattern)?.[1] ?? "未知版本";
+
+  if (userAgent.includes("Edg/")) return `Edge ${matchVersion(/Edg\/(\d+(?:\.\d+)?)/)}`;
+  if (userAgent.includes("OPR/")) return `Opera ${matchVersion(/OPR\/(\d+(?:\.\d+)?)/)}`;
+  if (userAgent.includes("CriOS/")) return `Chrome ${matchVersion(/CriOS\/(\d+(?:\.\d+)?)/)}`;
+  if (userAgent.includes("FxiOS/")) return `Firefox ${matchVersion(/FxiOS\/(\d+(?:\.\d+)?)/)}`;
+  if (userAgent.includes("Chrome/")) return `Chrome ${matchVersion(/Chrome\/(\d+(?:\.\d+)?)/)}`;
+  if (userAgent.includes("Firefox/")) return `Firefox ${matchVersion(/Firefox\/(\d+(?:\.\d+)?)/)}`;
+  if (userAgent.includes("Safari/")) return `Safari ${matchVersion(/Version\/(\d+(?:\.\d+)?)/)}`;
   return "未知浏览器";
 }
 
@@ -410,11 +486,17 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
 
   useEffect(() => {
     const userAgent = window.navigator.userAgent;
+    const browserCores = window.navigator.hardwareConcurrency ?? 0;
     const connection = (
       window.navigator as Navigator & {
         connection?: { effectiveType?: string };
       }
     ).connection;
+
+    setStats((current) => ({
+      ...current,
+      cpuCores: browserCores > 0 ? browserCores : current.cpuCores,
+    }));
 
     setVisitor({
       browser: detectBrowser(userAgent),
@@ -452,6 +534,7 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
 
         const data = (await response.json()) as {
           cpu: number;
+          cpuCores: number;
           memory: { used: number; total: number; percent: number };
           disk: {
             used: number;
@@ -467,7 +550,11 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
             txSec: number;
             interface: string;
           };
-          load: number;
+          load: {
+            one: number;
+            five: number;
+            fifteen: number;
+          };
           uptime: number;
           platform: string;
           runtime: string;
@@ -476,6 +563,7 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
 
         setStats({
           cpu: data.cpu,
+          cpuCores: typeof data.cpuCores === "number" ? data.cpuCores : 0,
           memory: data.memory.percent,
           disk: data.disk.percent,
           cache: data.processMemory.percent,
@@ -594,14 +682,20 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
       </TabsSubtle>
 
       {activePanel === "system" ? (
-        <section className="lite-system-data-panel" role="dialog" aria-label="站点运行数据">
+        <TooltipProvider>
+          <section className="lite-system-data-panel" role="dialog" aria-label="站点运行数据">
           <div className="lite-data-column">
             <h2>运行状态</h2>
-            <MetricRow icon={Cpu} label="CPU 占用" detail="系统实时" value={stats.cpu} />
+            <MetricRow
+              icon={Cpu}
+              label="CPU 占用"
+              detail={stats.cpuCores > 0 ? `${stats.cpuCores}核心` : "读取中"}
+              value={stats.cpu}
+            />
             <MetricRow icon={MemoryStick} label="占用内存" detail={stats.memoryDetail} value={stats.memory} />
             <MetricRow icon={HardDrive} label="磁盘占用" detail={stats.diskDetail} value={stats.disk} tone="yellow" />
             <MetricRow icon={Database} label="Node 堆内存" detail={stats.cacheDetail} value={stats.cache} />
-            <MetricRow icon={Gauge} label="系统负载" detail="1 分钟均值" value={stats.load} />
+            <LoadAverageRow value={stats.load} current={stats.cpu} />
           </div>
 
           <div className="lite-data-column">
@@ -627,7 +721,8 @@ export function SystemDataPanel({ canViewTraffic }: { canViewTraffic: boolean })
             <InfoRow icon={Server} label="当前域名" value={visitor.domain} />
           </div>
 
-        </section>
+          </section>
+        </TooltipProvider>
       ) : null}
 
       {activePanel === "traffic" && canViewTraffic ? (
