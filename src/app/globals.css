@@ -9174,15 +9174,25 @@ html[data-paper-theme="dark"] .theme-lite .lite-traffic-tooltip {
 }
 
 .theme-lite .handsome-identity-copy > span.handsome-profile-email {
-  display: block;
+  display: inline-flex;
   position: relative;
   top: 10px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   color: #7e8c94;
   font-size: 14px;
   line-height: 1.3;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+}
+
+.theme-lite .handsome-profile-email svg {
+  width: 15px;
+  height: 15px;
+  flex: 0 0 auto;
+  stroke-width: 1.7;
 }
 
 html[data-paper-theme="dark"] .theme-lite .handsome-identity-copy > span.handsome-profile-email {

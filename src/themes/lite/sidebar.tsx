@@ -5,6 +5,7 @@ import {
   FolderOpen,
   Home,
   Info,
+  Mail,
   Tag,
 } from "lucide-react";
 import type { AuthUser } from "@/lib/auth/session";
@@ -43,7 +44,12 @@ export function Sidebar({
         </span>
         <span className="handsome-identity-copy">
           <strong>{user?.displayName || "Faris"}</strong>
-          {ownerEmail ? <span className="handsome-profile-email">{ownerEmail}</span> : null}
+          {ownerEmail ? (
+            <span className="handsome-profile-email">
+              <Mail aria-hidden="true" />
+              {ownerEmail}
+            </span>
+          ) : null}
         </span>
       </Link>
 
