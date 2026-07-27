@@ -168,6 +168,7 @@ export function listPostsByTag(slug: string, page: number, pageSize: number) {
   if (!tag) notFound();
   return {
     title: `标签 ${tag.name} 下的文章`,
+    tagName: tag.name,
     ...paginate(
       `${publishedWhere} AND EXISTS (
         SELECT 1 FROM posts_to_tags pt WHERE pt.post_id = p.id AND pt.tag_id = ?

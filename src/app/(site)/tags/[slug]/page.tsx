@@ -10,5 +10,15 @@ export default async function TagPage({ params, searchParams }: { params: Promis
   const page = Math.max(1, Number(query.page) || 1);
   const result = await listPostsByTag(slug, page, settings.postsPerPage);
 
-  return <><h1 className="archive-title">{result.title}</h1><PostList posts={result.items} /><Pagination page={page} totalPages={result.totalPages} /></>;
+  return (
+    <>
+      <h1 className="archive-title">
+        <span>标签</span>{" "}
+        <strong className="lite-category-name">{result.tagName}</strong>{" "}
+        <span>下的文章</span>
+      </h1>
+      <PostList posts={result.items} />
+      <Pagination page={page} totalPages={result.totalPages} />
+    </>
+  );
 }

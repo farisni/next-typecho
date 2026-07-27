@@ -9403,14 +9403,15 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   color: #222;
 }
 
-.theme-lite .lite-category-header h1 .lite-category-name {
+.theme-lite .lite-category-header h1 .lite-category-name,
+.theme-lite .handsome-main-content > .archive-title .lite-category-name {
   display: inline-block;
   color: #111;
   font-size: inherit;
   font-weight: 500;
   letter-spacing: 0;
   line-height: 1.15;
-  border-bottom: 2px solid #295f9f;
+  border-bottom: 2px solid #d67655;
   text-decoration: none;
 }
 
@@ -9963,7 +9964,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
 }
 
 .theme-lite .lite-tag-chip:hover {
-  background: rgb(37 99 235 / 7%);
+  background: color-mix(in srgb, currentColor 4%, transparent);
   transform: scale(1.04);
 }
 
@@ -10601,8 +10602,11 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-body,
 .theme-lite .post-detail-body .post-content h1,
 .theme-lite .post-detail-body .post-content h2,
 .theme-lite .post-detail-body .post-content h3,
-.theme-lite .post-detail-body .post-content h4 {
+.theme-lite .post-detail-body .post-content h4,
+.theme-lite .post-detail-body .post-content h5,
+.theme-lite .post-detail-body .post-content h6 {
   color: #333;
+  font-family: "LXGW WenKai", "STKaiti", "KaiTi", serif !important;
 }
 
 .theme-lite .handsome-main-content .post-near {
