@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Home } from "lucide-react";
+import { ChevronRight, Home } from "lucide-react";
 import { Pagination } from "@/components/site/pagination";
 import { PostList } from "@/components/site/post-list";
 import { listPostsByCategory } from "@/lib/repositories/posts";
@@ -25,8 +25,8 @@ export default async function CategoryPage({ params, searchParams }: { params: P
             <Home aria-hidden="true" />
             <span>首页</span>
           </Link>
-          <span aria-hidden="true">/</span>
-          <span>{result.categoryName}</span>
+          <ChevronRight className="lite-breadcrumb-separator" aria-hidden="true" />
+          <span aria-current="page">{result.categoryName}</span>
         </nav>
         <PostList posts={result.items} />
         <Pagination page={page} totalPages={result.totalPages} />

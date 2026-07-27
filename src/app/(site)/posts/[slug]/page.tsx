@@ -1,6 +1,7 @@
 import Link from "next/link";
 import {
   Bot,
+  ChevronRight,
   Clock3,
   Eye,
   FolderOpen,
@@ -86,10 +87,12 @@ export default async function PostPage({
 
         <nav className="post-breadcrumb" aria-label="面包屑">
           <div className="post-breadcrumb-path">
-            <Home aria-hidden="true" />
-            <Link href="/">首页</Link>
-            <span>/</span>
-            <span>正文</span>
+            <Link href="/">
+              <Home aria-hidden="true" />
+              <span>首页</span>
+            </Link>
+            <ChevronRight className="lite-breadcrumb-separator" aria-hidden="true" />
+            <span aria-current="page">正文</span>
           </div>
           <div className="post-share" aria-label="分享文章">
             <span>分享到：</span>
