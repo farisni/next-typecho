@@ -9749,7 +9749,8 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   padding: 16px 28px;
   border: 0;
   border-radius: 0;
-  background: #f2f3f5;
+  background-color: transparent !important;
+  background-image: none !important;
   box-shadow: none;
 }
 
@@ -10782,7 +10783,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-body,
   font-family: "Lite System Latin", "LXGW WenKai", "STKaiti", "KaiTi", serif !important;
 }
 
-.theme-lite .handsome-main-content .post-near {
+.theme-lite.theme-handsome .handsome-main-content .post-near {
   position: relative;
   top: 0;
   width: calc(100% + 48px);
@@ -10793,7 +10794,8 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-body,
   box-sizing: border-box;
   border: 0;
   border-radius: 0;
-  background: #f2f3f5;
+  background-color: transparent !important;
+  background-image: none !important;
   box-shadow: none;
 }
 
