@@ -68,7 +68,7 @@ export const siteSettings = sqliteTable("site_settings", {
   siteName: text("site_name").notNull(),
   siteDescription: text("site_description").notNull(),
   siteUrl: text("site_url").notNull().default("http://localhost:3000"),
-  activeTheme: text("active_theme").notNull().default("default"),
+  activeTheme: text("active_theme").notNull().default("paper"),
   postsPerPage: integer("posts_per_page").notNull().default(10),
   boxModel: integer("box_model", { mode: "boolean" }).notNull().default(true),
   commentsPerPage: integer("comments_per_page").notNull().default(20),

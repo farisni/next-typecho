@@ -22,7 +22,7 @@ export function getActiveThemeSlug(): ThemeSlug {
   const value = get<{ activeTheme: string }>(
     "SELECT active_theme AS activeTheme FROM site_settings WHERE id = 1",
   )?.activeTheme;
-  return isThemeSlug(value) ? value : "default";
+  return isThemeSlug(value) ? value : "paper";
 }
 
 function getThemeSettingsRow(slug: ThemeSlug) {

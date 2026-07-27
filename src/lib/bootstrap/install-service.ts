@@ -9,8 +9,8 @@ export class ExistingAdministratorError extends Error {}
 function ensureDefaultSettings(now: number) {
   run(
     `INSERT OR IGNORE INTO site_settings
-     (id, site_name, site_description, site_url, posts_per_page, created_at, updated_at)
-     VALUES (1, 'Dust In The Wind', '人生如逆旅，我亦是行人。', 'http://localhost:3000', 5, ?, ?)`,
+     (id, site_name, site_description, site_url, active_theme, posts_per_page, created_at, updated_at)
+     VALUES (1, 'Dust In The Wind', '人生如逆旅，我亦是行人。', 'http://localhost:3000', 'paper', 5, ?, ?)`,
     now,
     now,
   );
@@ -98,8 +98,8 @@ export async function installSite(input: InstallAdministratorInput) {
     );
     run(
       `INSERT INTO site_settings
-       (id, site_name, site_description, site_url, posts_per_page, created_at, updated_at)
-       VALUES (1, 'Dust In The Wind', '人生如逆旅，我亦是行人。', ?, 5, ?, ?)
+       (id, site_name, site_description, site_url, active_theme, posts_per_page, created_at, updated_at)
+       VALUES (1, 'Dust In The Wind', '人生如逆旅，我亦是行人。', ?, 'paper', 5, ?, ?)
        ON CONFLICT(id) DO UPDATE SET site_url = excluded.site_url, updated_at = excluded.updated_at`,
       siteUrl,
       now,
