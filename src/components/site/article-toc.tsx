@@ -16,6 +16,7 @@ function getHeadingTitle(heading: HTMLElement) {
 
 export function ArticleToc() {
   const tocRef = useRef<HTMLElement>(null);
+  const activeIdRef = useRef("");
   const [items, setItems] = useState<TocItem[]>([]);
   const [activeId, setActiveId] = useState("");
 
@@ -55,10 +56,15 @@ export function ArticleToc() {
     let headings: HTMLElement[] = [];
     let headingSignature = "";
     let frame = 0;
+    const updateActiveId = (id: string) => {
+      if (activeIdRef.current === id) return;
+      activeIdRef.current = id;
+      setActiveId(id);
+    };
 
     const updateActiveHeading = () => {
       if (!headings.length) {
-        setActiveId("");
+        updateActiveId("");
         return;
       }
 
@@ -73,7 +79,7 @@ export function ArticleToc() {
         currentId = heading.id;
       }
 
-      setActiveId(currentId);
+      updateActiveId(currentId);
     };
 
     const collectHeadings = () => {
@@ -133,7 +139,6 @@ export function ArticleToc() {
       behavior: "smooth",
       block: "start",
     });
-    setActiveId(id);
   };
 
   return (

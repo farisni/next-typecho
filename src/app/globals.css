@@ -9890,7 +9890,10 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
   max-height: calc(100vh - 84px);
   margin: 6px 24px 28px;
   padding: 0;
-  overflow: auto;
+  overflow-x: hidden;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
   border: 0;
   border-radius: 0;
   background: transparent;
