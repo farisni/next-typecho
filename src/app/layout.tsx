@@ -5,8 +5,8 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: {
-    default: "Next Typecho",
-    template: "%s · Next Typecho",
+    default: "Dust In The Wind",
+    template: "%s · Dust In The Wind",
   },
   description: "使用 Next.js 构建的轻量博客 CMS",
 };
