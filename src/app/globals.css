@@ -9674,6 +9674,30 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   mask-image: linear-gradient(to left, transparent 0%, #000 28%, #000 100%);
 }
 
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-card:not(:first-child)::before,
+.theme-lite.theme-handsome[data-paper-theme="dark"] .handsome-main-content .post-card:not(:first-child)::before {
+  background: url("/images/lite-card-pure.jpg") right center / cover no-repeat;
+  opacity: 0.5;
+  -webkit-mask-image: linear-gradient(to right, transparent, #000);
+  mask-image: linear-gradient(to right, transparent, #000);
+  filter: none;
+  mix-blend-mode: normal;
+  transition: opacity 300ms ease;
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-card:not(:first-child):nth-child(odd)::before,
+.theme-lite.theme-handsome[data-paper-theme="dark"] .handsome-main-content .post-card:not(:first-child):nth-child(odd)::before {
+  background-position: left center;
+  -webkit-mask-image: linear-gradient(to left, transparent, #000);
+  mask-image: linear-gradient(to left, transparent, #000);
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-card:not(:first-child):hover::before,
+.theme-lite.theme-handsome[data-paper-theme="dark"] .handsome-main-content .post-card:not(:first-child):hover::before {
+  opacity: 0.7;
+  transform: none;
+}
+
 .theme-lite .handsome-main-content .post-card:not(:first-child):nth-child(odd) .post-meta::before {
   right: 0;
   left: 30%;
