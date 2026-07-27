@@ -10,7 +10,13 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
+import remarkMdx from "remark-mdx";
 import { remarkHighlight } from "@/components/markdown/remark-highlight";
+import {
+  markdownSanitizeSchema,
+  remarkMdxCompat,
+  usesMdxComponents,
+} from "@/lib/markdown/mdx-compat";
 
 function toPlainText(node: unknown): string {
   if (node == null) return "";
@@ -111,22 +117,31 @@ const decorateHeadings: Plugin<[], HastRoot, HastRoot> = () => {
 export function renderMarkdownToHtml(content: string) {
   if (!content) return "";
 
+  const usesMdx = usesMdxComponents(content);
+
   try {
-    return unified()
+    const processor = unified()
       .use(remarkParse)
       .use(remarkGfm)
-      .use(remarkMath)
+      .use(remarkMath);
+    if (usesMdx) processor.use(remarkMdx).use(remarkMdxCompat);
+
+    return processor
       .use(remarkHighlight)
       .use(addHeadingIds)
       .use(remarkRehype)
-      .use(rehypeKatex)
       .use(decorateHeadings)
-      .use(rehypeSanitize)
+      .use(rehypeSanitize, markdownSanitizeSchema)
       .use(rehypeHighlight, { detect: false, plainText: ["mermaid"] })
+      .use(rehypeKatex)
       .use(rehypeStringify)
       .processSync(content)
       .toString();
-  } catch {
+  } catch (error) {
+    if (usesMdx) {
+      const message = error instanceof Error ? error.message : "未知错误";
+      throw new Error(`文章中的 MDX 无法发布：${message}`, { cause: error });
+    }
     return "";
   }
 }

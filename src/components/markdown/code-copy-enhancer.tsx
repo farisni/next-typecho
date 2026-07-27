@@ -41,6 +41,7 @@ export function CodeCopyEnhancer() {
     const mounted: Array<{ container: HTMLSpanElement; root: Root }> = [];
 
     for (const block of blocks) {
+      if (block.querySelector("code.language-mermaid")) continue;
       if (block.dataset.codeCopyMounted === "true") continue;
 
       const code = block.querySelector("code")?.textContent ?? block.textContent ?? "";

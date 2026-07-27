@@ -11,11 +11,13 @@ import { Eye, ExternalLink, Maximize2, Minimize2, PenLine, Redo2, Save, Send, Un
 import dynamic from "next/dynamic";
 import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
+import remarkMdx from "remark-mdx";
 import remarkMath from "remark-math";
 import { uploadImage } from "@/actions/upload-image";
 import { markdownCodeText } from "@/components/markdown/code-text";
 import { MermaidDiagram } from "@/components/markdown/mermaid-diagram";
 import { remarkHighlight } from "@/components/markdown/remark-highlight";
+import { remarkMdxCompat, usesMdxComponents } from "@/lib/markdown/mdx-compat";
 
 type MarkdownEditorProps = {
   defaultValue?: string;
@@ -373,7 +375,11 @@ export function MarkdownEditor({ defaultValue = "" }: MarkdownEditorProps) {
           commands={[...typechoEditorCommands, ...typechoActionCommands]}
           extraCommands={isFullscreen ? [fullscreenActionsCommand] : []}
           previewOptions={{
-            remarkPlugins: [remarkMath, remarkHighlight],
+            remarkPlugins: [
+              remarkMath,
+              ...(usesMdxComponents(content) ? [remarkMdx, remarkMdxCompat] : []),
+              remarkHighlight,
+            ],
             rehypePlugins: [
               [rehypeHighlight, { detect: false, plainText: ["mermaid"] }],
               rehypeKatex,

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
 import { CodeCopyEnhancer } from "@/components/markdown/code-copy-enhancer";
+import { MermaidEnhancer } from "@/components/markdown/mermaid-enhancer";
 import { PaperTableOfContents } from "@/components/site/article-toc";
 import { DonationDialog } from "@/components/site/donation-dialog";
 import { PostLikeButton } from "@/components/site/post-like-button";
@@ -125,6 +126,7 @@ export default async function PostPage({
           ) : (
             <MarkdownContent content={post.content} />
           )}
+          <MermaidEnhancer />
           <CodeCopyEnhancer />
           <p className="tags">标签: {post.tags.length ? post.tags.map((tag, index) => <span key={tag.id}>{index > 0 && ", "}<Link href={`/tags/${tag.slug}`}>{tag.name}</Link></span>) : "none"}</p>
           <div className="post-ending">

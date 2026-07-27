@@ -10783,6 +10783,94 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-body,
   font-family: "Lite System Latin", "LXGW WenKai", "STKaiti", "KaiTi", serif !important;
 }
 
+.markdown-body .mdx-callout {
+  margin: 1.45em 0;
+  padding: 14px 16px;
+  border: 0;
+  border-left: 3px solid #8fa6b8;
+  border-radius: 4px;
+  background: #f7f8f9;
+  color: inherit;
+}
+
+.markdown-body .mdx-callout > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body .mdx-callout > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body .mdx-callout-title {
+  margin-bottom: 6px;
+}
+
+.markdown-body .mdx-callout-note {
+  border-left-color: #8e9aa5;
+}
+
+.markdown-body .mdx-callout-success {
+  border-left-color: #779b82;
+  background: #f5f8f5;
+}
+
+.markdown-body .mdx-callout-warning {
+  border-left-color: #bc945e;
+  background: #faf8f3;
+}
+
+.markdown-body .mdx-callout-danger {
+  border-left-color: #b87972;
+  background: #faf5f4;
+}
+
+.markdown-body .mdx-badge {
+  display: inline-flex;
+  padding: 0.08em 0.48em;
+  border: 1px solid #dfe3e6;
+  border-radius: 999px;
+  background: #f5f6f7;
+  color: #66707a;
+  font-size: 0.82em;
+  font-style: normal;
+  line-height: 1.5;
+  vertical-align: 0.08em;
+}
+
+.markdown-body .mdx-badge-blue {
+  border-color: #d7e2ed;
+  background: #f1f6fa;
+  color: #496e89;
+}
+
+.markdown-body .mdx-badge-green {
+  border-color: #d8e5db;
+  background: #f3f8f4;
+  color: #557b60;
+}
+
+.markdown-body .mdx-badge-orange {
+  border-color: #eadfce;
+  background: #faf6ef;
+  color: #956f3f;
+}
+
+.markdown-body .mdx-badge-red {
+  border-color: #ead7d4;
+  background: #faf3f2;
+  color: #9a5e58;
+}
+
+html[data-paper-theme="dark"] .markdown-body .mdx-callout {
+  background: #2b3039;
+}
+
+html[data-paper-theme="dark"] .markdown-body .mdx-badge {
+  border-color: #414954;
+  background: #303640;
+  color: #c1c9d2;
+}
+
 .theme-lite.theme-handsome .handsome-main-content .post-near {
   position: relative;
   top: 0;
@@ -12454,4 +12542,82 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .comments-closed {
   .admin-comments-table td:nth-child(4) {
     display: none;
   }
+}
+
+/* MDX Callout: keep the Markdown typography, but make component boundaries explicit. */
+.markdown-body aside.mdx-callout {
+  display: block;
+  margin: 1.45em 0;
+  padding: 0.9em 1.05em;
+  border: 1px solid #dce5eb;
+  border-left: 4px solid #688aa4;
+  border-radius: 4px;
+  background: #f2f6f8;
+  color: inherit;
+}
+
+.markdown-body aside.mdx-callout > :first-child {
+  margin-top: 0;
+}
+
+.markdown-body aside.mdx-callout > :last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body aside.mdx-callout .mdx-callout-title {
+  margin: 0 0 0.38em;
+  color: #36566d;
+  font-weight: 700;
+}
+
+.markdown-body aside.mdx-callout-success {
+  border-color: #d7e6dc;
+  border-left-color: #56836a;
+  background: #f1f7f3;
+}
+
+.markdown-body aside.mdx-callout-success .mdx-callout-title {
+  color: #37684c;
+}
+
+.markdown-body aside.mdx-callout-warning {
+  border-color: #eadfc8;
+  border-left-color: #b18742;
+  background: #faf6ed;
+}
+
+.markdown-body aside.mdx-callout-warning .mdx-callout-title {
+  color: #805f29;
+}
+
+.markdown-body aside.mdx-callout-danger {
+  border-color: #ead7d4;
+  border-left-color: #b46c62;
+  background: #faf2f1;
+}
+
+.markdown-body aside.mdx-callout-danger .mdx-callout-title {
+  color: #8a4d45;
+}
+
+.markdown-body aside.mdx-callout-note {
+  border-color: #e0e1e5;
+  border-left-color: #7a7f89;
+  background: #f5f5f6;
+}
+
+.markdown-body aside.mdx-callout-note .mdx-callout-title {
+  color: #555b65;
+}
+
+.theme-lite[data-theme="dark"] .markdown-body aside.mdx-callout,
+.dark .markdown-body aside.mdx-callout {
+  border-color: #3a4650;
+  border-left-color: #7898b0;
+  background: #252b31;
+}
+
+.theme-lite[data-theme="dark"] .markdown-body aside.mdx-callout .mdx-callout-title,
+.dark .markdown-body aside.mdx-callout .mdx-callout-title {
+  color: #b8cddd;
 }

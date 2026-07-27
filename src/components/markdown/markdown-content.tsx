@@ -4,10 +4,16 @@ import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
 import rehypeSanitize from "rehype-sanitize";
 import remarkGfm from "remark-gfm";
+import remarkMdx from "remark-mdx";
 import remarkMath from "remark-math";
 import { markdownCodeText } from "@/components/markdown/code-text";
 import { MermaidDiagram } from "@/components/markdown/mermaid-diagram";
 import { remarkHighlight } from "@/components/markdown/remark-highlight";
+import {
+  markdownSanitizeSchema,
+  remarkMdxCompat,
+  usesMdxComponents,
+} from "@/lib/markdown/mdx-compat";
 
 type MarkdownContentProps = {
   content: string;
@@ -57,6 +63,7 @@ function MarkdownCode({ className, children, node, ...props }: MarkdownCodeProps
 }
 
 export function MarkdownContent({ content }: MarkdownContentProps) {
+  const usesMdx = usesMdxComponents(content);
   const headingCounts = new Map<string, number>();
   const createHeading = (Tag: "h1" | "h2" | "h3" | "h4" | "h5" | "h6") => {
     function MarkdownHeading({ children, node, ...props }: MarkdownHeadingProps) {
@@ -80,9 +87,14 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
     <div className="markdown-body post-content">
       {/* 不启用 rehype-raw，并额外经过 sanitize，原始 HTML 不会成为可执行 DOM。 */}
       <ReactMarkdown
-        remarkPlugins={[remarkGfm, remarkMath, remarkHighlight]}
+        remarkPlugins={[
+          remarkGfm,
+          remarkMath,
+          ...(usesMdx ? [remarkMdx, remarkMdxCompat] : []),
+          remarkHighlight,
+        ]}
         rehypePlugins={[
-          rehypeSanitize,
+          [rehypeSanitize, markdownSanitizeSchema],
           [rehypeHighlight, { detect: false, plainText: ["mermaid"] }],
           rehypeKatex,
         ]}
