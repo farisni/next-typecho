@@ -5,6 +5,7 @@ import {
   FolderOpen,
   Home,
   Info,
+  Tag,
 } from "lucide-react";
 import type { AuthUser } from "@/lib/auth/session";
 import { get } from "@/lib/db";
@@ -72,10 +73,7 @@ export function Sidebar({
           <span>归档</span>
         </Link>
         <Link href="/tags">
-          <svg aria-hidden="true" viewBox="0 0 24 24" fill="none">
-            <path d="m20.6 13.4-7.2 7.2a2 2 0 0 1-2.8 0L3.4 13.4a2 2 0 0 1 0-2.8l7.2-7.2A2 2 0 0 1 12 2.8H19a2 2 0 0 1 2 2V12a2 2 0 0 1-.4 1.4Z" />
-            <circle cx="16.5" cy="7.5" r="1" />
-          </svg>
+          <Tag aria-hidden="true" />
           <span>标签</span>
         </Link>
         <Link href="/start-page.html">
