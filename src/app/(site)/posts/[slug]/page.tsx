@@ -57,6 +57,26 @@ export default async function PostPage({
   return (
     <>
       <article className="post post-detail">
+        <nav className="post-breadcrumb" aria-label="面包屑">
+          <div className="post-breadcrumb-path">
+            <Link href="/">
+              <Home aria-hidden="true" />
+              <span>首页</span>
+            </Link>
+            <ChevronRight className="lite-breadcrumb-separator" aria-hidden="true" />
+            <span aria-current="page">正文</span>
+          </div>
+          <div className="post-share" aria-label="分享文章">
+            <span>分享到：</span>
+            <button type="button" aria-label="收藏文章">
+              <Star aria-hidden="true" />
+            </button>
+            <button type="button" aria-label="分享文章">
+              <Share2 aria-hidden="true" />
+            </button>
+          </div>
+        </nav>
+
         <header className="post-detail-header">
           <div className="post-detail-header-content">
             <h1 className="post-title"><Link href={`/posts/${post.slug}`}>{post.title}</Link></h1>
@@ -84,27 +104,6 @@ export default async function PostPage({
             </ul>
           </div>
         </header>
-
-        <nav className="post-breadcrumb" aria-label="面包屑">
-          <div className="post-breadcrumb-path">
-            <Link href="/">
-              <Home aria-hidden="true" />
-              <span>首页</span>
-            </Link>
-            <ChevronRight className="lite-breadcrumb-separator" aria-hidden="true" />
-            <span aria-current="page">正文</span>
-          </div>
-          <div className="post-share" aria-label="分享文章">
-            <span>分享到：</span>
-            <button type="button" aria-label="收藏文章">
-              <Star aria-hidden="true" />
-            </button>
-            <span>/</span>
-            <button type="button" aria-label="分享文章">
-              <Share2 aria-hidden="true" />
-            </button>
-          </div>
-        </nav>
 
         <div className="post-detail-body">
           {post.excerpt && (
