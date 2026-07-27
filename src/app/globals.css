@@ -301,6 +301,10 @@ a {
   text-decoration: none;
 }
 
+.post-meta li:last-child a {
+  text-decoration: none;
+}
+
 .post-meta a:hover,
 .post-meta a:active,
 .widget a:hover,
@@ -333,6 +337,13 @@ a {
 .site-logout-button:active:lang(en) {
   text-decoration-skip-ink: auto;
   text-underline-offset: 0.12em;
+}
+
+.post-meta li:last-child a:hover,
+.post-meta li:last-child a:active {
+  text-decoration-color: #aebdca;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.16em;
 }
 
 .post-content {
@@ -9670,6 +9681,20 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   height: 15px;
 }
 
+.theme-default .post-meta li:last-child a,
+.theme-lite .handsome-main-content .post-card .post-meta li:last-child a {
+  border-bottom: 0 !important;
+  text-decoration: none !important;
+}
+
+.theme-default .post-meta li:last-child a:hover,
+.theme-default .post-meta li:last-child a:active,
+.theme-lite .handsome-main-content .post-card .post-meta li:last-child a:hover,
+.theme-lite .handsome-main-content .post-card .post-meta li:last-child a:active {
+  border-bottom: 0 !important;
+  text-decoration: none !important;
+}
+
 .theme-lite .handsome-main-content .post-near {
   min-height: 0;
   margin: 22px 0 30px;
@@ -10474,6 +10499,22 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content:
   display: flex;
   align-items: center;
   gap: 6px;
+}
+
+.post-detail-header .post-meta a[href="#comments"],
+.post-detail-header .post-meta a[href="#comments"]:hover,
+.post-detail-header .post-meta a[href="#comments"]:active,
+.post-detail-header .post-meta a[href="#comments"]:focus,
+.post-detail-header .post-meta a[href="#comments"]:focus-visible {
+  border-bottom: 0 !important;
+  text-decoration: none !important;
+}
+
+.theme-lite .post-detail-header .post-meta li:has(a:hover) a,
+.theme-lite .post-detail-header .post-meta li:has(a:focus-visible) a,
+.theme-lite .post-detail-header .post-meta li:has(a:hover) .post-meta-icon,
+.theme-lite .post-detail-header .post-meta li:has(a:focus-visible) .post-meta-icon {
+  color: var(--handsome-accent);
 }
 
 .theme-lite .post-detail-header .post-meta-icon {
