@@ -1,72 +1,72 @@
 "use client";
 
-import { createRoot, type Root } from "react-dom/client";
-import { useEffect, useState } from "react";
-import { CheckIcon, CopyIcon } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { useCopyToClipboard } from "@/hooks/use-copy-to-clipboard";
+import { useEffect } from "react";
 
-function CodeCopyButton({ code }: { code: string }) {
-  const { isCopied, copyToClipboard } = useCopyToClipboard({ timeout: 1500 });
-  const [copyFailed, setCopyFailed] = useState(false);
+function checkIcon() {
+  return `
+    <svg class="pretty-code-copy-icon" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" aria-hidden="true">
+      <path d="m5 12 4 4L19 6"></path>
+    </svg>
+  `;
+}
 
-  async function handleCopy() {
-    setCopyFailed(false);
-    const copied = await copyToClipboard(code);
-    setCopyFailed(!copied);
-  }
-
-  const label = isCopied ? "已复制" : copyFailed ? "复制失败" : "复制代码";
-
-  return (
-    <Button
-      type="button"
-      size="icon"
-      variant="outline"
-      className="code-copy-shadcn-button"
-      aria-label={label}
-      title={label}
-      onClick={() => void handleCopy()}
-    >
-      {isCopied ? <CheckIcon aria-hidden="true" /> : <CopyIcon aria-hidden="true" />}
-    </Button>
-  );
+function copyIcon() {
+  return `
+    <svg class="pretty-code-copy-icon" viewBox="0 0 24 24" fill="none"
+      stroke="currentColor" stroke-width="2" stroke-linecap="round"
+      stroke-linejoin="round" aria-hidden="true">
+      <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+      <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+    </svg>
+  `;
 }
 
 export function CodeCopyEnhancer() {
   useEffect(() => {
-    const blocks = Array.from(
-      document.querySelectorAll<HTMLElement>(".post-detail-body .post-content pre"),
+    const buttons = Array.from(
+      document.querySelectorAll<HTMLButtonElement>(
+        ".post-detail-body [data-code-copy-button]",
+      ),
     );
-    const mounted: Array<{ container: HTMLSpanElement; root: Root }> = [];
+    const cleanups: Array<() => void> = [];
 
-    for (const block of blocks) {
-      if (block.querySelector("code.language-mermaid")) continue;
-      if (block.dataset.codeCopyMounted === "true") continue;
+    for (const button of buttons) {
+      const figure = button.closest<HTMLElement>(".pretty-code-figure");
+      const code = figure?.querySelector("code")?.textContent ?? "";
+      let timer = 0;
 
-      const code = block.querySelector("code")?.textContent ?? block.textContent ?? "";
-      const container = document.createElement("span");
-      block.dataset.codeCopyMounted = "true";
-      block.classList.add("has-code-copy");
-      container.className = "code-copy-button-mount";
-      container.style.position = "absolute";
-      container.style.top = "0.5rem";
-      container.style.right = "0.5rem";
-      container.style.zIndex = "1";
-      block.appendChild(container);
+      const copy = async () => {
+        try {
+          await navigator.clipboard.writeText(code);
+          button.dataset.copied = "true";
+          button.setAttribute("aria-label", "已复制");
+          button.setAttribute("title", "已复制");
+          button.innerHTML = checkIcon();
+          window.clearTimeout(timer);
+          timer = window.setTimeout(() => {
+            delete button.dataset.copied;
+            button.setAttribute("aria-label", "复制代码");
+            button.setAttribute("title", "复制代码");
+            button.innerHTML = copyIcon();
+          }, 1500);
+        } catch {
+          button.setAttribute("aria-label", "复制失败");
+          button.setAttribute("title", "复制失败");
+        }
+      };
 
-      const root = createRoot(container);
-      root.render(<CodeCopyButton code={code} />);
-      mounted.push({ container, root });
+      const handleClick = () => void copy();
+      button.addEventListener("click", handleClick);
+      cleanups.push(() => {
+        window.clearTimeout(timer);
+        button.removeEventListener("click", handleClick);
+      });
     }
 
     return () => {
-      for (const item of mounted) {
-        window.setTimeout(() => {
-          item.root.unmount();
-          item.container.remove();
-        }, 0);
-      }
+      for (const cleanup of cleanups) cleanup();
     };
   }, []);
 

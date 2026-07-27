@@ -55,7 +55,7 @@ export async function createPost(formData: FormData) {
   const input = parsePostForm(formData);
   const id = randomUUID();
   const now = Date.now();
-  const renderedContent = renderMarkdownToHtml(input.content);
+  const renderedContent = await renderMarkdownToHtml(input.content);
 
   transaction(() => {
     run(
@@ -85,7 +85,7 @@ export async function updatePost(postId: string, formData: FormData) {
   );
   if (!current) throw new Error("文章不存在");
   const now = Date.now();
-  const renderedContent = renderMarkdownToHtml(input.content);
+  const renderedContent = await renderMarkdownToHtml(input.content);
 
   transaction(() => {
     run(

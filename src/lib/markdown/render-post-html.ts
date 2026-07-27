@@ -6,8 +6,8 @@ import remarkGfm from "remark-gfm";
 import remarkMath from "remark-math";
 import remarkParse from "remark-parse";
 import remarkRehype from "remark-rehype";
-import rehypeHighlight from "rehype-highlight";
 import rehypeKatex from "rehype-katex";
+import rehypePrettyCode from "rehype-pretty-code";
 import rehypeSanitize from "rehype-sanitize";
 import rehypeStringify from "rehype-stringify";
 import remarkMdx from "remark-mdx";
@@ -17,6 +17,11 @@ import {
   remarkMdxCompat,
   usesMdxComponents,
 } from "@/lib/markdown/mdx-compat";
+import {
+  prettyCodeOptions,
+  rehypeProtectMermaid,
+  rehypePrettyCodeWindow,
+} from "@/lib/markdown/rehype-pretty-code-window";
 
 function toPlainText(node: unknown): string {
   if (node == null) return "";
@@ -114,7 +119,7 @@ const decorateHeadings: Plugin<[], HastRoot, HastRoot> = () => {
   };
 };
 
-export function renderMarkdownToHtml(content: string) {
+export async function renderMarkdownToHtml(content: string) {
   if (!content) return "";
 
   const usesMdx = usesMdxComponents(content);
@@ -126,17 +131,20 @@ export function renderMarkdownToHtml(content: string) {
       .use(remarkMath);
     if (usesMdx) processor.use(remarkMdx).use(remarkMdxCompat);
 
-    return processor
+    return (
+      await processor
       .use(remarkHighlight)
       .use(addHeadingIds)
       .use(remarkRehype)
       .use(decorateHeadings)
       .use(rehypeSanitize, markdownSanitizeSchema)
-      .use(rehypeHighlight, { detect: false, plainText: ["mermaid"] })
+      .use(rehypeProtectMermaid)
+      .use(rehypePrettyCode, prettyCodeOptions)
+      .use(rehypePrettyCodeWindow)
       .use(rehypeKatex)
       .use(rehypeStringify)
-      .processSync(content)
-      .toString();
+      .process(content)
+    ).toString();
   } catch (error) {
     if (usesMdx) {
       const message = error instanceof Error ? error.message : "未知错误";
