@@ -39,6 +39,9 @@ const headerSong: Song = {
   duration: 313,
 };
 
+// Keep the player integration ready for a future launch without rendering it now.
+const SHOW_TOPBAR_MUSIC_PLAYER = false;
+
 const SystemDataPanel = dynamic(
   () => import("@/themes/lite/system-data-panel").then((module) => module.SystemDataPanel),
   {
@@ -136,9 +139,11 @@ export function Header({ user }: { user: HeaderUser }) {
         </div>
         <span className="lite-header-spacer" />
         <div className="handsome-header-actions">
-          <div className="lite-topbar-music-player">
-            <MusicPlayerApple song={headerSong} compact />
-          </div>
+          {SHOW_TOPBAR_MUSIC_PLAYER ? (
+            <div className="lite-topbar-music-player">
+              <MusicPlayerApple song={headerSong} compact />
+            </div>
+          ) : null}
           <button
             className="handsome-search"
             type="button"
