@@ -5,6 +5,7 @@ import { useEffect } from "react";
 export function MermaidEnhancer() {
   useEffect(() => {
     let cancelled = false;
+    let renderCycle = 0;
     const sourceBlocks = Array.from(
       document.querySelectorAll<HTMLElement>("pre > code.language-mermaid"),
     );
@@ -21,34 +22,36 @@ export function MermaidEnhancer() {
       block.replaceWith(container);
     }
 
-    const containers = Array.from(
-      document.querySelectorAll<HTMLElement>(
-        ".mermaid-static-mount:not([data-mermaid-rendered='true'])",
-      ),
-    );
-
     async function renderDiagrams() {
+      const currentCycle = ++renderCycle;
+      const darkMode = document.documentElement.dataset.paperTheme === "dark";
+      const containers = Array.from(
+        document.querySelectorAll<HTMLElement>(".mermaid-static-mount"),
+      );
       const { default: mermaid } = await import("mermaid");
+      if (cancelled || currentCycle !== renderCycle) return;
+
       mermaid.initialize({
         startOnLoad: false,
         securityLevel: "strict",
-        theme: "neutral",
+        theme: darkMode ? "dark" : "neutral",
       });
 
       for (const [index, container] of containers.entries()) {
-        if (cancelled) return;
+        if (cancelled || currentCycle !== renderCycle) return;
 
         try {
           const chart = container.dataset.mermaidSource ?? "";
-          const id = `mermaid-static-${Date.now()}-${index}`;
+          const id = `mermaid-static-${currentCycle}-${Date.now()}-${index}`;
           const rendered = await mermaid.render(id, chart);
-          if (cancelled) return;
+          if (cancelled || currentCycle !== renderCycle) return;
 
           container.className = "mermaid-static-mount mermaid-diagram";
           container.dataset.mermaidRendered = "true";
+          container.dataset.mermaidTheme = darkMode ? "dark" : "light";
           container.innerHTML = rendered.svg;
         } catch (renderError) {
-          if (cancelled) return;
+          if (cancelled || currentCycle !== renderCycle) return;
 
           container.className = "mermaid-static-mount mermaid-error";
           container.dataset.mermaidRendered = "true";
@@ -61,9 +64,19 @@ export function MermaidEnhancer() {
     }
 
     void renderDiagrams();
+    const themeObserver = new MutationObserver((mutations) => {
+      if (mutations.some((mutation) => mutation.attributeName === "data-paper-theme")) {
+        void renderDiagrams();
+      }
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-paper-theme"],
+    });
 
     return () => {
       cancelled = true;
+      themeObserver.disconnect();
     };
   }, []);
 
