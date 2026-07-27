@@ -966,10 +966,14 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
   box-shadow: none;
 }
 
-html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content > .post:has(.post-detail) {
-  background: transparent;
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content > .post.post-detail {
+  background: #242831;
   border-color: transparent;
   box-shadow: none;
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content {
+  background: #242831;
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-content,
@@ -991,7 +995,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-identity-copy
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-header,
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-body,
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail .post-breadcrumb {
-  background: #232831;
+  background: #242831;
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-header .post-title a,
@@ -10038,6 +10042,13 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-footer,
     #f4f5f6 0 calc(100% - 38px),
     #fff calc(100% - 38px) 100%
   );
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-workspace:has(.post-detail),
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-content-grid:has(.post-detail),
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-content-column:has(.post-detail),
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content:has(.post-detail) {
+  background: #242831;
 }
 
 .theme-lite .post-detail,
