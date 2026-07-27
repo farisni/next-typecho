@@ -9749,7 +9749,7 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   padding: 16px 28px;
   border: 0;
   border-radius: 0;
-  background: transparent;
+  background: #f2f3f5;
   box-shadow: none;
 }
 
@@ -10471,15 +10471,41 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-footer,
   color: #aeb8c6;
 }
 
+.theme-lite.theme-handsome .handsome-workspace:has(.post-detail),
+.theme-lite.theme-handsome .handsome-content-grid:has(.post-detail),
+.theme-lite.theme-handsome .lite-content-column:has(.post-detail),
 .theme-lite .handsome-main-content:has(.post-detail) {
-  padding: 26px 24px 38px;
   background: #f4f5f6;
+}
+
+.theme-lite .handsome-main-content:has(.post-detail) {
+  position: relative;
+  padding: 26px 24px 38px;
+}
+
+.theme-lite .handsome-main-content > .post.post-detail {
+  background: #fff;
+}
+
+.theme-lite .handsome-main-content:has(.post-detail)::after {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  height: 38px;
+  background: #fff;
+  content: "";
+  pointer-events: none;
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-workspace:has(.post-detail),
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-content-grid:has(.post-detail),
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-content-column:has(.post-detail),
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content:has(.post-detail) {
+  background: #242831;
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content:has(.post-detail)::after {
   background: #242831;
 }
 
@@ -10527,7 +10553,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content:
   padding: 0;
   overflow: hidden;
   border-radius: 6px;
-  background: #fff;
+  background: transparent;
   box-shadow: 0 3px 14px rgb(41 47 54 / 7%);
 }
 
@@ -10767,7 +10793,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-body,
   box-sizing: border-box;
   border: 0;
   border-radius: 0;
-  background: transparent;
+  background: #f2f3f5;
   box-shadow: none;
 }
 
