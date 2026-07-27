@@ -8961,7 +8961,7 @@ html[data-paper-theme="dark"] .theme-lite .lite-traffic-tooltip {
 .theme-lite.theme-handsome.handsome-box-model .handsome-sidebar {
   position: sticky;
   inset: auto;
-  top: 44px;
+  top: var(--handsome-topbar-height);
   grid-column: 1;
   grid-row: 2;
   width: var(--lite-sidebar-width);
@@ -8978,7 +8978,10 @@ html[data-paper-theme="dark"] .theme-lite .lite-traffic-tooltip {
 
 .theme-lite .handsome-identity {
   display: flex;
+  height: 170px;
   min-height: 170px;
+  max-height: 170px;
+  flex: 0 0 170px;
   flex-direction: column;
   gap: 12px;
   justify-content: center;

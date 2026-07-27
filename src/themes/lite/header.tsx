@@ -24,23 +24,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import MusicPlayerApple from "@/components/music-player-apple";
-import type { Song } from "@/hooks/use-music-player";
 import { HeaderScrollProgress } from "@/themes/lite/header-scroll-progress";
 import { LiteThemeToggle } from "@/themes/lite/theme-toggle";
-
-const headerSong: Song = {
-  name: "山阴路的夏天",
-  artists: ["李志"],
-  album: {
-    name: "2014 i/O",
-    image: "/images/shanyin-road-summer-2014-cover.jpg",
-  },
-  duration: 313,
-};
-
-// Keep the player integration ready for a future launch without rendering it now.
-const SHOW_TOPBAR_MUSIC_PLAYER = false;
 
 const SystemDataPanel = dynamic(
   () => import("@/themes/lite/system-data-panel").then((module) => module.SystemDataPanel),
@@ -74,6 +59,11 @@ export function Header({ user }: { user: HeaderUser }) {
   const [searchQuery, setSearchQuery] = useState("");
   const [matchedPosts, setMatchedPosts] = useState<HeaderSearchPost[]>([]);
   const [searchLoading, setSearchLoading] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   useEffect(() => {
     const query = searchQuery.trim();
@@ -135,15 +125,18 @@ export function Header({ user }: { user: HeaderUser }) {
           <Menu aria-hidden="true" />
         </button>
         <div className="handsome-header-dashboard">
-          <SystemDataPanel canViewTraffic={Boolean(user)} />
+          {mounted ? (
+            <SystemDataPanel canViewTraffic={Boolean(user)} />
+          ) : (
+            <div className="lite-system-data" aria-hidden="true">
+              <span className="lite-system-data-tab lite-system-data-placeholder">
+                <Activity />
+              </span>
+            </div>
+          )}
         </div>
         <span className="lite-header-spacer" />
         <div className="handsome-header-actions">
-          {SHOW_TOPBAR_MUSIC_PLAYER ? (
-            <div className="lite-topbar-music-player">
-              <MusicPlayerApple song={headerSong} compact />
-            </div>
-          ) : null}
           <button
             className="handsome-search"
             type="button"
