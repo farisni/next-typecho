@@ -11,7 +11,7 @@ import {
   Star,
 } from "lucide-react";
 import { MarkdownContent } from "@/components/markdown/markdown-content";
-import { CodeWindowEnhancer } from "@/components/markdown/code-window-enhancer";
+import { CodeCopyEnhancer } from "@/components/markdown/code-copy-enhancer";
 import { MermaidEnhancer } from "@/components/markdown/mermaid-enhancer";
 import { PaperTableOfContents } from "@/components/site/article-toc";
 import { DonationDialog } from "@/components/site/donation-dialog";
@@ -127,7 +127,7 @@ export default async function PostPage({
             <MarkdownContent content={post.content} />
           )}
           <MermaidEnhancer />
-      <CodeWindowEnhancer />
+      <CodeCopyEnhancer />
           <p className="tags">标签: {post.tags.length ? post.tags.map((tag, index) => <span key={tag.id}>{index > 0 && ", "}<Link href={`/tags/${tag.slug}`}>{tag.name}</Link></span>) : "none"}</p>
           <div className="post-ending">
             <p className="post-reference" hidden>代码参考了 <Link href="/">小刘同学</Link> 的文章。</p>
