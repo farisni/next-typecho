@@ -121,7 +121,7 @@ a {
 .theme-site h6 {
   font-family: "Helvetica Neue", Helvetica, Arial, "PingFang SC", "Hiragino Sans GB", "WenQuanYi Micro Hei", "Microsoft Yahei", sans-serif;
   /* Tailwind Preflight 会清除标题默认粗体，原版依赖浏览器的 bold 样式。 */
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .theme-container {
@@ -194,7 +194,7 @@ a {
 }
 
 #nav-menu .current {
-  font-weight: 500;
+  font-weight: 700;
 }
 
 #search {
@@ -1449,11 +1449,14 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
 }
 
 .paper-archive-heading h1 {
+  display: inline-block;
   margin: 0;
   color: var(--paper-heading);
   font-size: 32px;
   font-weight: 700;
   line-height: 1;
+  border-bottom: 2px solid #d67655;
+  text-decoration: none;
 }
 
 .paper-archive-heading a {
@@ -1541,7 +1544,22 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
 }
 
 .paper-archive-year h2 {
-  margin-bottom: 40px;
+  display: block;
+  margin: 0 0 34px;
+  color: transparent;
+  font-family: Futura, "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+  font-size: clamp(56px, 6vw, 82px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  line-height: 0.78;
+  -webkit-text-stroke: 1px #e6e9ec;
+  text-shadow: none;
+  transform: none;
+  transform-origin: left center;
+}
+
+html[data-paper-theme="dark"] .paper-archive-year h2 {
+  -webkit-text-stroke-color: #3a414b;
 }
 
 .paper-archive-tags {
@@ -1984,6 +2002,10 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
   .paper-archive-pinned,
   .paper-archive-year {
     margin-bottom: 58px;
+  }
+
+  .paper-archive-year h2 {
+    font-size: 56px;
   }
 
   .paper-pinned li,
@@ -9313,6 +9335,32 @@ html[data-paper-theme="dark"] .theme-lite .handsome-identity-copy > span.handsom
   margin: 0;
 }
 
+.theme-lite .lite-blog-title-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.theme-lite .lite-blog-rss {
+  display: inline-flex;
+  color: #8d949c;
+  align-items: center;
+  justify-content: center;
+}
+
+.theme-lite .lite-blog-rss svg {
+  width: 21px;
+  height: 21px;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2.8;
+}
+
+.theme-lite .lite-blog-rss:hover {
+  color: var(--handsome-accent);
+}
+
 .theme-lite .handsome-blog-header h1 {
   color: #222;
   font-size: 28px;
@@ -9872,6 +9920,20 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
   background: #fff;
 }
 
+.theme-lite .paper-archive {
+  width: 100%;
+  padding: 40px clamp(18px, 3vw, 32px) 56px;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 3px 14px rgb(41 47 54 / 7%);
+  box-sizing: border-box;
+}
+
+html[data-paper-theme="dark"] .theme-lite .paper-archive,
+.theme-lite[data-paper-theme="dark"] .paper-archive {
+  background: #242831;
+}
+
 .theme-lite .paper-archive-grid {
   grid-template-columns: minmax(0, 1fr);
 }
@@ -9885,23 +9947,30 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
   width: 100%;
   box-sizing: border-box;
   margin: 0 auto;
-  padding: 72px 40px 90px;
+  padding: 40px clamp(18px, 3vw, 32px) 56px;
   background: #fff;
   color: #5f6368;
 }
 
 .theme-lite .lite-tags-header {
+  display: flex;
   max-width: 720px;
   margin-bottom: 32px;
+  align-items: baseline;
+  gap: 24px;
+  flex-wrap: wrap;
 }
 
 .theme-lite .lite-tags-header h1 {
-  margin: 0 0 12px;
+  display: inline-block;
+  margin: 0;
   color: #333;
-  font-size: clamp(30px, 4vw, 42px);
-  font-weight: 500;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-size: 32px;
+  font-weight: 700;
+  letter-spacing: 0;
+  line-height: 1;
+  border-bottom: 2px solid #d67655;
+  text-decoration: none;
 }
 
 .theme-lite .lite-tags-header p {
@@ -9912,38 +9981,55 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
 
 .theme-lite .lite-tags-stats {
   display: flex;
-  gap: 28px;
+  gap: 22px;
   color: #a0a7ab;
-  font-size: 13px;
+  font-size: 15px;
 }
 
 .theme-lite .lite-tags-stats strong {
   margin-right: 6px;
   color: #555;
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 22px;
+  font-weight: 600;
 }
 
 .theme-lite .lite-tags-tabs {
+  position: relative;
   display: inline-flex;
   gap: 0;
   margin-bottom: 44px;
-  padding: 3px;
-  border: 1px solid #e1e4e8;
-  border-radius: 8px;
-  background: #f1f2f4;
+  padding: 0 0 8px;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.theme-lite .lite-tags-tabs::after {
+  position: absolute;
+  left: 12px;
+  bottom: 0;
+  width: 72px;
+  height: 2px;
+  background: #111;
+  content: "";
+  transition: left 220ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.theme-lite .lite-tags-tabs:has(button:nth-child(2).is-active)::after {
+  left: 108px;
 }
 
 .theme-lite .lite-tags-tabs button {
   display: inline-flex;
-  min-width: 78px;
+  width: 96px;
+  min-width: 96px;
   height: 28px;
   align-items: center;
   justify-content: center;
   gap: 7px;
-  padding: 3px 10px;
+  padding: 3px 12px;
   border: 0;
-  border-radius: 6px;
+  border-radius: 0;
   background: transparent;
   color: #687485;
   font: inherit;
@@ -9962,12 +10048,12 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
 
 .theme-lite .lite-tags-tabs button:hover,
 .theme-lite .lite-tags-tabs button.is-active {
-  color: #566274;
+  color: #111;
 }
 
 .theme-lite .lite-tags-tabs button.is-active {
-  background: #fff;
-  box-shadow: 0 1px 2px rgb(39 47 58 / 10%);
+  background: transparent;
+  box-shadow: none;
 }
 
 .theme-lite .lite-tags-cloud {
@@ -10125,16 +10211,22 @@ html[data-paper-theme="dark"] .theme-lite .lite-tags-list a:hover,
 
 html[data-paper-theme="dark"] .theme-lite .lite-tags-tabs button.is-active,
 .theme-lite[data-paper-theme="dark"] .lite-tags-tabs button.is-active {
-  border-bottom-color: #7ca8d8;
+  border-bottom-color: transparent;
+  color: #eef1f4;
+}
+
+html[data-paper-theme="dark"] .theme-lite .lite-tags-tabs::after,
+.theme-lite[data-paper-theme="dark"] .lite-tags-tabs::after {
+  background: #eef1f4;
 }
 
 @media (max-width: 760px) {
   .theme-lite .lite-tags-page {
-    padding: 34px 20px 52px;
+    padding: 40px 18px 56px;
   }
 
   .theme-lite .lite-tags-header h1 {
-    font-size: 34px;
+    font-size: 28px;
   }
 
   .theme-lite .lite-tags-tabs {
@@ -10661,7 +10753,7 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-detail-body,
 .theme-lite .post-detail-body .post-content h5,
 .theme-lite .post-detail-body .post-content h6 {
   color: #333;
-  font-family: "LXGW WenKai", "STKaiti", "KaiTi", serif !important;
+  font-family: "Lite System Latin", "LXGW WenKai", "STKaiti", "KaiTi", serif !important;
 }
 
 .theme-lite .handsome-main-content .post-near {

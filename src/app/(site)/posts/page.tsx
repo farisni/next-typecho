@@ -13,7 +13,7 @@ function formatPaperDate(date: Date | null) {
     timeZone: "Asia/Shanghai",
   }).formatToParts(date);
   const value = (type: Intl.DateTimeFormatPartTypes) => parts.find((part) => part.type === type)?.value ?? "";
-  const month = ["一月", "二月", "三月", "四月", "五月", "六月", "七月", "八月", "九月", "十月", "十一月", "十二月"][Number(value("month")) - 1];
+  const month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][Number(value("month")) - 1];
   return { day: value("day"), month, year: value("year") };
 }
 
@@ -34,14 +34,6 @@ function groupPostsByYear(posts: ReturnType<typeof listAllPublishedPosts>) {
   }, new Map());
 }
 
-function RssIcon() {
-  return (
-    <svg aria-hidden="true" className="paper-archive-rss-icon" viewBox="0 0 24 24" fill="none">
-      <path d="M5 19h.01M5 14a5 5 0 0 1 5 5M5 8a11 11 0 0 1 11 11" />
-    </svg>
-  );
-}
-
 function TagIcon() {
   return (
     <svg aria-hidden="true" className="paper-archive-tag-icon" viewBox="0 0 24 24" fill="none">
@@ -53,30 +45,16 @@ function TagIcon() {
 
 export default async function PostsPage() {
   const [posts, taxonomies] = await Promise.all([listAllPublishedPosts(), listTaxonomies()]);
-  const pinnedPosts = posts.slice(0, 2);
   const archivePosts = groupPostsByYear(posts);
 
   return (
     <div className="paper-archive">
       <header className="paper-archive-heading">
-        <h1>Posts</h1>
-        <Link href="/feed.xml" aria-label="RSS 订阅"><RssIcon /></Link>
+        <h1>归档</h1>
       </header>
 
       <div className="paper-archive-grid">
         <div className="paper-archive-list">
-          <section className="paper-archive-pinned" aria-labelledby="paper-archive-pinned-title">
-            <h2 id="paper-archive-pinned-title">Pinned Posts</h2>
-            <ul>
-              {pinnedPosts.map((post) => (
-                <li key={post.slug}>
-                  <PaperDate date={post.publishedAt} />
-                  <Link href={`/posts/${post.slug}`}>{post.title}</Link>
-                </li>
-              ))}
-            </ul>
-          </section>
-
           {Array.from(archivePosts.entries()).map(([year, yearPosts]) => (
             <section className="paper-archive-year" key={year} aria-labelledby={`paper-archive-year-${year}`}>
               <h2 id={`paper-archive-year-${year}`}>{year}</h2>
