@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 export function ClickablePostCard({
   href,
   label,
+  className,
   children,
 }: {
   href: string;
   label: string;
+  className?: string;
   children: ReactNode;
 }) {
   const router = useRouter();
@@ -41,7 +43,7 @@ export function ClickablePostCard({
 
   return (
     <article
-      className="post post-card"
+      className={`post post-card${className ? ` ${className}` : ""}`}
       role="link"
       tabIndex={0}
       aria-label={label}

@@ -18,7 +18,7 @@ export default async function CategoryPage({ params, searchParams }: { params: P
         </h1>
       </header>
       <div className="lite-category-content">
-        <PostList posts={result.items} />
+        <PostList posts={result.items} featuredFirst={false} />
         <Pagination page={page} totalPages={result.totalPages} />
       </div>
     </div>

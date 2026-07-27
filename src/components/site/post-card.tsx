@@ -14,6 +14,8 @@ type PostCardProps = {
     tags: { id: string; name: string; slug: string }[];
     commentCount: number;
   };
+  featured?: boolean;
+  alternate?: boolean;
 };
 
 function formatHandsomePostDate(date: Date) {
@@ -97,13 +99,18 @@ function createPostExcerpt(excerpt: string | null, content: string) {
   return `${plainText.slice(0, 180).trimEnd()}…`;
 }
 
-export function PostCard({ post }: PostCardProps) {
+export function PostCard({ post, featured = false, alternate = false }: PostCardProps) {
   const postExcerpt = createPostExcerpt(post.excerpt, post.content);
+  const cardClassName = [
+    featured ? "post-card-featured" : "",
+    alternate ? "post-card-alternate" : "",
+  ].filter(Boolean).join(" ");
 
   return (
     <ClickablePostCard
       href={`/posts/${post.slug}`}
       label={`阅读文章：${post.title}`}
+      className={cardClassName}
     >
       <h2 className="post-title">
         <Link href={`/posts/${post.slug}`}>{post.title}</Link>
