@@ -6084,6 +6084,11 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
   font-size: 13px;
 }
 
+.theme-lite .post-detail-body > .tags {
+  margin: 24px 0 0;
+  font-size: 14px;
+}
+
 .theme-handsome .post-ending {
   margin-top: 34px;
   color: #8a929c;
@@ -6233,10 +6238,20 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .lite-category-list a {
 .theme-handsome .post-attribution {
   margin: 28px 0 0;
   padding: 18px 16px;
-  border-left: 4px solid #7b7f83;
   background: #f6f6f6;
   color: #81878d;
   line-height: 1.9;
+}
+
+.theme-lite.theme-handsome .post-attribution {
+  border: 0 !important;
+  border-left: 0 !important;
+  box-shadow: none !important;
+}
+
+.theme-lite.theme-handsome .post-attribution::before,
+.theme-lite.theme-handsome .post-attribution::after {
+  content: none !important;
 }
 
 .theme-handsome .post-attribution div {
@@ -6291,7 +6306,6 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-end-marker span,
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .post-attribution,
 .theme-paper[data-paper-theme="dark"] .post-attribution {
-  border-left-color: #69717c;
   background: #2b313b;
   color: #aeb8c6;
 }
