@@ -1,4 +1,5 @@
 import type { Heading, Node, Parent, Root, PhrasingContent, Text } from "mdast";
+import type { Schema } from "hast-util-sanitize";
 import type { Plugin } from "unified";
 import type { Root as HastRoot, Element } from "hast";
 import { unified } from "unified";
@@ -137,7 +138,7 @@ export async function renderMarkdownToHtml(content: string) {
       .use(addHeadingIds)
       .use(remarkRehype)
       .use(decorateHeadings)
-      .use(rehypeSanitize, markdownSanitizeSchema)
+      .use(rehypeSanitize, markdownSanitizeSchema as Schema)
       .use(rehypeProtectMermaid)
       .use(rehypePrettyCode, prettyCodeOptions)
       .use(rehypePrettyCodeWindow)
