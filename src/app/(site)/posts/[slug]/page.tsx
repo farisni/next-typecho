@@ -151,7 +151,7 @@ export default async function PostPage({
             <dl className="post-attribution">
               <div><dt>本文作者：</dt><dd><Link href="/">faris</Link></dd></div>
               <div><dt>文章标题：</dt><dd><Link href={`/posts/${post.slug}`}>{post.title}</Link></dd></div>
-              <div><dt>本文地址：</dt><dd><Link href={`https://farisni.top/posts/${post.slug}`}>https://farisni.top/posts/{post.slug}</Link></dd></div>
+              <div><dt>本文地址：</dt><dd><Link href={`https://farisni.com/posts/${post.slug}`}>https://farisni.com/posts/{post.slug}</Link></dd></div>
               <div><dt>版权说明：</dt><dd>若无注明，本文皆为 Dust In The Wind 原创，转载请保留文章出处。</dd></div>
             </dl>
           </div>

@@ -40,7 +40,7 @@ export const liteThemeDefinition = {
   slug: "lite",
   title: "Lite",
   author: "Next Typecho",
-  homepage: "https://farisni.top",
+  homepage: "https://farisni.com",
   version: "1.0.0",
   description: "固定侧栏与三栏内容布局的现代博客主题",
   screenshotPath: "/themes/lite/screenshot.svg",

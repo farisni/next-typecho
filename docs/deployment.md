@@ -36,6 +36,8 @@ python3 scripts/deploy.py --env-file .env.production
 
 网站完成 ICP 备案后，公安联网备案的官方入口、填写信息、审核流程及 Footer 接入方式请见：[公安联网备案网址与办理流程](public-security-filing-guide.md)。
 
+从购买服务器、注册域名到 DNS、ICP 备案、HTTPS 和公安联网备案的首次上线清单请见：[博客网站上线基本流程](blog-launch-basic-guide.md)。
+
 ## 验证结果
 
 部署成功时，脚本会输出 `https_http=200` 或其他 2xx/3xx 状态、当前 release 路径以及两个 systemd 服务状态。

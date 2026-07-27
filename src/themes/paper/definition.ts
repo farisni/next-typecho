@@ -16,7 +16,7 @@ export const paperThemeDefinition = {
   slug: "paper",
   title: "Paper",
   author: "Next Typecho",
-  homepage: "https://farisni.top",
+  homepage: "https://farisni.com",
   version: "1.0.0",
   description: "参考 Astro Cactus 的窄栏等宽博客主题",
   screenshotPath: "/themes/paper/screenshot.svg",

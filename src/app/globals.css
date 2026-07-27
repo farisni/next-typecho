@@ -10090,9 +10090,10 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
 }
 
 .theme-lite .post-detail-body .post-content ol > li::marker {
-  color: #687487;
-  font-family: var(--font-mono), Menlo, Monaco, Consolas, monospace;
-  font-weight: 600;
+  color: #9aa3ad;
+  font-family: inherit;
+  font-size: 0.9em;
+  font-weight: 400;
 }
 
 .theme-lite .post-detail-body .post-content h1,
