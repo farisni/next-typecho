@@ -29,7 +29,7 @@ export function Pagination({ page, totalPages, query = {} }: PaginationProps) {
           <Link href={hrefForPage(number)} aria-current={number === page ? "page" : undefined}>{number}</Link>
         </li>
       ))}
-      <li className={hasNext ? undefined : "page-spacer"}>
+      <li className={hasNext ? undefined : "is-disabled"}>
         {hasNext ? <Link href={hrefForPage(page + 1)}>后一页 »</Link> : <span aria-hidden="true">后一页 »</span>}
       </li>
     </ol>
