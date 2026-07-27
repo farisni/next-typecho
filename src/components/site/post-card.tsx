@@ -45,7 +45,61 @@ function PaperDate({ date }: { date: Date }) {
   return <time><span>{formatted.day}</span> <span className="paper-date-month">{formatted.month}</span> <span>{formatted.year}</span></time>;
 }
 
+function createPostExcerpt(excerpt: string | null, content: string) {
+  const source = (excerpt?.trim() || content).replace(/\r\n?/g, "\n");
+  const lines = source.split("\n");
+  const tableLines = new Set<number>();
+
+  lines.forEach((line, index) => {
+    const isTableDivider = /^\s*\|?\s*:?-{3,}:?\s*(?:\|\s*:?-{3,}:?\s*)+\|?\s*$/.test(line);
+
+    if (!isTableDivider) {
+      return;
+    }
+
+    tableLines.add(index);
+    if (index > 0) {
+      tableLines.add(index - 1);
+    }
+
+    for (let rowIndex = index + 1; rowIndex < lines.length; rowIndex += 1) {
+      if (!lines[rowIndex].includes("|")) {
+        break;
+      }
+      tableLines.add(rowIndex);
+    }
+  });
+
+  let inCodeBlock = false;
+  const plainText = lines
+    .filter((line, index) => {
+      if (/^\s*(```|~~~)/.test(line)) {
+        inCodeBlock = !inCodeBlock;
+        return false;
+      }
+      return !inCodeBlock && !tableLines.has(index);
+    })
+    .join(" ")
+    .replace(/!\[([^\]]*)\]\([^)]*\)/g, "$1")
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, "$1")
+    .replace(/<[^>]+>/g, " ")
+    .replace(/^\s*#{1,6}\s+/gm, "")
+    .replace(/(^|\s)>\s+/g, "$1")
+    .replace(/(^|\s)(?:[-+*]|\d+\.)\s+/g, "$1")
+    .replace(/[*_~`]+/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+
+  if (plainText.length <= 180) {
+    return plainText;
+  }
+
+  return `${plainText.slice(0, 180).trimEnd()}…`;
+}
+
 export function PostCard({ post }: PostCardProps) {
+  const postExcerpt = createPostExcerpt(post.excerpt, post.content);
+
   return (
     <ClickablePostCard
       href={`/posts/${post.slug}`}
@@ -97,7 +151,7 @@ export function PostCard({ post }: PostCardProps) {
         </li>
       </ul>
       <div className="post-content">
-        <p>{post.excerpt ?? post.content.slice(0, 180)}</p>
+        <p>{postExcerpt}</p>
       </div>
     </ClickablePostCard>
   );
