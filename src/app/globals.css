@@ -960,6 +960,18 @@ html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content 
   border-color: rgb(255 255 255 / 8%);
 }
 
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-near {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content > .post:has(.post-detail) {
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
+}
+
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-content,
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-title a,
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-card .post-content {
