@@ -10009,7 +10009,7 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   height: 212px;
   display: grid;
   place-items: center;
-  background: var(--post-card-cover-image, radial-gradient(circle at 70% 30%, #ffd49b, transparent 35%));
+  background: var(--post-card-cover-image, url("/images/lite-pinned-default.webp"));
   background-position: center;
   background-size: cover;
   color: rgb(255 255 255 / 92%);
