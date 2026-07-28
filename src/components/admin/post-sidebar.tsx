@@ -99,14 +99,16 @@ export function PostSidebar({ children, defaultCoverImage }: PostSidebarProps) {
         </li>
       </ul>
 
-      <div hidden={activeTab !== "options"}>{children}</div>
-      <div className="post-attachment-tab" hidden={activeTab !== "attachments"}>
+      <div hidden={activeTab !== "options"}>
         <ImageUploadField
           name="coverImage"
           label="文章卡片配图"
           description="建议使用 16:9 图片，支持 JPG、PNG、GIF 和 WebP"
           defaultValue={defaultCoverImage}
         />
+        {children}
+      </div>
+      <div className="post-attachment-tab" hidden={activeTab !== "attachments"}>
         <div className={`upload-panel${isDragging ? " drag" : ""}`}>
           <div
             className="upload-area"
