@@ -1,6 +1,7 @@
 import { Save, Send } from "lucide-react";
 import { PostAdvancedOptions } from "@/components/admin/post-advanced-options";
 import { PostSidebar } from "@/components/admin/post-sidebar";
+import { PostTagSelector } from "@/components/admin/post-tag-selector";
 import { MarkdownEditor } from "@/components/markdown/markdown-editor";
 import type { WritingPreferences } from "@/lib/repositories/profile";
 
@@ -15,6 +16,8 @@ type PostFormValue = {
   allowComment: boolean;
   categoryId: string | null;
   tags: Taxonomy[];
+  publishedAt: Date | null;
+  updatedAt: Date;
 };
 
 type PostFormProps = {
@@ -25,8 +28,28 @@ type PostFormProps = {
   preferences?: WritingPreferences;
 };
 
+const dateTimeFormatter = new Intl.DateTimeFormat("en-CA", {
+  timeZone: "Asia/Shanghai",
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  hourCycle: "h23",
+});
+
+function formatDateTimeLocal(value: Date) {
+  const parts = Object.fromEntries(
+    dateTimeFormatter
+      .formatToParts(value)
+      .filter((part) => part.type !== "literal")
+      .map((part) => [part.type, part.value]),
+  );
+  return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+}
+
 export function PostForm({ action, categories, tags, value, preferences }: PostFormProps) {
-  const selectedTags = new Set(value?.tags.map((tag) => tag.id));
+  const publishedAt = value?.publishedAt ?? new Date();
 
   return (
     <form action={action} className="typecho-post-area">
@@ -52,19 +75,42 @@ export function PostForm({ action, categories, tags, value, preferences }: PostF
       <aside id="edit-secondary">
         <PostSidebar defaultCoverImage={value?.coverImage}>
           <section className="typecho-post-option">
-            <label htmlFor="date" className="typecho-label">发布日期</label>
-            <p><input id="date" name="date" className="typecho-date w-100" type="text" autoComplete="off" /></p>
+            <label htmlFor="publishedAt" className="typecho-label">发布日期</label>
+            <p>
+              <input
+                id="publishedAt"
+                name="publishedAt"
+                className="typecho-date typecho-datetime w-100"
+                type="datetime-local"
+                step="60"
+                defaultValue={formatDateTimeLocal(publishedAt)}
+              />
+            </p>
           </section>
+          {value?.publishedAt && (
+            <section className="typecho-post-option">
+              <label htmlFor="updatedAt" className="typecho-label">修改日期</label>
+              <p>
+                <input
+                  id="updatedAt"
+                  className="typecho-date typecho-datetime w-100"
+                  type="datetime-local"
+                  value={formatDateTimeLocal(value.updatedAt)}
+                  readOnly
+                  aria-readonly="true"
+                />
+              </p>
+            </section>
+          )}
           <section className="typecho-post-option category-option">
             <label className="typecho-label">分类</label>
             <ul>
               {categories.length > 0 ? categories.map((category, index) => <li key={category.id}><input id={`category-${category.id}`} type="checkbox" name="categoryId" value={category.id} defaultChecked={value?.categoryId === category.id || (!value?.categoryId && index === 0)} /><label htmlFor={`category-${category.id}`}>{category.name}</label></li>) : <li><input id="category-none" type="checkbox" name="categoryId" value="" defaultChecked={!value?.categoryId} /><label htmlFor="category-none">默认分类</label></li>}
             </ul>
           </section>
-          <section className="typecho-post-option">
+          <section className="typecho-post-option post-tags-option">
             <label className="typecho-label">标签</label>
-            <p><input id="tags" name="tags" type="text" className="w-100" defaultValue={value?.tags.map((tag) => tag.name).join(", ")} autoComplete="off" /></p>
-            {tags.filter((tag) => selectedTags.has(tag.id)).map((tag) => <input key={tag.id} type="hidden" name="tagIds" value={tag.id} />)}
+            <PostTagSelector tags={tags} defaultValue={value?.tags} />
           </section>
           <PostAdvancedOptions preferences={preferences} status={value?.status} allowComment={value?.allowComment} />
         </PostSidebar>

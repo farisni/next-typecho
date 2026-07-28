@@ -4929,8 +4929,13 @@ html[data-paper-theme="dark"] .theme-lite .mermaid-error,
 
 .post-list-table th:first-child,
 .post-list-table td:first-child {
-  padding-left: 0;
+  padding-left: 10px;
   text-align: left;
+}
+
+.post-list-table th:last-child,
+.post-list-table td:last-child {
+  padding-right: 10px;
 }
 
 .post-actions-column,
@@ -4938,6 +4943,39 @@ html[data-paper-theme="dark"] .theme-lite .mermaid-error,
   width: 54px;
   text-align: right;
   white-space: nowrap;
+}
+
+.typecho-datetime {
+  min-height: 44px;
+  padding: 8px 10px;
+  color-scheme: light;
+  font-variant-numeric: tabular-nums;
+}
+
+.typecho-datetime[readonly] {
+  background: #f6f6f3;
+  color: #777;
+}
+
+.post-tags-option > .typecho-label {
+  display: block;
+  float: none;
+  clear: both;
+  margin-bottom: 0;
+  line-height: 1.4;
+}
+
+.post-tag-selector {
+  clear: both;
+  margin-top: 12px;
+}
+
+.post-tags-option [data-slot="command-input-wrapper"] {
+  padding: 7px 6px 6px;
+}
+
+.post-tags-option [data-slot="command-list"] {
+  padding-bottom: 4px;
 }
 
 .typecho-admin .post-actions-trigger {

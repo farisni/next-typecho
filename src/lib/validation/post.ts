@@ -18,8 +18,10 @@ export const postSchema = z.object({
   content: z.string().trim().min(1, "请输入文章内容"),
   status: z.enum(["draft", "published", "waiting", "hidden", "private"]),
   allowComment: z.boolean(),
+  publishedAt: z.number().int().positive().optional(),
   categoryId: z.string().optional(),
   tagIds: z.array(z.string()).default([]),
+  newTagNames: z.array(z.string().trim().min(1).max(50)).max(20).default([]),
 });
 
 export type PostInput = z.infer<typeof postSchema>;

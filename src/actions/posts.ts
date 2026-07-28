@@ -11,6 +11,13 @@ import { bulkManagePostRecords } from "@/lib/posts/admin-service";
 import { refreshSearchCache } from "@/lib/search-cache";
 import { postSchema } from "@/lib/validation/post";
 
+function parsePublishedAt(value: FormDataEntryValue | null) {
+  const text = String(value ?? "").trim();
+  if (!text) return undefined;
+  const timestamp = new Date(`${text}:00+08:00`).getTime();
+  return Number.isFinite(timestamp) ? timestamp : undefined;
+}
+
 function parsePostForm(formData: FormData) {
   const requestedStatus = formData.get("status");
   const visibility = formData.get("visibility");
@@ -35,9 +42,40 @@ function parsePostForm(formData: FormData) {
     content: formData.get("content"),
     status,
     allowComment: formData.get("allowComment") === "1",
+    publishedAt: parsePublishedAt(formData.get("publishedAt")),
     categoryId: formData.get("categoryId") || undefined,
     tagIds: formData.getAll("tagIds"),
+    newTagNames: formData.getAll("newTagNames"),
   });
+}
+
+function resolvePostTagIds(tagIds: string[], newTagNames: string[], now: number) {
+  const resolvedIds = new Set(tagIds);
+  const uniqueNames = [...new Set(newTagNames.map((name) => name.trim()).filter(Boolean))];
+
+  for (const name of uniqueNames) {
+    const existing = get<{ id: string }>(
+      "SELECT id FROM tags WHERE name = ? COLLATE NOCASE LIMIT 1",
+      name,
+    );
+    if (existing) {
+      resolvedIds.add(existing.id);
+      continue;
+    }
+
+    const id = randomUUID();
+    run(
+      "INSERT INTO tags (id, name, slug, created_at, updated_at) VALUES (?, ?, ?, ?, ?)",
+      id,
+      name,
+      `tag-${id.slice(0, 12)}`,
+      now,
+      now,
+    );
+    resolvedIds.add(id);
+  }
+
+  return [...resolvedIds];
 }
 
 function refreshContentPages() {
@@ -45,6 +83,7 @@ function refreshContentPages() {
   // Server Action 修改数据库后，显式让相关 Server Component 重新获取数据。
   revalidatePath("/", "layout");
   revalidatePath("/admin/posts");
+  revalidatePath("/admin/tags");
 }
 
 const bulkPostSchema = z.object({
@@ -66,6 +105,9 @@ export async function createPost(formData: FormData) {
   const id = randomUUID();
   const now = Date.now();
   const renderedContent = await renderMarkdownToHtml(input.content);
+  const publishedAt = ["published", "hidden", "private"].includes(input.status)
+    ? (input.publishedAt ?? now)
+    : null;
 
   transaction(() => {
     run(
@@ -74,10 +116,11 @@ export async function createPost(formData: FormData) {
        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       id, input.title, input.slug, input.excerpt ?? null, input.coverImage ?? null, input.content, renderedContent, now, input.status,
       input.allowComment ? 1 : 0,
-      ["published", "hidden", "private"].includes(input.status) ? now : null,
+      publishedAt,
       input.categoryId ?? null, now, now,
     );
-    for (const tagId of input.tagIds) {
+    const tagIds = resolvePostTagIds(input.tagIds, input.newTagNames, now);
+    for (const tagId of tagIds) {
       run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", id, tagId);
     }
   });
@@ -96,6 +139,9 @@ export async function updatePost(postId: string, formData: FormData) {
   if (!current) throw new Error("文章不存在");
   const now = Date.now();
   const renderedContent = await renderMarkdownToHtml(input.content);
+  const publishedAt = ["published", "hidden", "private"].includes(input.status)
+    ? (input.publishedAt ?? current.publishedAt ?? now)
+    : null;
 
   transaction(() => {
     run(
@@ -104,11 +150,12 @@ export async function updatePost(postId: string, formData: FormData) {
       input.title, input.slug, input.excerpt ?? null, input.coverImage ?? null, input.content, renderedContent, now,
       input.status,
       input.allowComment ? 1 : 0,
-      ["published", "hidden", "private"].includes(input.status) ? (current.publishedAt ?? now) : null,
+      publishedAt,
       input.categoryId ?? null, now, postId,
     );
     run("DELETE FROM posts_to_tags WHERE post_id = ?", postId);
-    for (const tagId of input.tagIds) {
+    const tagIds = resolvePostTagIds(input.tagIds, input.newTagNames, now);
+    for (const tagId of tagIds) {
       run("INSERT INTO posts_to_tags (post_id, tag_id) VALUES (?, ?)", postId, tagId);
     }
   });
