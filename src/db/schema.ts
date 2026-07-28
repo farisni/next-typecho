@@ -39,6 +39,7 @@ export const posts = sqliteTable(
     title: text("title").notNull(),
     slug: text("slug").notNull().unique(),
     excerpt: text("excerpt"),
+    coverImage: text("cover_image"),
     content: text("content").notNull(),
     renderedContent: text("rendered_content"),
     renderedContentUpdatedAt: integer("rendered_content_updated_at", { mode: "timestamp_ms" }),

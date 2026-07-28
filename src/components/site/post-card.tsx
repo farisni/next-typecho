@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { CSSProperties } from "react";
 import { MessageSquare } from "lucide-react";
 import { ClickablePostCard } from "@/components/site/clickable-post-card";
 import { formatPostDate } from "@/lib/format-date";
@@ -8,6 +9,7 @@ type PostCardProps = {
     title: string;
     slug: string;
     excerpt: string | null;
+    coverImage: string | null;
     content: string;
     publishedAt: Date | null;
     category: { name: string; slug: string } | null;
@@ -105,12 +107,16 @@ export function PostCard({ post, featured = false, alternate = false }: PostCard
     featured ? "post-card-featured" : "",
     alternate ? "post-card-alternate" : "",
   ].filter(Boolean).join(" ");
+  const cardStyle = post.coverImage
+    ? ({ "--post-card-cover-image": `url("${post.coverImage}")` } as CSSProperties)
+    : undefined;
 
   return (
     <ClickablePostCard
       href={`/posts/${post.slug}`}
       label={`阅读文章：${post.title}`}
       className={cardClassName}
+      style={cardStyle}
     >
       <h2 className="post-title">
         <Link href={`/posts/${post.slug}`}>{post.title}</Link>

@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import type { DragEvent, ReactNode } from "react";
 import { Pencil, X } from "lucide-react";
 import { uploadImage } from "@/actions/upload-image";
+import { ImageUploadField } from "@/components/admin/image-upload-field";
 
 type Attachment = {
   id: string;
@@ -14,9 +15,10 @@ type Attachment = {
 
 type PostSidebarProps = {
   children: ReactNode;
+  defaultCoverImage?: string | null;
 };
 
-export function PostSidebar({ children }: PostSidebarProps) {
+export function PostSidebar({ children, defaultCoverImage }: PostSidebarProps) {
   const [activeTab, setActiveTab] = useState<"options" | "attachments">("options");
   const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -99,6 +101,12 @@ export function PostSidebar({ children }: PostSidebarProps) {
 
       <div hidden={activeTab !== "options"}>{children}</div>
       <div className="post-attachment-tab" hidden={activeTab !== "attachments"}>
+        <ImageUploadField
+          name="coverImage"
+          label="文章卡片配图"
+          description="建议使用 16:9 图片，支持 JPG、PNG、GIF 和 WebP"
+          defaultValue={defaultCoverImage}
+        />
         <div className={`upload-panel${isDragging ? " drag" : ""}`}>
           <div
             className="upload-area"

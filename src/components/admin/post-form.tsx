@@ -9,6 +9,7 @@ type PostFormValue = {
   title: string;
   slug: string;
   excerpt: string | null;
+  coverImage: string | null;
   content: string;
   status: string;
   allowComment: boolean;
@@ -32,7 +33,7 @@ export function PostForm({ action, categories, tags, value, preferences }: PostF
       <div className="post-form-main">
         {value?.status === "draft" && <cite className="edit-draft-notice">当前正在编辑的是未发布的草稿</cite>}
         <p className="title"><label className="sr-only" htmlFor="title">标题</label><input id="title" className="title-input" name="title" defaultValue={value?.title} placeholder="标题" autoComplete="off" required /></p>
-        <p className="url-slug"><span>http://localhost:3000/posts/</span><label className="sr-only" htmlFor="slug">网址缩略名</label><input id="slug" className="mono slug-input" name="slug" defaultValue={value?.slug} placeholder="hello-next-typecho" required /></p>
+        <p className="url-slug"><span>http://localhost:3000/posts/</span><label className="sr-only" htmlFor="slug">网址缩略名</label><input id="slug" className="mono slug-input" name="slug" defaultValue={value?.slug} placeholder="留空将根据标题自动生成" /></p>
         <MarkdownEditor defaultValue={value?.content} />
         <p className="post-submit">
           <span></span>
@@ -49,7 +50,7 @@ export function PostForm({ action, categories, tags, value, preferences }: PostF
         </p>
       </div>
       <aside id="edit-secondary">
-        <PostSidebar>
+        <PostSidebar defaultCoverImage={value?.coverImage}>
           <section className="typecho-post-option">
             <label htmlFor="date" className="typecho-label">发布日期</label>
             <p><input id="date" name="date" className="typecho-date w-100" type="text" autoComplete="off" /></p>

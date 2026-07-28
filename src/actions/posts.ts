@@ -14,14 +14,24 @@ import { postSchema } from "@/lib/validation/post";
 function parsePostForm(formData: FormData) {
   const requestedStatus = formData.get("status");
   const visibility = formData.get("visibility");
+  const title = String(formData.get("title") ?? "").trim();
+  const normalizeSlug = (value: string) => value
+    .trim()
+    .toLocaleLowerCase()
+    .replace(/[\s_]+/gu, "-")
+    .replace(/[^\p{L}\p{N}-]+/gu, "-")
+    .replace(/-+/g, "-")
+    .replace(/^-|-$/g, "");
+  const slug = normalizeSlug(String(formData.get("slug") ?? "")) || normalizeSlug(title);
   const status = requestedStatus === "draft"
     ? "draft"
     : (["hidden", "private", "waiting"].includes(String(visibility)) ? visibility : "published");
 
   return postSchema.parse({
-    title: formData.get("title"),
-    slug: formData.get("slug"),
+    title,
+    slug,
     excerpt: formData.get("excerpt") || undefined,
+    coverImage: formData.get("coverImage") || undefined,
     content: formData.get("content"),
     status,
     allowComment: formData.get("allowComment") === "1",
@@ -60,9 +70,9 @@ export async function createPost(formData: FormData) {
   transaction(() => {
     run(
       `INSERT INTO posts
-       (id, title, slug, excerpt, content, rendered_content, rendered_content_updated_at, status, allow_comment, published_at, category_id, created_at, updated_at)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-      id, input.title, input.slug, input.excerpt ?? null, input.content, renderedContent, now, input.status,
+       (id, title, slug, excerpt, cover_image, content, rendered_content, rendered_content_updated_at, status, allow_comment, published_at, category_id, created_at, updated_at)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      id, input.title, input.slug, input.excerpt ?? null, input.coverImage ?? null, input.content, renderedContent, now, input.status,
       input.allowComment ? 1 : 0,
       ["published", "hidden", "private"].includes(input.status) ? now : null,
       input.categoryId ?? null, now, now,
@@ -89,9 +99,9 @@ export async function updatePost(postId: string, formData: FormData) {
 
   transaction(() => {
     run(
-      `UPDATE posts SET title = ?, slug = ?, excerpt = ?, content = ?, rendered_content = ?, rendered_content_updated_at = ?,
+      `UPDATE posts SET title = ?, slug = ?, excerpt = ?, cover_image = ?, content = ?, rendered_content = ?, rendered_content_updated_at = ?,
        status = ?, allow_comment = ?, published_at = ?, category_id = ?, updated_at = ? WHERE id = ?`,
-      input.title, input.slug, input.excerpt ?? null, input.content, renderedContent, now,
+      input.title, input.slug, input.excerpt ?? null, input.coverImage ?? null, input.content, renderedContent, now,
       input.status,
       input.allowComment ? 1 : 0,
       ["published", "hidden", "private"].includes(input.status) ? (current.publishedAt ?? now) : null,

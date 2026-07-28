@@ -9,6 +9,7 @@ type RawPost = {
   title: string;
   slug: string;
   excerpt: string | null;
+  coverImage: string | null;
   content: string;
   renderedContent: string | null;
   status: PostStatus;
@@ -26,7 +27,7 @@ type RawTag = { postId: string; id: string; name: string; slug: string };
 type TaxonomyRow = { id: string; name: string; slug: string };
 
 const postSelect = `
-  SELECT p.id, p.title, p.slug, p.excerpt, p.content, p.status,
+  SELECT p.id, p.title, p.slug, p.excerpt, p.cover_image AS coverImage, p.content, p.status,
          p.rendered_content AS renderedContent,
          p.allow_comment AS allowComment,
          (SELECT count(*) FROM comments cm
@@ -63,6 +64,7 @@ function hydrate(rows: RawPost[]) {
     title: row.title,
     slug: row.slug,
     excerpt: row.excerpt,
+    coverImage: row.coverImage,
     content: row.content,
     renderedContent: row.renderedContent,
     status: row.status,

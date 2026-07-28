@@ -4299,6 +4299,160 @@ html[data-paper-theme="dark"] .theme-lite .mermaid-error,
   margin-top: 1em;
 }
 
+.image-upload-field {
+  margin-top: 1em;
+  padding: 13px;
+  border: 1px solid #d9d9d6;
+  border-radius: 2px;
+  background: #fff;
+}
+
+.image-upload-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  color: #555;
+}
+
+.image-upload-heading > svg {
+  width: 17px;
+  height: 17px;
+  margin-top: 1px;
+  flex: 0 0 auto;
+  stroke-width: 1.8;
+}
+
+.image-upload-heading strong,
+.image-upload-heading small {
+  display: block;
+}
+
+.image-upload-heading strong {
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.35;
+}
+
+.image-upload-heading small {
+  margin-top: 3px;
+  color: #999;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
+.image-upload-dropzone {
+  min-height: 86px;
+  margin-top: 11px;
+  overflow: hidden;
+  border: 1px dashed #cfd2d3;
+  border-radius: 2px;
+  background: #fafafa;
+}
+
+.image-upload-dropzone.is-dragging {
+  border-color: #295f9f;
+  background: #f2f7fb;
+}
+
+.image-upload-dropzone.has-image {
+  border-style: solid;
+}
+
+.image-upload-empty {
+  display: flex;
+  width: 100%;
+  min-height: 86px;
+  padding: 12px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  border: 0;
+  background: transparent;
+  color: #7b858c;
+  font: inherit;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.image-upload-empty:hover {
+  color: #295f9f;
+}
+
+.image-upload-empty svg {
+  width: 16px;
+  height: 16px;
+  stroke-width: 1.8;
+}
+
+.image-upload-preview {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  background: #f0f1f2;
+}
+
+.image-upload-preview img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image-upload-progress {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  background: rgb(20 24 28 / 58%);
+  color: #fff;
+  font-size: 12px;
+  place-items: center;
+}
+
+.image-upload-actions {
+  position: absolute;
+  right: 7px;
+  bottom: 7px;
+  display: flex;
+  gap: 5px;
+}
+
+.image-upload-actions button {
+  display: inline-flex;
+  height: 27px;
+  padding: 0 8px;
+  align-items: center;
+  gap: 4px;
+  border: 1px solid rgb(30 35 40 / 12%);
+  border-radius: 2px;
+  background: rgb(255 255 255 / 94%);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 8%);
+  color: #4f5960;
+  font: inherit;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.image-upload-actions button:hover {
+  border-color: #8f979d;
+  color: #222;
+}
+
+.image-upload-actions button.is-danger {
+  color: #b94a48;
+}
+
+.image-upload-actions svg {
+  width: 13px;
+  height: 13px;
+  stroke-width: 1.9;
+}
+
+.image-upload-error {
+  margin: 8px 0 0;
+  color: #b94a48;
+  font-size: 11px;
+  line-height: 1.5;
+}
+
 .post-attachment-tab .upload-area {
   min-height: 112px;
   padding: 15px;
@@ -9608,11 +9762,11 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   height: 212px;
   display: grid;
   place-items: center;
-  background:
-    linear-gradient(120deg, rgb(5 23 70 / 88%), rgb(16 49 103 / 73%) 48%, rgb(220 104 55 / 76%)),
-    radial-gradient(circle at 70% 30%, #ffd49b, transparent 35%);
+  background: var(--post-card-cover-image, radial-gradient(circle at 70% 30%, #ffd49b, transparent 35%));
+  background-position: center;
+  background-size: cover;
   color: rgb(255 255 255 / 92%);
-  content: "LITE · NEXT TYPECHO";
+  content: "";
   font-family: "Helvetica Neue", sans-serif;
   font-size: 30px;
   font-weight: 700;
@@ -9851,7 +10005,7 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   width: 58%;
   background:
     linear-gradient(90deg, #fff 0%, rgb(255 255 255 / 94%) 18%, rgb(255 255 255 / 22%) 68%, transparent 100%),
-    url("/images/lite-card-pure.jpg") right center / cover no-repeat;
+    var(--post-card-cover-image, url("/images/lite-card-pure.jpg")) right center / cover no-repeat;
   content: "";
   opacity: 0.92;
   pointer-events: none;
@@ -9892,14 +10046,14 @@ html[data-paper-theme="dark"] .theme-lite .handsome-blog-header h1,
   left: 0;
   background:
     linear-gradient(270deg, #fff 0%, rgb(255 255 255 / 94%) 18%, rgb(255 255 255 / 22%) 68%, transparent 100%),
-    url("/images/lite-card-pure.jpg") left center / cover no-repeat;
+    var(--post-card-cover-image, url("/images/lite-card-pure.jpg")) left center / cover no-repeat;
   -webkit-mask-image: linear-gradient(to left, transparent 0%, #000 28%, #000 100%);
   mask-image: linear-gradient(to left, transparent 0%, #000 28%, #000 100%);
 }
 
 html[data-paper-theme="dark"] .theme-lite.theme-handsome .handsome-main-content .post-card:not(.post-card-featured)::before,
 .theme-lite.theme-handsome[data-paper-theme="dark"] .handsome-main-content .post-card:not(.post-card-featured)::before {
-  background: url("/images/lite-card-pure.jpg") right center / cover no-repeat;
+  background: var(--post-card-cover-image, url("/images/lite-card-pure.jpg")) right center / cover no-repeat;
   opacity: 0.5;
   -webkit-mask-image: linear-gradient(to right, transparent, #000);
   mask-image: linear-gradient(to right, transparent, #000);

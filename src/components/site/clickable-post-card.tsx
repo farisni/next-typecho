@@ -1,17 +1,19 @@
 "use client";
 
-import type { KeyboardEvent, MouseEvent, ReactNode } from "react";
+import type { CSSProperties, KeyboardEvent, MouseEvent, ReactNode } from "react";
 import { useRouter } from "next/navigation";
 
 export function ClickablePostCard({
   href,
   label,
   className,
+  style,
   children,
 }: {
   href: string;
   label: string;
   className?: string;
+  style?: CSSProperties;
   children: ReactNode;
 }) {
   const router = useRouter();
@@ -44,6 +46,7 @@ export function ClickablePostCard({
   return (
     <article
       className={`post post-card${className ? ` ${className}` : ""}`}
+      style={style}
       role="link"
       tabIndex={0}
       aria-label={label}
