@@ -3944,10 +3944,14 @@ html[data-paper-theme="dark"] .paper-archive-year h2 {
 }
 
 .typecho-uiw-editor .w-md-editor-input,
-.typecho-uiw-editor .w-md-editor-area,
-.typecho-uiw-editor .w-md-editor-text {
+.typecho-uiw-editor .w-md-editor-area {
   height: 100%;
   min-height: 0;
+}
+
+.typecho-uiw-editor .w-md-editor-text {
+  height: auto;
+  min-height: 100%;
 }
 
 .typecho-uiw-editor .w-md-editor-input {
